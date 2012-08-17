@@ -9,7 +9,7 @@ LIBS_HML = -lhml -lhmlutil
 LIBS_HELAS = -ldhelas3 -ldhelas5 
 LIBS_MYLIB = -lmylib
 LIBS_BASES = -lbases50_xhsave
-LIBS_LIB = -llibrary
+LIBS_LIB = -llibrary -lfftw3 -lm
 
 LIBS          = $(LIBS_SM) \
 		$(LIBS_HML) \

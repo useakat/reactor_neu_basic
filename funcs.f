@@ -2,8 +2,9 @@
       implicitnone
 
       integer i,ndiv
-      real*8 Emin,Emax,event1,event2,L,E,vol,prob2
-      real*8 flux,xsec,prob_ee,flux_norm,xsec_norm
+      parameter (ndiv=10000)
+      real*8 Emin,Emax,event1(ndiv),event2(ndiv),L,E,El,vol,prob2
+      real*8 flux,xsec,prob_ee,flux_norm,xsec_norm,Elmax,Elmin
       external flux,xsec,prob_ee
 
       L = 60d0
@@ -12,27 +13,35 @@
       open(11,file="prob.dat",status="replace")
       open(12,file="prob2.dat",status="replace")
 
-      Emin = 1d0
-      Emax = 9d0
-      ndiv = 10000
+c      Emin = 1d0
+c      Emax = 9d0
+      Elmin = 1d0/9d0
+      Elmax = 1d0
       vol = 1d30
       flux_norm = 5d20
 
-      do i = 0,ndiv
-         E = Emin +(Emax -Emin)/dble(ndiv)*i
-         event1 = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,1)
+      do i = 1,ndiv
+c         E = Emin +(Emax -Emin)/dble(ndiv)*i
+c         event1 = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,1)
+c     &        /L**2
+c         event2 = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,-1)
+c     &        /L**2
+         El = Elmin +(Elmax -Elmin)/dble(ndiv)*(i-1)
+         E = 1d0/El
+         event1(i) = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,1)
      &        /L**2
-         event2 = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,-1)
+         event2(i) = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,-1)
      &        /L**2
          prob2 = 1d0 -prob_ee(L/E,-1)/prob_ee(L/E,1)
-         write(10,*) E,event1,event2
+         write(10,*) El,event1(i),event2(i)
          write(11,*) E,prob_ee(L/E,1),prob_ee(L/E,-1)
          write(12,*) E,prob2
-         write(20,*) prob_ee(L/E,1)
       enddo
       close(10)
       close(11)
       close(12)
+
+      
 
       end
 
