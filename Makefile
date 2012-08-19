@@ -2,7 +2,7 @@ F77      = g77
 FFLAGS   = -O -ffixed-line-length-132
 PHYSHOME = $(PACKAGES)/physlib
 INCLUDES = -I./ -I$(PHYSHOME)/inc
-LIBDIR   = -L$(PHYSHOME)/lib
+LIBDIR   = -L$(PHYSHOME)/lib -L$(PACKAGES)/fftw_v3.3.2/lib
 
 LIBS_SM = -lsmlib
 LIBS_HML = -lhml -lhmlutil

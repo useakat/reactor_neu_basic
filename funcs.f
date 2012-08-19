@@ -1,47 +1,76 @@
       program neu_event
       implicitnone
 
-      integer i,ndiv
-      parameter (ndiv=10000)
-      real*8 Emin,Emax,event1(ndiv),event2(ndiv),L,E,El,vol,prob2
-      real*8 flux,xsec,prob_ee,flux_norm,xsec_norm,Elmax,Elmin
+      integer i,ndiv,sign,mode
+      parameter (ndiv=1000)
+      integer*8 plan1,FFTW_ESTIMATE,plan2
+      real*8 Emin,Emax,event21(ndiv),event0_nor(ndiv),L,E,El,vol,prob2
+      real*8 event0_inv(ndiv),no_osc(ndiv)
+      real*8 loemin,loemax,loe
+      complex*16 event0_nor_out(ndiv/2+1),event0_inv_out(ndiv/2+1)
+      real*8 flux,xsec,prob_ee,flux_norm,xsec_norm,Elmax,Elmin,scale
       external flux,xsec,prob_ee
 
-      L = 60d0
+c      E = 6d0
+      L = 300d0
+
+      call dfftw_plan_dft_r2c_1d(plan1,ndiv,event0_nor,event0_nor_out,FFTW_ESTIMATE)
+      call dfftw_plan_dft_r2c_1d(plan2,ndiv,event0_inv,event0_inv_out,FFTW_ESTIMATE)
 
       open(10,file="events.dat",status="replace")
+      open(16,file="events_e.dat",status="replace")
       open(11,file="prob.dat",status="replace")
       open(12,file="prob2.dat",status="replace")
-
-c      Emin = 1d0
-c      Emax = 9d0
-      Elmin = 1d0/9d0
-      Elmax = 1d0
-      vol = 1d30
-      flux_norm = 5d20
+      open(13,file="fig1.dat",status="replace")
+      open(14,file="events2.dat",status="replace")
+      open(15,file="events3.dat",status="replace")
 
       do i = 1,ndiv
-c         E = Emin +(Emax -Emin)/dble(ndiv)*i
-c         event1 = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,1)
-c     &        /L**2
-c         event2 = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,-1)
-c     &        /L**2
-         El = Elmin +(Elmax -Elmin)/dble(ndiv)*(i-1)
-         E = 1d0/El
-         event1(i) = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,1)
-     &        /L**2
-         event2(i) = vol*flux(E)*flux_norm*xsec(E)*prob_ee(L/E,-1)
-     &        /L**2
-         prob2 = 1d0 -prob_ee(L/E,-1)/prob_ee(L/E,1)
-         write(10,*) El,event1(i),event2(i)
-         write(11,*) E,prob_ee(L/E,1),prob_ee(L/E,-1)
+         loemin = L/7d0
+         loemax = L/2d0
+         loe = loemin +(loemax -loemin)/dble(ndiv)*(i-1)
+         E = L/loe
+c         L = loe*E
+         event21(i) = flux(E)*xsec(E)*prob_ee(loe,1,21)
+         event0_nor(i) = flux(E)*xsec(E)*prob_ee(loe,1,0)
+         event0_inv(i) = flux(E)*xsec(E)*prob_ee(loe,-1,0)
+         no_osc(i) = flux(E)*xsec(E)
+         prob2 = 1d0 -prob_ee(loe,-1,0)/prob_ee(loe,1,0)
+         write(10,*) loe,event21(i),event0_nor(i),event0_inv(i)
+         write(16,*) E,event21(i),event0_nor(i),event0_inv(i)
+         write(11,*) E,prob_ee(loe,1,0),prob_ee(loe,-1,0)
          write(12,*) E,prob2
+         write(13,*) loe,prob_ee(loe,1,21),prob_ee(loe,1,0),prob_ee(loe,-1,0)
+         write(14,*) loe,no_osc(i)
+         write(15,*) E,no_osc(i)
       enddo
       close(10)
       close(11)
       close(12)
+      close(13)
+      close(14)
+      close(15)
+      close(16)
 
-      
+c      call dfftw_execute_dft_r2c(plan, event1, event1_out)
+      call dfftw_execute(plan1)
+      call dfftw_execute(plan2)
+      call dfftw_destroy_plan(plan1)
+      call dfftw_destroy_plan(plan2)
+
+      scale = 1d0/ndiv
+      open(10,file="event0_nor_fft.dat",status="replace")
+      do i = 1,ndiv/2+1
+c         write(10,'(i5,2e16.8)') i,dble(event0_nor_out(i))*scale,imag(event0_nor_out(i))*scale
+         write(10,*) i,dble(event0_nor_out(i))*scale,imag(event0_nor_out(i))*scale
+      enddo
+      close(10)
+      open(10,file="event0_inv_fft.dat",status="replace")
+      do i = 1,ndiv/2+1
+c         write(10,'(i5,2e16.8)') i,dble(event0_inv_out(i))*scale,imag(event0_inv_out(i))*scale
+         write(10,*) i,dble(event0_inv_out(i))*scale,imag(event0_inv_out(i))*scale
+      enddo
+      close(10)
 
       end
 
@@ -95,20 +124,23 @@ C
 C     
 C     ARGUMENTS 
 C     
-      real*8 E
+      real*8 E,Ee
 C     ----------
 C     BEGIN CODE
 C     ----------
       c = 3*10**8
       me = 0.510998910d0
 
-      xsec = 0.0952*E*dsqrt(E**2 -me**2)*1d-42
+c      Ee = E
+      Ee = E -1.2913d0
+      xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
+c      xsec = 0.0952d0*Ee**4*1d-42
 
       return
       end
 
 
-      real*8 function prob_ee(a,sign)
+      real*8 function prob_ee(a,sign,mode)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Aug.17 2012
 C     
@@ -128,7 +160,7 @@ C
 C     
 C     ARGUMENTS 
 C     
-      integer sign
+      integer sign,mode
       real*8 a,aa
 C     ----------
 C     BEGIN CODE
@@ -136,16 +168,14 @@ C     ----------
       s2sun_2 = 0.852d0
       s23_2 = 0.5d0
       s213_2 = 0.1d0 
-      if (sign.eq.1) dm13_2 = 2.35d-3
-      if (sign.eq.-1) dm13_2 = -2.35d-3
+      dm13_2 = 2.35d-3
       dm12_2 = 7.5d-5
-      dm23_2 = dm13_2 -dm12_2
+      dm23_2 = sign*dm13_2 -dm12_2
 
 c      s13 = dsqrt( (1d0 -dsqrt(1d0 -s213_2))/2d0 )
       s13 = dsqrt( 0.5*s213_2/( 1d0 +dsqrt(1d0 -s213_2) ) )
       c13 = dsqrt(1d0 -s13**2)
       s12 = dsqrt( (1d0 -dsqrt(1d0 -s2sun_2/c13**4))/2d0 )
-c      s12 = dsqrt( 0.5*s2sun_2/( 1d0 +dsqrt(1d0 -s2sun_2/c13**4) ) )
       c12 = dsqrt(1d0 -s12**2)
       ue1 = c12*c13
       ue2 = s12*c13
@@ -154,11 +184,17 @@ c      s12 = dsqrt( 0.5*s2sun_2/( 1d0 +dsqrt(1d0 -s2sun_2/c13**4) ) )
       dim_fact = 1d6/197.3269631d0
       aa = a*dim_fact
 
-      prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2*aa/4d0)**2
-     &          -4*ue1**2*ue3**2*dsin(dm13_2*aa/4d0)**2
-     &          -4*ue2**2*ue3**2*dsin(dm23_2*aa/4d0)**2
-
-c      prob_ee = s12**2
+      if (mode.eq.0) then
+         prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2*aa/4d0)**2
+     &        -4*ue1**2*ue3**2*dsin(dm13_2*aa/4d0)**2
+     &        -4*ue2**2*ue3**2*dsin(dm23_2*aa/4d0)**2
+      elseif (mode.eq.21) then
+         prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2*aa/4d0)**2
+      elseif (mode.eq.31) then
+         prob_ee = -4*ue1**2*ue3**2*dsin(dm13_2*aa/4d0)**2
+      elseif (mode.eq.32) then
+         prob_ee = -4*ue2**2*ue3**2*dsin(dm23_2*aa/4d0)**2
+      endif
 
       return
       end
