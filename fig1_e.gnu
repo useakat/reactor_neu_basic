@@ -1,5 +1,5 @@
 set terminal postscript eps enhanced "Times-Roman" color 17
-set output "fig1.eps"
+set output "fig1_e.eps"
 #set logscale x
 #set logscale y
 #set format x "%L"
@@ -18,10 +18,10 @@ set key spacing 1.5
 set multiplot
 
 plot \
-'events2.dat' u 1:2 t "No oscillation"  w l lt 4 lc rgb 'red' lw 3 ,\
-'events.dat' u 1:2 t "1-P_{21} oscillation"  w l lt 3 lc rgb 'red' lw 3 ,\
-'events.dat' u 1:3 t "P_{ee} for NH"  w l lt 1 lc rgb 'red' lw 3 ,\
-'events.dat' u 1:4 t "P_{ee} for IH"  w l lt 1 lc rgb 'blue' lw 3
+'events3.dat' u 1:2 t "No oscillation"  w l lt 4 lc rgb 'red' lw 3 ,\
+'events_e.dat' u 1:2 t "1-P_{21} oscillation"  w l lt 3 lc rgb 'red' lw 3 ,\
+'events_e.dat' u 1:3 t "P_{ee} for NH"  w l lt 1 lc rgb 'red' lw 3 ,\
+'events_e.dat' u 1:4 t "P_{ee} for IH"  w l lt 1 lc rgb 'blue' lw 3
 
 set nomultiplot
 

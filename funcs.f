@@ -12,12 +12,13 @@
       external flux,xsec,prob_ee
 
 c      E = 6d0
-      L = 60d0
+      L = 300d0
 
       call dfftw_plan_dft_r2c_1d(plan1,ndiv,event0_nor,event0_nor_out,FFTW_ESTIMATE)
       call dfftw_plan_dft_r2c_1d(plan2,ndiv,event0_inv,event0_inv_out,FFTW_ESTIMATE)
 
       open(10,file="events.dat",status="replace")
+      open(16,file="events_e.dat",status="replace")
       open(11,file="prob.dat",status="replace")
       open(12,file="prob2.dat",status="replace")
       open(13,file="fig1.dat",status="replace")
@@ -25,8 +26,8 @@ c      E = 6d0
       open(15,file="events3.dat",status="replace")
 
       do i = 1,ndiv
-         loemin = 5d0
-         loemax = 40d0
+         loemin = L/7d0
+         loemax = L/2d0
          loe = loemin +(loemax -loemin)/dble(ndiv)*(i-1)
          E = L/loe
 c         L = loe*E
@@ -36,6 +37,7 @@ c         L = loe*E
          no_osc(i) = flux(E)*xsec(E)
          prob2 = 1d0 -prob_ee(loe,-1,0)/prob_ee(loe,1,0)
          write(10,*) loe,event21(i),event0_nor(i),event0_inv(i)
+         write(16,*) E,event21(i),event0_nor(i),event0_inv(i)
          write(11,*) E,prob_ee(loe,1,0),prob_ee(loe,-1,0)
          write(12,*) E,prob2
          write(13,*) loe,prob_ee(loe,1,21),prob_ee(loe,1,0),prob_ee(loe,-1,0)
@@ -48,6 +50,7 @@ c         L = loe*E
       close(13)
       close(14)
       close(15)
+      close(16)
 
 c      call dfftw_execute_dft_r2c(plan, event1, event1_out)
       call dfftw_execute(plan1)
