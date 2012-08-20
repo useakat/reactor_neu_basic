@@ -18,7 +18,6 @@ set key spacing 1.5
 set multiplot
 
 plot \
-'events3.dat' u 1:2 t "No oscillation"  w l lt 4 lc rgb 'red' lw 3 ,\
 'events_e.dat' u 1:2 t "1-P_{21} oscillation"  w l lt 3 lc rgb 'red' lw 3 ,\
 'events_e.dat' u 1:3 t "P_{ee} for NH"  w l lt 1 lc rgb 'red' lw 3 ,\
 'events_e.dat' u 1:4 t "P_{ee} for IH"  w l lt 1 lc rgb 'blue' lw 3

@@ -9,7 +9,7 @@ LIBS_HML = -lhml -lhmlutil
 LIBS_HELAS = -ldhelas3 -ldhelas5 
 LIBS_MYLIB = -lmylib
 LIBS_BASES = -lbases50_xhsave
-LIBS_LIB = -llibrary -lfftw3 -lm
+LIBS_LIB = -llibrary
 
 LIBS          = $(LIBS_SM) \
 		$(LIBS_HML) \
@@ -18,13 +18,17 @@ LIBS          = $(LIBS_SM) \
 		$(LIBS_BASES) \
 		$(LIBS_MYLIB)
 
-OBJS     = funcs.o
+OBJS_funcs     = funcs2.o funcs.o
+OBJS_fft     = fft.o funcs.o
 
 .f.o:
 	$(F77) $(FFLAGS) $(INCLUDES) -c $<
 
-check: $(OBJS)
-	 $(F77) $(FFLAGS) $(LIBDIR) $(OBJS) $(LIBS) -o $@
+funcs: $(OBJS_funcs)
+	 $(F77) $(FFLAGS) $(LIBDIR) $(OBJS_funcs) $(LIBS) -o $@
+
+fft: $(OBJS_fft)
+	 $(F77) $(FFLAGS) $(LIBDIR) $(OBJS_fft) $(LIBS) -o $@
 
 clean: 
 	@rm *.o *~ check *#

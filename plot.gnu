@@ -18,8 +18,8 @@ set grid
 set multiplot
 
 plot \
-'prob.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'prob.dat' u 1:3 notitle  w l lt 1 lc rgb 'blue' lw 3 
+'fft.dat' u 1:3 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'fft.dat' u 1:4 notitle  w l lt 1 lc rgb 'blue' lw 3
 
 set nomultiplot
 
