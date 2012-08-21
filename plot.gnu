@@ -1,5 +1,4 @@
 set terminal postscript eps enhanced "Times-Roman" color 17
-set output "prob.eps"
 #set logscale x
 #set logscale y
 #set format x "%L"
@@ -15,12 +14,37 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
+set output "prob.eps"
 set multiplot
-
 plot \
-'fft.dat' u 1:3 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'fft.dat' u 1:4 notitle  w l lt 1 lc rgb 'blue' lw 3
+'prob.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'prob.dat' u 1:3 notitle  w l lt 1 lc rgb 'blue' lw 3
+set nomultiplot
 
+set output "events.eps"
+set multiplot
+plot \
+'events.dat' u 1:3 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'events.dat' u 1:4 notitle  w l lt 1 lc rgb 'blue' lw 3
+set nomultiplot
+
+set output "events_loe.eps"
+set multiplot
+plot \
+'events_loe.dat' u 1:3 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'events_loe.dat' u 1:4 notitle  w l lt 1 lc rgb 'blue' lw 3
+set nomultiplot
+
+set output "flux.eps"
+set multiplot
+plot \
+'flux.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
+set nomultiplot
+
+set output "xsec.eps"
+set multiplot
+plot \
+'xsec.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 #Set output

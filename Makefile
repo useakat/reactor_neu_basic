@@ -19,7 +19,7 @@ LIBS          = $(LIBS_SM) \
 		$(LIBS_MYLIB)
 
 OBJS_funcs     = funcs2.o funcs.o
-OBJS_fft     = fft.o funcs.o
+OBJS_fft     = fft_nor_inv.o funcs.o
 
 .f.o:
 	$(F77) $(FFLAGS) $(INCLUDES) -c $<

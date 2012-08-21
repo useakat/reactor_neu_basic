@@ -18,7 +18,11 @@ set output "plots/fct_nor_inv.eps"
 set multiplot
 plot \
 'fct_nor.dat' u 1:2 t "FCT: NH"  w l lt 1 lc rgb 'red' lw 3 ,\
-'fct_inv.dat' u 1:2 t "IH"  w l lt 1 lc rgb 'blue' lw 3
+'fct_nor_uncp.dat' u 1:2 t "err +"  w l lt 2 lc rgb 'red' lw 1 ,\
+'fct_nor_uncm.dat' u 1:2 t "err -"  w l lt 3 lc rgb 'red' lw 1 ,\
+'fct_inv.dat' u 1:2 t "IH"  w l lt 1 lc rgb 'blue' lw 3 ,\
+'fct_inv_uncp.dat' u 1:2 t "err +"  w l lt 2 lc rgb 'blue' lw 1 ,\
+'fct_inv_uncm.dat' u 1:2 t "err -"  w l lt 3 lc rgb 'blue' lw 1
 set nomultiplot
 
 set output "plots/fst_nor_inv.eps"

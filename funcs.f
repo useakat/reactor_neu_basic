@@ -54,8 +54,8 @@ C     BEGIN CODE
 C     ----------
       me = 0.510998910d0
 
-      Ee = E -0.78d0
-c      Ee = E -1.2913d0
+c      Ee = E -0.78d0
+      Ee = E -1.2913d0
 c      Ee = E
 c      xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
       xsec = 0.0952d0*Ee**4*1d-42
@@ -64,7 +64,7 @@ c      xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
       end
 
 
-      real*8 function prob_ee(a,sign,mode)
+      real*8 function prob_ee(a,sign,mode,unc_mode)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Aug.17 2012
 C     
@@ -78,29 +78,47 @@ C
 C     CONSTANTS
 C
       real*8 s2sun_2,s23_2,s213_2,s12,c12,s13,c13
-      real*8 dm13_2,dm12_2,dm23_2
+      real*8 s12_2,s13_2,unc_s2sun_2,unc_s213_2
+      real*8 s2sun_2_eff,s213_2_eff
+      real*8 dm13_2,dm12_2,dm23_2,unc_dm12_2,unc_dm13_2
+      real*8 dm12_2_eff,dm13_2_eff,dm23_2_eff
       real*8 ue1,ue2,ue3,ue1ue2,ue1ue3,ue2ue3
       real*8 dim_fact
 C     
 C     ARGUMENTS 
 C     
-      integer sign,mode
+      integer sign,mode,unc_mode
       real*8 a,aa
 C     ----------
 C     BEGIN CODE
 C     ----------
+c      unc_mode = 0
+
       s2sun_2 = 0.852d0
+      unc_s2sun_2 = 0.025d0
       s23_2 = 0.5d0
       s213_2 = 0.1d0 
-      dm12_2 = 7.6d-5
-      dm23_2 = sign*2.4d-3
-      dm13_2 = dm23_2 +dm12_2
+      unc_s213_2 = 0.01d0
+      dm12_2 = 7.5d-5
+      unc_dm12_2 = 0.2d-5
+c      dm23_2 = sign*2.4d-3
+c      dm13_2 = dm23_2 +dm12_2
+      dm13_2 = 2.35d-3
+      unc_dm13_2 = 0.1d-3
+      dm23_2 = sign*dm13_2 -dm12_2
 
-c      s13 = dsqrt( (1d0 -dsqrt(1d0 -s213_2))/2d0 )
-      s13 = dsqrt( 0.5*s213_2/( 1d0 +dsqrt(1d0 -s213_2) ) )
+      s2sun_2_eff = s2sun_2 +unc_mode*unc_s2sun_2
+      s213_2_eff = s213_2 +unc_mode*unc_s213_2
+      dm12_2_eff = dm12_2 
+      dm13_2_eff = dm13_2 
+      dm23_2_eff = dm23_2
+
+      s13_2 = 0.5*s213_2_eff/( 1d0 +dsqrt(1d0 -s213_2_eff) )
+      s13 = dsqrt(s13_2)
       c13 = dsqrt(1d0 -s13**2)
-c      s12 = dsqrt( (1d0 -dsqrt(1d0 -s2sun_2/c13**4))/2d0 )
-      s12 = dsqrt(0.32d0)
+      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
+c      s12_2 = 0.32d0
+      s12 = dsqrt(s12_2)
       c12 = dsqrt(1d0 -s12**2)
       ue1 = c12*c13
       ue2 = s12*c13
@@ -110,15 +128,16 @@ c      s12 = dsqrt( (1d0 -dsqrt(1d0 -s2sun_2/c13**4))/2d0 )
       aa = a*dim_fact
 
       if (mode.eq.0) then
-         prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2*aa/4d0)**2
-     &        -4*ue1**2*ue3**2*dsin(dm13_2*aa/4d0)**2
-     &        -4*ue2**2*ue3**2*dsin(dm23_2*aa/4d0)**2
+         prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2_eff*aa/4d0)**2
+c         prob_ee = 1d0
+     &        -4*ue1**2*ue3**2*dsin(dm13_2_eff*aa/4d0)**2
+     &        -4*ue2**2*ue3**2*dsin(dm23_2_eff*aa/4d0)**2
       elseif (mode.eq.21) then
-         prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2*aa/4d0)**2
+         prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2_eff*aa/4d0)**2
       elseif (mode.eq.31) then
-         prob_ee = -4*ue1**2*ue3**2*dsin(dm13_2*aa/4d0)**2
+         prob_ee = -4*ue1**2*ue3**2*dsin(dm13_2_eff*aa/4d0)**2
       elseif (mode.eq.32) then
-         prob_ee = -4*ue2**2*ue3**2*dsin(dm23_2*aa/4d0)**2
+         prob_ee = -4*ue2**2*ue3**2*dsin(dm23_2_eff*aa/4d0)**2
       endif
 
       return
