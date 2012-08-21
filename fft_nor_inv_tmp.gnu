@@ -1,5 +1,4 @@
 set terminal postscript eps enhanced "Times-Roman" color 17
-set output "fig1_e.eps"
 #set logscale x
 #set logscale y
 #set format x "%L"
@@ -9,19 +8,21 @@ set output "fig1_e.eps"
 #set tics scale 2
 set grid
 #set key at 1.0E3,1.0E7 samplen 2
-set key spacing 1.5
+#set key spacing 1.5
 #set xlabel 'cost' offset -1,0
 #set ylabel 'log_{/=10 10} L (Mpc)' offset 1,0
-#set xrange [5:33]
+#set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
+set output "plots/fct_nor_inv_SEDL_SEDEPS.eps"
 set multiplot
-
 plot \
-'events_e.dat' u 1:2 t "1-P_{21} oscillation"  w l lt 3 lc rgb 'red' lw 3 ,\
-'events_e.dat' u 1:3 t "P_{ee} for NH"  w l lt 1 lc rgb 'red' lw 3 ,\
-'events_e.dat' u 1:4 t "P_{ee} for IH"  w l lt 1 lc rgb 'blue' lw 3
-
+'fct_nor.dat' u 1:2 t "FCT: NH"  w l lt 1 lc rgb 'red' lw 3 ,\
+'fct_nor_uncp.dat' u 1:2 t "err +"  w l lt 2 lc rgb 'red' lw 1 ,\
+'fct_nor_uncm.dat' u 1:2 t "err -"  w l lt 3 lc rgb 'red' lw 1 ,\
+'fct_inv.dat' u 1:2 t "IH"  w l lt 1 lc rgb 'blue' lw 3 ,\
+'fct_inv_uncp.dat' u 1:2 t "err +"  w l lt 2 lc rgb 'blue' lw 1 ,\
+'fct_inv_uncm.dat' u 1:2 t "err -"  w l lt 3 lc rgb 'blue' lw 1
 set nomultiplot
 
 #Set output

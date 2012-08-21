@@ -1,5 +1,4 @@
 set terminal postscript eps enhanced "Times-Roman" color 17
-set output "fft.eps"
 #set logscale x
 #set logscale y
 #set format x "%L"
@@ -12,17 +11,61 @@ set grid
 #set key spacing 1.5
 #set xlabel 'cost' offset -1,0
 #set ylabel 'log_{/=10 10} L (Mpc)' offset 1,0
-set xrange [0:20]
+#set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
+set output "plots/fct_nor_inv.eps"
 set multiplot
-
 plot \
-'event1_fft.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'event1_fft.dat' u 1:3 notitle  w l lt 2 lc rgb 'red' lw 3 ,\
-'event2_fft.dat' u 1:2 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-'event2_fft.dat' u 1:3 notitle  w l lt 2 lc rgb 'blue' lw 3 
+'fct_nor.dat' u 1:2 t "FCT: NH"  w l lt 1 lc rgb 'red' lw 3 ,\
+'fct_nor_uncp.dat' u 1:2 t "err +"  w l lt 2 lc rgb 'red' lw 1 ,\
+'fct_nor_uncm.dat' u 1:2 t "err -"  w l lt 3 lc rgb 'red' lw 1 ,\
+'fct_inv.dat' u 1:2 t "IH"  w l lt 1 lc rgb 'blue' lw 3 ,\
+'fct_inv_uncp.dat' u 1:2 t "err +"  w l lt 2 lc rgb 'blue' lw 1 ,\
+'fct_inv_uncm.dat' u 1:2 t "err -"  w l lt 3 lc rgb 'blue' lw 1
+set nomultiplot
 
+set output "plots/fst_nor_inv.eps"
+set multiplot
+plot \
+'fst_nor.dat' u 1:2 t "FST: NH"  w l lt 1 lc rgb 'red' lw 3 ,\
+'fst_inv.dat' u 1:2 t "IH"  w l lt 1 lc rgb 'blue' lw 3
+set nomultiplot
+
+set output "plots/fst_nor.eps"
+set multiplot
+plot \
+'fst_nor.dat' u 1:2 t "FST NH: P_{ee}"  w l lt 1 lc rgb 'red' lw 3 ,\
+'fst_nor.dat' u 1:3 t "P_{31}"  w l lt 2 lc rgb 'red' lw 3 ,\
+'fst_nor.dat' u 1:4 t "P_{32}"  w l lt 3 lc rgb 'red' lw 3 ,\
+'fst_nor.dat' u 1:5 t "1-P_{21}"  w l lt 4 lc rgb 'red' lw 3
+set nomultiplot
+
+set output "plots/fst_inv.eps"
+set multiplot
+plot \
+'fst_inv.dat' u 1:2 t "FST IH: P_{ee}"  w l lt 1 lc rgb 'red' lw 3 ,\
+'fst_inv.dat' u 1:3 t "P_{31}"  w l lt 2 lc rgb 'red' lw 3 ,\
+'fst_inv.dat' u 1:4 t "P_{32}"  w l lt 3 lc rgb 'red' lw 3 ,\
+'fst_inv.dat' u 1:5 t "1-P_{21}"  w l lt 4 lc rgb 'red' lw 3
+set nomultiplot
+
+set output "plots/fct_nor.eps"
+set multiplot
+plot \
+'fct_nor.dat' u 1:2 t "FCT NH: P_{ee}"  w l lt 1 lc rgb 'red' lw 3 ,\
+'fct_nor.dat' u 1:3 t "P_{31}"  w l lt 2 lc rgb 'red' lw 3 ,\
+'fct_nor.dat' u 1:4 t "P_{32}"  w l lt 3 lc rgb 'red' lw 3 ,\
+'fct_nor.dat' u 1:5 t "1-P_{21}"  w l lt 4 lc rgb 'red' lw 3
+set nomultiplot
+
+set output "plots/fct_inv.eps"
+set multiplot
+plot \
+'fct_inv.dat' u 1:2 t "FCT IH: P_{ee}"  w l lt 1 lc rgb 'red' lw 3 ,\
+'fct_inv.dat' u 1:3 t "P_{31}"  w l lt 2 lc rgb 'red' lw 3 ,\
+'fct_inv.dat' u 1:4 t "P_{32}"  w l lt 3 lc rgb 'red' lw 3 ,\
+'fct_inv.dat' u 1:5 t "1-P_{21}"  w l lt 4 lc rgb 'red' lw 3
 set nomultiplot
 
 #Set output
