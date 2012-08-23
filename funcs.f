@@ -44,7 +44,7 @@ C     ****************************************************
 C
 C     CONSTANTS
 C
-      real*8 me
+      real*8 me,mp,mn
 C     
 C     ARGUMENTS 
 C     
@@ -53,12 +53,15 @@ C     ----------
 C     BEGIN CODE
 C     ----------
       me = 0.510998910d0
+      mp = 938.272d0
+      mn = 939.565d0
 
 c      Ee = E -0.78d0
-      Ee = E -1.2913d0
-c      Ee = E
-c      xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
-      xsec = 0.0952d0*Ee**4*1d-42
+c      Ee = E -1.2913d0
+      Ee = (E +mp)/2d0*(1d0 -(mn**2 -me**2)/(2*E*mp +mp**2))
+
+      xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
+c      xsec = 0.0952d0*Ee**4*1d-42
 
       return
       end
@@ -87,25 +90,31 @@ C
 C     
 C     ARGUMENTS 
 C     
-      integer sign,mode,unc_mode
+      integer sign,mode,unc_mode,icheck
       real*8 a,aa
 C     ----------
 C     BEGIN CODE
 C     ----------
-c      unc_mode = 0
-
-      s2sun_2 = 0.852d0
-      unc_s2sun_2 = 0.025d0
-      s23_2 = 0.5d0
-      s213_2 = 0.1d0 
-      unc_s213_2 = 0.01d0
-      dm12_2 = 7.5d-5
-      unc_dm12_2 = 0.2d-5
-c      dm23_2 = sign*2.4d-3
-c      dm13_2 = dm23_2 +dm12_2
-      dm13_2 = 2.35d-3
-      unc_dm13_2 = 0.1d-3
-      dm23_2 = sign*dm13_2 -dm12_2
+      icheck = 0
+      if (icheck.eq.0) then
+         s2sun_2 = 0.852d0
+         unc_s2sun_2 = 0.025d0
+         s23_2 = 0.5d0
+         s213_2 = 0.1d0 
+         unc_s213_2 = 0.01d0
+         dm12_2 = 7.5d-5
+         unc_dm12_2 = 0.2d-5
+         dm13_2 = 2.35d-3
+         unc_dm13_2 = 0.1d-3
+         dm23_2 = sign*dm13_2 -dm12_2
+      elseif (icheck.eq.1) then
+         s12_2 = 0.32d0
+         s23_2 = 0.5d0
+         s213_2 = 0.1d0 
+         dm12_2 = 7.6d-5
+         dm23_2 = sign*2.4d-3
+         dm13_2 = dm23_2 +dm12_2
+      endif
 
       s2sun_2_eff = s2sun_2 +unc_mode*unc_s2sun_2
       s213_2_eff = s213_2 +unc_mode*unc_s213_2
@@ -116,8 +125,9 @@ c      dm13_2 = dm23_2 +dm12_2
       s13_2 = 0.5*s213_2_eff/( 1d0 +dsqrt(1d0 -s213_2_eff) )
       s13 = dsqrt(s13_2)
       c13 = dsqrt(1d0 -s13**2)
-      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
-c      s12_2 = 0.32d0
+      if (icheck.eq.0) then
+         s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
+      endif
       s12 = dsqrt(s12_2)
       c12 = dsqrt(1d0 -s12**2)
       ue1 = c12*c13

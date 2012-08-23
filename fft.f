@@ -23,8 +23,8 @@ c      parameter (res=10) ! in % @E=4MeV
       call getarg(2,cL)
       read(cL,*) L
 
-      Emin = 2d0 ! Mev unit Emin > 1.30
-      Emax = 12d0
+      Emin = 1.81d0 ! Mev unit Emin > 1.81
+      Emax = 10d0
       factor = 1d41
       dm2_min = 2.0d-3
       dm2_max = 3.0d-3 
