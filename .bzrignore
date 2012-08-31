@@ -11,3 +11,5 @@ MakeHisto
 *.out
 test
 lench.f
+basic_plots
+date.txt

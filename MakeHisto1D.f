@@ -16,7 +16,7 @@ C     ARGUMENTS
 C     LOCAL VARIABLES 
       integer i
       integer ierr
-      real*8 sumy,xi,y(nbins),dy(nbins)
+      real*8 sumy,xi,y(nbins),dy(nbins),rnevent
 C     EXTERNAL FUNCTIONS
       external f
 C     ----------
@@ -30,14 +30,19 @@ C     ----------
             write(nout,*) "ERROR: Integration does not converge"
          endif
       enddo
+      if (nevent.eq.0) then
+         sumy = 1d0
+         rnevent = 1d0
+      else
+         rnevent = nevent
+      endif
 
       nevent_th = 0d0
       do i = 1,nbins
          if (evform.eq.1) then
-c            event(i) = idnint( y(i)*dble(nevent) / sumy )
-            event(i) = int( y(i)*dble(nevent) / sumy )
+            event(i) = int( y(i)*rnevent / sumy )
          elseif (evform.eq.2) then
-            event(i) = y(i)*dble(nevent)/sumy
+            event(i) = y(i)*rnevent / sumy
          endif
          nevent_th = nevent_th +event(i) 
       enddo

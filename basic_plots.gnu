@@ -21,6 +21,15 @@ plot \
 'flux.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
+set output "noosc.eps"
+set title "Neutrino Flux"
+set xlabel 'Ev (MeV)' offset -1,0
+set ylabel 'flux * Xsec' offset 1,0
+set multiplot
+plot \
+'noosc.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
+set nomultiplot
+
 set output "xsec.eps"
 set title "Neutrino-p Cross Section"
 set xlabel 'Ev (MeV)' offset -1,0
@@ -57,6 +66,15 @@ set ylabel 'Flux' offset 1,0
 set multiplot
 plot \
 'flux_loe.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
+set nomultiplot
+
+set output "noosc_loe.eps"
+set title "Neutrino Flux"
+set xlabel 'L/Ev (km/MeV)' offset -1,0
+set ylabel 'Flux * Xsec' offset 1,0
+set multiplot
+plot \
+'noosc_loe.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 set output "xsec_loe.eps"

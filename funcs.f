@@ -1,30 +1,42 @@
       real*8 function flux(E)
 C     ****************************************************
+C     By Yoshitaro Takaesu @KIAS Aug.31 2012
 C     
-C     By Yoshitaro Takaesu @KEK Nov.19 2011
-C     
-C     The driver for making include and dat files for QCD
-C     processes in color-flow-sampling option of MG. 
-C     Input:
-C     pp    4 momentum of external particles
-C     Output:
-C     Amplitude squared and summed
+C     Anti-electron-neutrino flux of energy E[MeV] 
+C     at 1[km] away from reactors with the total thermal 
+C     power of 1[GW] in [ 1/s/MeV/cm^2 ] unit
 C     ****************************************************
       implicitnone
 C     
 C     ARGUMENTS 
 C     
-      integer neu_per_s 
-      real*8 E
+      real*8 E,P
+      real*8 a,EU235,EU238,EPu239,EPu241,fU235,fU238,fPu239,fPu241
+      real*8 preflux,pi
 C     ----------
 C     BEGIN CODE
 C     ----------
-c      neu_per_s = 5*10**20 
+      pi = dacos(-1d0)
 
-      flux = 0.58*dexp( 0.870d0 -0.160*E -0.091*E**2 )
-     &      +0.30*dexp( 0.896d0 -0.239*E -0.0981*E**2 )
-     &      +0.07*dexp( 0.976d0 -0.162*E -0.0790*E**2 )
-     &      +0.05*dexp( 0.793d0 -0.080*E -0.1085*E**2 )
+      fU235 = 0.58d0
+      fU238 = 0.07d0
+      fPu239 = 0.30d0
+      fPu241 = 0.05d0
+      EU235 = 201.7d0
+      EU238 = 205.0d0
+      EPu239 = 210.0d0
+      EPu241 = 212.4d0
+
+      a = 1d0 / ( fU235*EU235 +fU238*EU238 +fPu239*EPu239 
+     &     +fPu241*EPu241 )
+
+      preflux = fU235*dexp( 0.870d0 -0.160*E -0.091*E**2 )
+     &      +fPu239*dexp( 0.896d0 -0.239*E -0.0981*E**2 )
+     &      +fU238*dexp( 0.976d0 -0.162*E -0.0790*E**2 )
+     &      +fPu241*dexp( 0.793d0 -0.080*E -0.1085*E**2 )
+
+      flux = a*preflux/(4*pi*1d0**2)*1d12/1.602176487d0
+
 
       return
       end
@@ -56,12 +68,8 @@ C     ----------
       mp = 938.272d0
       mn = 939.565d0
 
-c      Ee = E -0.78d0
-c      Ee = E -1.2913d0
       Ee = (E +mp)/2d0*(1d0 -(mn**2 -me**2)/(2*E*mp +mp**2))
-
       xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
-c      xsec = 0.0952d0*Ee**4*1d-42
 
       return
       end
