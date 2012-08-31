@@ -67,7 +67,7 @@ c      xsec = 0.0952d0*Ee**4*1d-42
       end
 
 
-      real*8 function prob_ee(a,sign,mode,unc_mode)
+      real*8 function prob_ee(a,param,error,sign,mode,unc_mode)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Aug.17 2012
 C     
@@ -91,23 +91,32 @@ C
 C     ARGUMENTS 
 C     
       integer sign,mode,unc_mode,icheck
-      real*8 a,aa
+      real*8 a,aa,param(4),error(4)
 C     ----------
 C     BEGIN CODE
 C     ----------
       icheck = 0
       if (icheck.eq.0) then
-         s2sun_2 = 0.852d0
-         unc_s2sun_2 = 0.025d0
-         s23_2 = 0.5d0
-         s213_2 = 0.1d0 
-         unc_s213_2 = 0.01d0
-         dm12_2 = 7.5d-5
-         unc_dm12_2 = 0.2d-5
-         dm13_2 = 2.35d-3
-         unc_dm13_2 = 0.1d-3
+         s2sun_2 = param(1)
+         s213_2 = param(2)
+         dm12_2 = param(3)
+         dm13_2 = param(4)
+         unc_s2sun_2 = error(1)
+         unc_s213_2 = error(2)
+         unc_dm12_2 = error(3)
+         unc_dm13_2 = error(4)
          dm23_2 = sign*dm13_2 -dm12_2
       elseif (icheck.eq.1) then
+         s2sun_2 = 0.852d0
+         s213_2 = 0.1d0 
+         dm12_2 = 7.5d-5
+         dm13_2 = 2.35d-3
+         unc_s2sun_2 = 0.025d0
+         unc_s213_2 = 0.01d0
+         unc_dm12_2 = 0.2d-5
+         unc_dm13_2 = 0.1d-3
+         dm23_2 = sign*dm13_2 -dm12_2
+      elseif (icheck.eq.2) then
          s12_2 = 0.32d0
          s23_2 = 0.5d0
          s213_2 = 0.1d0 
@@ -139,7 +148,6 @@ C     ----------
 
       if (mode.eq.0) then
          prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2_eff*aa/4d0)**2
-c         prob_ee = 1d0
      &        -4*ue1**2*ue3**2*dsin(dm13_2_eff*aa/4d0)**2
      &        -4*ue2**2*ue3**2*dsin(dm23_2_eff*aa/4d0)**2
       elseif (mode.eq.21) then
