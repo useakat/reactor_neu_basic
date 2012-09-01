@@ -23,10 +23,10 @@ c      hfunc1D = ( x -z(1) )**2 +z(2)
       loe = L/E
       y2s = 60*60*24*365d0
 
-c      hfunc1D_th = flux(E)*P/L**2*xsec(E)
-c     &     *prob_ee(loe,z,error,mode,0,0)*Np*Y*y2s
+      hfunc1D_th = flux(E)*P/L**2*xsec(E)
+     &     *prob_ee(loe,z,error,mode,0,0)*Np*Y*y2s
 
-      hfunc1D_th = flux(E)*xsec(E)
+c      hfunc1D_th = flux(E)*xsec(E)
 
       return
       end
@@ -55,9 +55,9 @@ c     &     *prob_ee(loe,z,error,mode,0,0)*Np*Y*y2s
       loe = L/E
       y2s = 60*60*24*365d0
 
-c      hfunc1D_dat = flux(E)*P/L**2*xsec(E)
-c     &     *prob_ee(loe,z,error,mode,0,0)*Np*Y*y2s
-      hfunc1D_dat = flux(E)*xsec(E)
+      hfunc1D_dat = flux(E)*P/L**2*xsec(E)
+     &     *prob_ee(loe,z,error,mode,0,0)*Np*Y*y2s
+c      hfunc1D_dat = flux(E)*xsec(E)
 
       return
       end
