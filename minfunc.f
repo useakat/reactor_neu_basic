@@ -36,8 +36,8 @@ C     ----------
       z_dat(5) = zz(1) ! L [km]
       z_dat(6) = zz(2)     ! NH/IH
       z_dat(7) = 1d9*avog   ! N_target
-      z_dat(8) = 18d0  ! Power [GW]
-      z_dat(9) = 5     ! Exposure time [year]
+      z_dat(8) = 20d0  ! Power [GW]
+      z_dat(9) = 1     ! Exposure time [year]
       z(5) = zz(1)
       z(6) = -1*zz(2)
       z(7) = z_dat(7)
@@ -49,15 +49,15 @@ C     ----------
       error(4) = 0.1d-3
       Emin = 1.01d0   ! Emin > 1.80473
       Emax = 7.2d0
-      Eres = 0.05d0
-      serror = 1d0
-      snmax = 100
+      Eres = 0.015d0
+      serror = 1d-2
+      snmax = 2
       hmode = 1
 
-      nbins = int( ( dsqrt(Emax) -dsqrt(Emin) ) / Eres )
+      nbins = int( ( dsqrt(Emax) -dsqrt(Emin) ) / Eres*2 )
 
       do i = 0,nbins
-         x(i) = dsqrt(Emin) +Eres*i
+         x(i) = dsqrt(Emin) +Eres/2d0*i
       enddo
 
       evform_th = 2

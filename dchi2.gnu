@@ -22,13 +22,14 @@ plot \
 'dchi2min_ih.dat' u 1:2 t 'Delta Chi2 (IH)'  w l lt 2 lc rgb 'blue' lw 3
 set nomultiplot
 
-set output 'plots/noosc.eps'
+set output 'plots/FluxXsec_h.eps'
+set title 'P_{reactor} = 20GW_{th}, L = 1km, Simpson[ acc=1%, ndiv=2^2 ]'    
 set xlabel 'Ev (MeV)' offset -1,0
-set ylabel 'Flux * Xsec [1/s/MeV]' offset 0,0
+set ylabel 'd( Flux * Xsec ) / dEv [1/s/MeV^2]' offset 2,0
 set multiplot
 plot \
-'event_dat1.dat' u ($1**2+0.8):2 t 'simpson (NH)' with histeps lt 1 lc rgb 'red' lw 3 ,\
-'event_dat2.dat' u ($1**2+0.8):2 t 'center value' with points lt 1 lc rgb 'blue' lw 3
+'event_dat1_6.dat' u ($1**2+0.8):2 t 'dE_{vis}/E_{vis} = 6%/Sqrt(E_{vis})' with histeps lt 1 lc rgb 'red' lw 3 ,\
+'event_dat2_6.dat' u ($1**2+0.8):2 t 'Center Value' with points lt 2 lc rgb 'blue' lw 3
 set nomultiplot
 
 reset

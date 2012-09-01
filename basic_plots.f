@@ -6,11 +6,19 @@
       real*8 Emin,Emax,L,E,no_osc,prob_nor,prob_inv
       real*8 events_nor,events_inv,diff
       real*8 loemin,loemax,loe,z(20),error(10)
+      real*8 P,V,Y,R,Np
 
       real*8 flux,xsec,prob_ee
       external flux,xsec,prob_ee
 
-      L = 60d0
+      include 'const.inc'
+
+      L = 100d0 ! in km unit
+      P = 20d0 ! in GW unit
+      V = 5d0 ! in kton unit
+      R = 0.05 ! free proton weight fraction in the detector volume
+      Y = 5d0 ! in year unit
+
       Emin = 1.81d0
       Emax = 8d0
       
@@ -22,6 +30,8 @@
       error(2) = 0.01d0
       error(3) = 0.2d-5
       error(4) = 0.1d-3
+
+      Np = V*1d9*R*avog
 
       open(10,file="flux.dat",status="replace")
       open(11,file="noosc.dat",status="replace")
@@ -40,7 +50,7 @@
          loemax = L/Emin
          loe = loemin +(loemax -loemin)/dble(ndiv)*(i-1)
          E = L/loe
-         no_osc = flux(E)*xsec(E)
+         no_osc = flux(E)*xsec(E)*P/L**2*Np*Y*y2s
          prob_nor = prob_ee(loe,z,error,1,0,0)
          prob_inv = prob_ee(loe,z,error,-1,0,0)
          events_nor = no_osc*prob_nor

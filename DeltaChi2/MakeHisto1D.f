@@ -27,15 +27,15 @@ C     ----------
          if ( mode.eq.1 ) then
             call hsimp1D(f,x(i-1),x(i),z,y(i),error,nmax,ierr)
             hy(i) = y(i)/dx(i)
+            if (ierr.ne.0) then
+               write(nout,*) "ERROR: Integration does not converge"
+            endif
          elseif (mode.eq.2) then
             xi = ( x(i) +x(i-1) )/2d0
             hy(i) = f(xi,z)
             y(i) = hy(i)*dx(i)
          endif
          sumy = sumy +y(i)
-         if (ierr.ne.0) then
-            write(nout,*) "ERROR: Integration does not converge"
-         endif
       enddo
       if (nevent.eq.0) then
          sumy = 1d0
