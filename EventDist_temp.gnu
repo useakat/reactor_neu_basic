@@ -3,7 +3,7 @@ set terminal postscript eps enhanced "Times-Roman" color 17
 #set logscale y
 #set format x "%L"
 #set format y "%L"
-#set xtics (0.0010.01,0.1,1,10,1.0E2,1.0E3,1.0E4,1.0E5,1.0E6,1.0E7,1.0E8,1.0E9,1.0E10,1.0E11,1E12,1E13,1E14,1E15,1E16)
+#set xtics (0.0010.01,0.1,1,10,1.0E2,1.0E3,1.0E4,1.0E5)
 #set ytics (1,10,1E2,1E3,1E4,1E5,1E6,1E7,1E8,1E9,1E10)
 #set tics scale 2
 set grid
@@ -12,46 +12,10 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/flux.eps"
-set title "Neutrino Flux"
-set xlabel 'Ev (MeV)' offset -1,0
-set ylabel 'Flux' offset 1,0
-set multiplot
-plot \
-'flux.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/noosc.eps"
-set title "P_{reactor} = 20GW_{th}, L = 1km"
-set xlabel 'Ev [MeV]' offset -1,0
-set ylabel 'd( flux * Xsec ) / dE_v [1/s/MeV^2]' offset 1,0
-set multiplot
-plot \
-'noosc.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/xsec.eps"
-set title "Neutrino-p Cross Section"
-set xlabel 'Ev (MeV)' offset -1,0
-set ylabel 'dXsec / dEv (cm^2/MeV)' offset 1,0
-set multiplot
-plot \
-'xsec.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/prob.eps"
-set title "Oscillation Prob."
-set xlabel 'Ev (MeV)' offset -1,0
-set ylabel 'Prob.' offset 1,0
-set multiplot
-plot \
-'prob.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/events.eps"
-set title "P_{reactor} = 20GW_{th}, V = 5kton (5.00% free proton), 5 years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
-set xlabel 'Ev [MeV]' offset -1,0
-set ylabel 'dN / dEv [1/MeV]' offset 0,0
+set output "plots/EventDist.eps"
+set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
+set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
+set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 set logscale y
 set logscale x
 set format y "10^%L"
@@ -189,53 +153,6 @@ const54,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const55,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const56,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const57,t notitle lt 2 lc rgb 'black' lw 1
-set nomultiplot
-
-set output "plots/flux_loe.eps"
-set title "Neutrino Flux"
-set xlabel 'L/Ev (km/MeV)' offset -1,0
-set ylabel 'Flux' offset 1,0
-set multiplot
-plot \
-'flux_loe.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/noosc_loe.eps"
-set title "Neutrino Flux"
-set xlabel 'L/Ev (km/MeV)' offset -1,0
-set ylabel 'Flux * Xsec' offset 1,0
-set multiplot
-plot \
-'noosc_loe.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/xsec_loe.eps"
-set title "Neutrino-p Cross Section"
-set xlabel 'L/Ev (km/MeV)' offset -1,0
-set ylabel 'dXsec / d(L/Ev) (cm^2 MeV/km)' offset 1,0
-set multiplot
-plot \
-'xsec_loe.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/prob_loe.eps"
-set title "Oscillation Prob."
-set xlabel 'L/Ev (km/MeV)' offset -1,0
-set ylabel 'Prob.' offset 1,0
-set multiplot
-plot \
-'prob_loe.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
-set nomultiplot
-
-set output "plots/events_loe.eps"
-set title "Event shape"
-set xlabel 'L/Ev (km/MeV)' offset -1,0
-set ylabel 'dN / dEv (arbitrary)' offset 1,0
-set multiplot
-plot \
-'events_loe.dat' u 1:3 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
-'events_loe.dat' u 1:4 t 'IH' w l lt 1 lc rgb 'blue' lw 3 ,\
-'events_loe.dat' u 1:2 t 'No oscillation'  w l lt 2 lc rgb 'orange' lw 3
 set nomultiplot
 
 reset

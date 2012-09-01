@@ -49,7 +49,7 @@ plot \
 set nomultiplot
 
 set output "plots/events.eps"
-set title "P_{reactor} = 20GW_{th}, V = 5kton (5.00% free proton), 5 years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
+set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
 set xlabel 'Ev [MeV]' offset -1,0
 set ylabel 'dN / dEv [1/MeV]' offset 0,0
 set logscale y

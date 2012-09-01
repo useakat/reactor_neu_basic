@@ -6,18 +6,24 @@
       real*8 Emin,Emax,L,E,no_osc,prob_nor,prob_inv
       real*8 events_nor,events_inv,diff
       real*8 loemin,loemax,loe,z(20),error(10)
-      real*8 P,V,Y,R,Np
+      real*8 P,V,Y,R,Np,YY
+      character*4 cL,cP,cV,cR,cY
 
       real*8 flux,xsec,prob_ee
       external flux,xsec,prob_ee
 
       include 'const.inc'
 
-      L = 100d0 ! in km unit
-      P = 20d0 ! in GW unit
-      V = 5d0 ! in kton unit
-      R = 0.05 ! free proton weight fraction in the detector volume
-      Y = 5d0 ! in year unit
+      call getarg(1,cL) ! in km unit
+      call getarg(2,cP) ! in GW unit
+      call getarg(3,cV) ! in kton unit
+      call getarg(4,cR) ! free proton weight fraction in the detector volume
+      call getarg(5,cY) ! in year unit
+      read (cL,*) L
+      read (cP,*) P
+      read (cV,*) V
+      read (cR,*) R
+      read (cY,*) Y
 
       Emin = 1.81d0
       Emax = 8d0
@@ -31,17 +37,26 @@
       error(3) = 0.2d-5
       error(4) = 0.1d-3
 
-      Np = V*1d9*R*avog
+      if (V.eq.0) then
+         Np = 1d0
+      else
+         Np = V*1d9*R*avog
+      endif
+      if (Y.eq.0) then
+         YY = 1d0
+      else
+         YY = Y*y2s
+      endif
 
       open(10,file="flux.dat",status="replace")
-      open(11,file="noosc.dat",status="replace")
       open(12,file="xsec.dat",status="replace")
+      open(11,file="FluxXsec.dat",status="replace")
       open(13,file="prob.dat",status="replace")
       open(14,file="events.dat",status="replace")
 
       open(20,file="flux_loe.dat",status="replace")
-      open(21,file="noosc_loe.dat",status="replace")
       open(22,file="xsec_loe.dat",status="replace")
+      open(21,file="FluxXsec_loe.dat",status="replace")
       open(23,file="prob_loe.dat",status="replace")
       open(24,file="events_loe.dat",status="replace")
 
@@ -50,7 +65,7 @@
          loemax = L/Emin
          loe = loemin +(loemax -loemin)/dble(ndiv)*(i-1)
          E = L/loe
-         no_osc = flux(E)*xsec(E)*P/L**2*Np*Y*y2s
+         no_osc = flux(E)*xsec(E)*P/L**2*Np*YY
          prob_nor = prob_ee(loe,z,error,1,0,0)
          prob_inv = prob_ee(loe,z,error,-1,0,0)
          events_nor = no_osc*prob_nor

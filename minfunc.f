@@ -72,8 +72,8 @@ C     ----------
          open(1,file="event_dat1.dat",status="replace")
          open(2,file="event_th1.dat",status="replace")
          do i = 1,nbins
-            write(1,*) x(i),hevent_dat(i)
-            write(2,*) x(i),hevent_th(i)
+            write(1,*) x(i),event_dat(i)
+            write(2,*) x(i),event_th(i)
          enddo
          close(1)
          close(2)

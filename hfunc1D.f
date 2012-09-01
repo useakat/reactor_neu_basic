@@ -31,11 +31,12 @@ c      hfunc1D = ( x -z(1) )**2 +z(2)
 
 
       real*8 function hfunc1D_dat(x,z)
-
       implicit none
 
+      include 'const.inc'
+
       integer mode
-      real*8 x,z(20),error(10),L,E,loe,P,Y,Np,y2s
+      real*8 x,z(20),error(10),L,E,loe,P,YY,Np
       real*8 flux,xsec,prob_ee
       external flux,xsec,prob_ee
 
@@ -48,15 +49,12 @@ c      hfunc1D = ( x -z(1) )**2 +z(2)
       mode = z(6)
       Np = z(7)
       P = z(8)
-      Y = z(9)
+      YY = z(9)
       E = x**2 +0.8d0
       loe = L/E
-      y2s = 60*60*24*365d0
 
-      L = 1d0
       hfunc1D_dat = flux(E)*P/L**2*xsec(E)
-     &     *prob_ee(loe,z,error,mode,0,0)*Np*Y*y2s
-c      hfunc1D_dat = P*flux(E)*Xsec(E)*
+c     &     *prob_ee(loe,z,error,mode,0,0)*Np*YY
 
       return
       end
