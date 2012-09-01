@@ -2,7 +2,7 @@ FC = g77
 FFLAGS        = -O
 DEST	      = ../lib
 LIBRARY	      = libDeltaChi2.a
-OBJS = hsimpson1D.o 
+OBJS = hsimpson1D.o dchi2.o MakeHisto1D.o
 
 install:	$(LIBRARY)
 	        @echo Installing $(LIBRARY) in $(DEST)
