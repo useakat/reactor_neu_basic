@@ -125,6 +125,9 @@ Eres=1.5
 
 cp -rf plots ${run_dir}/. 
 
+echo "" >> ${defout}
+cat dchi2_result.txt >> ${defout}
+
 ### end program ###
 
 end_time=`date '+%s'`

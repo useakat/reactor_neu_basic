@@ -38,15 +38,20 @@
       zz(7) = Eres/100d0
       zz(8) = mode
 
+      open(19,file='dchi2_result.txt',status='replace')
+      write(19,*) ""
+      write(19,*) "[Delta-Chi2 analysis]"
       if (mode.eq.0) then
          do k = -1,1,2
             zz(2) = k
             if (k.eq.1) then
-               open(20,file='minorm_nh.dat')
-               open(21,file='dchi2min_nh.dat')
+               open(20,file='minorm_nh.dat',status='replace')
+               open(21,file='dchi2min_nh.dat',status='replace')
+               write(19,*) "<NH case>"
             elseif (k.eq.-1) then
-               open(20,file='minorm_ih.dat')
-               open(21,file='dchi2min_ih.dat')
+               open(20,file='minorm_ih.dat',status='replace')
+               open(21,file='dchi2min_ih.dat',status='replace')
+               write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
                zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
@@ -74,8 +79,23 @@ c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
                write (20,'(2e14.7,3i10)') chisqmin,fedm,npari,nparx
      &              ,istat
                write(21,*) zz(1),chisqmin
+               write(19,*) ""
+               write(19,*) zz(1),"[km]"
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
+     &              ,chisqmin," +-",fedm
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
+     &              ,pval(1)," +-",perr(1)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*13)^2 = "
+     &              ,pval(2)," +-",perr(2)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "dm21^2      = "
+     &              ,pval(3)," +-",perr(3)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "dm31^2      = "
+     &              ,pval(4)," +-",perr(4)
             enddo
+            write(19,*) ""
+            write(19,*) ""
          enddo
+         close(19)
          close(20)
          close(21)
 
