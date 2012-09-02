@@ -21,7 +21,6 @@
       read(cV,*) V
       read(cR,*) R
       read(cY,*) Y
-c      read(cEres,*) Eres
 
       if (V.eq.0d0) then
          Np = 1d0
@@ -52,20 +51,17 @@ c      read(cEres,*) Eres
       snmax = 2
 
       ndiv = 10000
-      write(*,*) ndiv
       hmode = 0     ! 0:smooth, 1:simpson 2:center value   
       evform = 2    ! 1:integer 2:real*8
       norm = 1      ! 1:event/dx 2:event
       call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
      &     ,serror,snmax,norm,'evdist.dat') ! file name should be 6 characters
 
-
       hmode = 1
       evform = 1
       norm = 2
 
       Eres = 0.06d0
-      write(*,*) Eres
       ndiv = (xmax -xmin )/Eres*2d0
       z(6) = 1     ! NH/IH
       call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
@@ -75,7 +71,6 @@ c      read(cEres,*) Eres
      &     ,serror,snmax,norm,'edh6ih.dat')
 
       Eres = 0.03d0
-      write(*,*) Eres
       ndiv = (xmax -xmin )/Eres*2d0
       z(6) = 1     ! NH/IH
       call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
@@ -85,7 +80,6 @@ c      read(cEres,*) Eres
      &     ,serror,snmax,norm,'edh3ih.dat')
 
       Eres = 0.015d0
-      write(*,*) Eres
       ndiv = (xmax -xmin )/Eres*2d0
       z(6) = 1     ! NH/IH
       call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent

@@ -34,7 +34,6 @@
          enddo
       endif
       close(1)
-      write(*,*) "nevent_makedist =",nevent_out
 
       return
       end

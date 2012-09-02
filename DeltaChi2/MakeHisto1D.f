@@ -66,7 +66,6 @@ C     ----------
             nevent_th = nevent_th +event(i) 
          enddo
       endif
-      write(*,*) "nevent_makehisto =",nevent_th
       
       return
       end

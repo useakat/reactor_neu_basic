@@ -86,15 +86,12 @@ read norm < norm.dat
 ./mkgnu_EventDist.sh $P $V $R $Y
 gnuplot EventDist.gnu
 Eres=6
-#norm=2
 ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 gnuplot EventDist_h.gnu
 Eres=3
-#norm=2
 ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 gnuplot EventDist_h.gnu
 Eres=1.5
-#norm=2
 ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 gnuplot EventDist_h.gnu
 
