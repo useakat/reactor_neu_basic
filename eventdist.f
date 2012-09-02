@@ -3,9 +3,12 @@
 
       include 'const.inc'
 
+      integer i
       integer hmode,evform,nevent,snmax,norm
       real*8 z(20),xmin,xmax,serror,ndiv,nbins
       real*8 L,P,V,R,Y,Eres,Np,YY
+      real*8 eventnh(10000),neventnh,eventih(10000),neventih
+      real*8 dchi2
       character*5 cL,cP,cV,cR,cY,cEres
 
       real*8 feventdist
@@ -57,6 +60,7 @@
       call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
      &     ,serror,snmax,norm,'evdist.dat') ! file name should be 6 characters
 
+      open(2,file='deltachi2.txt',status='replace')
       hmode = 1
       evform = 1
       norm = 2
@@ -64,33 +68,66 @@
       Eres = 0.06d0
       ndiv = (xmax -xmin )/Eres*2d0
       z(6) = 1     ! NH/IH
-      call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
-     &     ,serror,snmax,norm,'edh6nh.dat')
+      call make_dist_event(feventdist,z,xmin,xmax,ndiv,hmode,evform
+     &     ,nevent,serror,snmax,norm,'edh6nh.dat',eventnh,neventnh)
       z(6) = -1     ! NH/IH
-      call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
-     &     ,serror,snmax,norm,'edh6ih.dat')
+      call make_dist_event(feventdist,z,xmin,xmax,ndiv,hmode,evform
+     &     ,nevent,serror,snmax,norm,'edh6ih.dat',eventih,neventih)
+      dchi2 = 0d0
+      do i = 1,ndiv
+         dchi2 = dchi2 +( eventnh(i) -eventih(i) )**2 / eventnh(i)
+      enddo
+      write(2,*) "Naive Delta-Chi2(NH,6%) = ",dchi2
+      dchi2 = 0d0
+      do i = 1,ndiv
+         dchi2 = dchi2 +( eventnh(i) -eventih(i) )**2 / eventih(i)
+      enddo
+      write(2,*) "Naive Delta-Chi2(IH,6%) = ",dchi2
 
       Eres = 0.03d0
       ndiv = (xmax -xmin )/Eres*2d0
       z(6) = 1     ! NH/IH
-      call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
-     &     ,serror,snmax,norm,'edh3nh.dat')
+      call make_dist_event(feventdist,z,xmin,xmax,ndiv,hmode,evform
+     &     ,nevent,serror,snmax,norm,'edh3nh.dat',eventnh,neventnh)
       z(6) = -1     ! NH/IH
-      call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
-     &     ,serror,snmax,norm,'edh3ih.dat')
+      call make_dist_event(feventdist,z,xmin,xmax,ndiv,hmode,evform
+     &     ,nevent,serror,snmax,norm,'edh3ih.dat',eventih,neventih)
+      dchi2 = 0d0
+      do i = 1,ndiv
+         dchi2 = dchi2 +( eventnh(i) -eventih(i) )**2 / eventnh(i)
+      enddo
+      write(2,*) "Naive Delta-Chi2(NH,3%) = ",dchi2
+      dchi2 = 0d0
+      do i = 1,ndiv
+         dchi2 = dchi2 +( eventnh(i) -eventih(i) )**2 / eventih(i)
+      enddo
+      write(2,*) "Naive Delta-Chi2(IH,3%) = ",dchi2
 
       Eres = 0.015d0
       ndiv = (xmax -xmin )/Eres*2d0
       z(6) = 1     ! NH/IH
-      call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
-     &     ,serror,snmax,norm,'edh1nh.dat')
+      call make_dist_event(feventdist,z,xmin,xmax,ndiv,hmode,evform
+     &     ,nevent,serror,snmax,norm,'edh1nh.dat',eventnh,neventnh)
       z(6) = -1     ! NH/IH
-      call make_dist(feventdist,z,xmin,xmax,ndiv,hmode,evform,nevent
-     &     ,serror,snmax,norm,'edh1ih.dat')
+      call make_dist_event(feventdist,z,xmin,xmax,ndiv,hmode,evform
+     &     ,nevent,serror,snmax,norm,'edh1ih.dat',eventih,neventih)
+      dchi2 = 0d0
+      do i = 1,ndiv
+         dchi2 = dchi2 +( eventnh(i) -eventih(i) )**2 / eventnh(i)
+      enddo
+      write(2,*) "Naive Delta-Chi2(NH,1.5%) = ",dchi2
+      dchi2 = 0d0
+      do i = 1,ndiv
+         dchi2 = dchi2 +( eventnh(i) -eventih(i) )**2 / eventih(i)
+      enddo
+      write(2,*) "Naive Delta-Chi2(IH,1.5%) = ",dchi2
 
-      open(3,file='norm.dat',status='replace')
-      write(3,*) norm
-      close(3)
+      close(2)
+
+
+      open(2,file='norm.dat',status='replace')
+      write(2,*) norm
+      close(2)
 
       end
 

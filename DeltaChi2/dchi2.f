@@ -17,23 +17,20 @@ C     BEGIN CODE
 C     ----------
       dchi2 = 0d0
 
-c      open(nout,file="error.txt",status="replace")
       do i = 1,nbins
-         if (dat(i).gt.10) then
+         if (dat(i).ge.10) then
             sgm2 = dat(i)
+            chi = ( dat(i) -th(i) )**2 / sgm2
+            dchi2 = dchi2 + chi
          elseif (dat(i).ge.0) then
-            write(nout,*) "ERROR: events in ",i,"th bin is too small. " 
-     &           ,"Please reconsider the bin size."
-            stop
+c            write(nout,*) "ERROR: events in ",i,"th bin is too small. " 
+c     &           ,"Please reconsider the bin size."
+c            stop
          else
             write(nout,*) "ERROR: events in ",i," th bin is negative."
             stop
          endif
-         chi = ( dat(i) -th(i) )**2 / sgm2
-         dchi2 = dchi2 + chi
       enddo
-
-c      close(nout)
 
       do i = 1,nparm
          dchi2 = dchi2 +( parm(i) -parm0(i) )**2 / error(i)**2

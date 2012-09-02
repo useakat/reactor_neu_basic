@@ -20,12 +20,12 @@ set logscale y
 set logscale x
 set format y "10^%L"
 set xrange [1.81:8]
-set yrange [1:1E6]
+set yrange [10:1E6]
 #set key at 1.5,5E5 samplen 2
 set xtics (2,3,4,5,6,7,8)    
 set nogrid    
 set parametric
-set trange [1:1E6]    
+set trange [10:1E6]    
 const1=1.81
 const2=1.8712
 const3=1.9342

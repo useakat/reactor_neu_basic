@@ -22,37 +22,38 @@ C     LOCAL VARIABLES
       real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror
       real*8 hevent_th(1000),hevent_dat(1000)
 C     EXTERNAL FUNCTIONS
-      real*8 hfunc1D_th,hfunc1D_dat,dchi2,futil
-      external hfunc1D_th,hfunc1D_dat,dchi2,futil
+      real*8 hfunc1D,dchi2,futil
+      external hfunc1D,dchi2,futil
 C     ----------
 C     BEGIN CODE
 C     ----------
-      nevent = 0
-
       z_dat(1) = 0.852d0
       z_dat(2) = 0.1d0
       z_dat(3) = 7.5d-5
       z_dat(4) = 2.35d-3
+
       z_dat(5) = zz(1) ! L [km]
       z_dat(6) = zz(2)     ! NH/IH
-      z_dat(7) = 1d9*avog   ! N_target
-      z_dat(8) = 20d0  ! Power [GW]
-      z_dat(9) = 1     ! Exposure time [year]
-      z(5) = zz(1)
-      z(6) = -1*zz(2)
+      z_dat(7) = zz(4)*zz(5)*1d9*avog   ! N_target
+      z_dat(8) = zz(3)  ! Power [GW]
+      z_dat(9) = zz(6)*y2s     ! Exposure time [s]
+      z_dat(10) = 0     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
+      z(5) = z_dat(5)
+      z(6) = -1*z_dat(6)
       z(7) = z_dat(7)
       z(8) = z_dat(8)
       z(9) = z_dat(9)
+      z(10) = z_dat(10)
+      
+
       error(1) = 0.025d0
       error(2) = 0.01d0
       error(3) = 0.2d-5
       error(4) = 0.1d-3
+
       Emin = 1.01d0   ! Emin > 1.80473
       Emax = 7.2d0
-      Eres = 0.015d0
-      serror = 1d-2
-      snmax = 2
-      hmode = 1
+      Eres = zz(7)
 
       nbins = int( ( dsqrt(Emax) -dsqrt(Emin) ) / Eres*2 )
 
@@ -60,11 +61,16 @@ C     ----------
          x(i) = dsqrt(Emin) +Eres/2d0*i
       enddo
 
+      serror = 1d-1
+      snmax = 10
+      nevent = 0
+      hmode = 1
       evform_th = 2
-      call MakeHisto1D(nout,hfunc1D_th,z,nevent,nbins,x,evform_th
-     &     ,serror,snmax,hmode,event_th,hevent_th,nevent_th)
-      evform_dat = 2
-      call MakeHisto1D(nout,hfunc1D_dat,z_dat,nevent,nbins,x
+      call MakeHisto1D(nout,hfunc1D,z,nevent,nbins,x
+     &     ,evform_th,serror,snmax,hmode,event_th,hevent_th
+     &     ,nevent_th)
+      evform_dat = 1
+      call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &     ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &     ,nevent_dat)
 
