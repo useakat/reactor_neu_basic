@@ -8,8 +8,8 @@
       real*8 L,P,V,R,Y,Eres,Np,YY
       character*5 cL,cP,cV,cR,cY,cEres
 
-      real*8 hfunc1D_dat
-      external hfunc1D_dat
+      real*8 fFluxXsec
+      external fFluxXsec
 
       call getarg(1,cL)
       call getarg(2,cP)
@@ -55,22 +55,25 @@
 
       hmode = 0   
       evform = 2
-      norm = 2
-      call make_dist(hfunc1D_dat,z,xmin,xmax,ndiv,hmode,evform,nevent
+      norm = 1
+      call make_dist(fFluxXsec,z,xmin,xmax,ndiv,hmode,evform,nevent
      &     ,serror,snmax,norm,'distxx.dat') ! file name should be 6 characters
+      open(3,file='normxx.dat',status='replace')
+      write(3,*) norm
+      close(3)
 
       hmode = 1
       evform = 2
       norm = 1
-      call make_dist(hfunc1D_dat,z,xmin,xmax,ndiv,hmode,evform,nevent
+      call make_dist(fFluxXsec,z,xmin,xmax,ndiv,hmode,evform,nevent
      &     ,serror,snmax,norm,'dist_h.dat')
+      open(3,file='norm_h.dat',status='replace')
+      write(3,*) norm
+      close(3)
 
       hmode = 2
-      evform = 2
-      norm = 1
-      call make_dist(hfunc1D_dat,z,xmin,xmax,ndiv,hmode,evform,nevent
+      call make_dist(fFluxXsec,z,xmin,xmax,ndiv,hmode,evform,nevent
      &     ,serror,snmax,norm,'disth2.dat')
-
 
       end
 

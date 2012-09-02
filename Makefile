@@ -12,7 +12,7 @@ LIBS          = $(LIBS_MYLIB)
 OBJS_basic_plots = basic_plots.o funcs.o
 OBJS_fft         = fft_nor_inv.o funcs.o
 OBJS_dchi2       = test2.o hfunc1D.o minfunc.o funcs.o
-OBJS_dist       = dist.o make_dist.o hfunc1D.o funcs.o
+OBJS_dist       = dist.o make_dist.o fFluxXsec.o funcs.o
 OBJS_eventdist       = eventdist.o feventdist.o make_dist.o funcs.o
 
 .f.o:

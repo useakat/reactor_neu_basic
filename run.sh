@@ -53,19 +53,19 @@ echo "Detector Volume:" $V "kton" >> ${run_dir}/summary.txt
 echo "Free Proton Weight Fraction:" $R >> ${run_dir}/summary.txt
 echo "Exposure time:" $Y "year" >> ${run_dir}/summary.txt
 
-make basic_plots >/dev/null 2>&1
-
 make dist >/dev/null 2>&1
 # plotting Figure 1, 2
 ./dist 1 $P 0 0 0 0.06
 
 mv distxx.dat FluxXsec.dat
-./mkgnu_FluxXsec.sh 1 $P
+read norm < normxx.dat
+./mkgnu_FluxXsec.sh 1 $P ${norm} 
 gnuplot FluxXsec.gnu
 
 mv dist_h.dat FluxXsec_h.dat
 mv disth2.dat FluxXsec_h2.dat
-./mkgnu_FluxXsec_h.sh 1 $P
+read norm < norm_h.dat
+./mkgnu_FluxXsec_h.sh 1 $P ${norm}
 gnuplot FluxXsec_h.gnu
 
 #plotting Figure 3

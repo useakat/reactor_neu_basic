@@ -18,8 +18,8 @@ set xlabel 'Ev [MeV]' offset -1,0
 set ylabel 'd( flux * Xsec ) / dE_v [1/s/MeV^2]' offset 1,0
 set multiplot
 plot \
-'FluxXsec_h.dat' u ($1**2+0.8):2 notitle with histeps lt 1 lc rgb 'red' lw 3 ,\
-'FluxXsec_h2.dat' u ($1**2+0.8):2 notitle with points lt 1 lc rgb 'blue' lw 3
+'FluxXsec_h.dat' u ($1**2+0.8):TWO notitle with histeps lt 1 lc rgb 'red' lw 3 ,\
+'FluxXsec_h2.dat' u ($1**2+0.8):TWO notitle with points lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
 reset
