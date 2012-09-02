@@ -19,3 +19,5 @@ EventDist.gnu
 FluxXsec.gnu
 FluxXsec_h.gnu
 dist
+EventDist_h.gnu
+eventdist

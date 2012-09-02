@@ -13,6 +13,7 @@ OBJS_basic_plots = basic_plots.o funcs.o
 OBJS_fft         = fft_nor_inv.o funcs.o
 OBJS_dchi2       = test2.o hfunc1D.o minfunc.o funcs.o
 OBJS_dist       = dist.o make_dist.o hfunc1D.o funcs.o
+OBJS_eventdist       = eventdist.o feventdist.o make_dist.o funcs.o
 
 .f.o:
 	$(F77) $(FFLAGS) $(INCLUDES) -c $<
@@ -28,6 +29,9 @@ dchi2: $(OBJS_dchi2)
 
 dist: $(OBJS_dist)
 	 $(F77) $(FFLAGS) $(LIBDIR) $(OBJS_dist) $(LIBS) -o $@
+
+eventdist: $(OBJS_eventdist)
+	 $(F77) $(FFLAGS) $(LIBDIR) $(OBJS_eventdist) $(LIBS) -o $@
 
 clean: 
 	@rm *.o *~ test fft basic_plots *# fort*

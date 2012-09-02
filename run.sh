@@ -69,14 +69,30 @@ mv disth2.dat FluxXsec_h2.dat
 gnuplot FluxXsec_h.gnu
 
 #plotting Figure 3
+make eventdist >/dev/null 2>&1
 i=10
 while [ $i -ne 110 ]; do
-    ./basic_plots $i $P $V $R $Y
-    mv events.dat events_${i}.dat
+    ./eventdist $i $P $V $R $Y
+    mv evdist.dat events_${i}.dat
+    mv edh6nh.dat events_6_nh_${i}.dat
+    mv edh6ih.dat events_6_ih_${i}.dat
+    mv edh3nh.dat events_3_nh_${i}.dat
+    mv edh3ih.dat events_3_ih_${i}.dat
+    mv edh1nh.dat events_1.5_nh_${i}.dat
+    mv edh1ih.dat events_1.5_ih_${i}.dat
     i=`expr $i + 10`
 done
 ./mkgnu_EventDist.sh $P $V $R $Y
 gnuplot EventDist.gnu
+Eres=6
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres}
+gnuplot EventDist_h.gnu
+Eres=3
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres}
+gnuplot EventDist_h.gnu
+Eres=1.5
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres}
+gnuplot EventDist_h.gnu
 
 cp -rf plots ${run_dir}/. 
 

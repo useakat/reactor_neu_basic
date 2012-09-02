@@ -3,8 +3,8 @@
 
       include 'const.inc'
 
-      integer ndiv,hmode,evform,nevent,snmax,norm
-      real*8 z(20),xmin,xmax,serror
+      integer hmode,evform,nevent,snmax,norm
+      real*8 z(20),xmin,xmax,serror,ndiv
       real*8 L,P,V,R,Y,Eres,Np,YY
       character*5 cL,cP,cV,cR,cY,cEres
 
