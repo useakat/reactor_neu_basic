@@ -105,6 +105,22 @@ Eres=1.5
 ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 gnuplot EventDist_h.gnu
 
+
+# Plotting Delta-Chi2 vs. L
+make dchi2 >/dev/null 2>&1
+Lmin=10
+Lmax=100
+ndiv=100
+Eres=6
+./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres}
+./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+Eres=3
+./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres}
+./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+Eres=1.5
+./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres}
+./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+
 cp -rf plots ${run_dir}/. 
 
 ### end program ###
