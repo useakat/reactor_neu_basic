@@ -4,8 +4,6 @@ L=$1
 P=$2
 norm=$3
 
-output=FluxXsec.gnu
-
 sed -e "s/PPP/${P}/" \
     -e "s/LLL/${L}/" FluxXsec_temp.gnu > temp.gnu
 
@@ -16,4 +14,6 @@ elif [ ${norm} -eq 2 ];then
 fi
 mv temp2.gnu temp.gnu
 
-mv temp.gnu ${output}
+mv temp.gnu plot.gnu
+
+gnuplot plot.gnu

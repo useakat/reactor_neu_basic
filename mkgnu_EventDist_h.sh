@@ -9,8 +9,6 @@ norm=$6
 
 RR=`echo "scale=1; ${R}*100" | bc`
 
-output=EventDist_h.gnu
-
 sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
@@ -20,8 +18,8 @@ sed -e "s/PPP/${P}/" \
 if [ ${norm} -eq 1 ];then
     sed -e "s#TWO#(\$2/(2*\$1))#" temp.gnu > temp2.gnu
 elif [ ${norm} -eq 2 ];then
-    sed -e "s/TWO/2/" temp.gnu > temp2.gnu
+    sed -e "s/TWO/3/" temp.gnu > temp2.gnu
 fi
-mv temp2.gnu temp.gnu
+mv temp2.gnu plot.gnu
 
-mv temp.gnu ${output}
+gnuplot plot.gnu
