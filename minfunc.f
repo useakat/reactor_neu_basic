@@ -69,7 +69,7 @@ C     ----------
          do i = 0,nbins
             x(i) = xmin +Eres/2d0*i
          enddo
-         evform_dat = 1
+         evform_dat = 2
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat)

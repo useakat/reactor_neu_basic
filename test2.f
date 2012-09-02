@@ -78,7 +78,11 @@ c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
      &              ,'NPARAMS','ISTAT'
                write (20,'(2e14.7,3i10)') chisqmin,fedm,npari,nparx
      &              ,istat
-               write(21,*) zz(1),chisqmin
+               write(21,'(e10.3,14e13.5)') zz(1),chisqmin,fedm
+     &              ,pval(1),perr(1),(pval(1)-0.852d0)/0.025d0
+     &              ,pval(2),perr(2),(pval(2)-0.1d0)/0.01d0
+     &              ,pval(3),perr(3),(pval(3)-7.5d-5)/0.2d-5
+     &              ,pval(4),perr(4),(pval(4)-2.35d-3)/0.1d-3
                write(19,*) ""
                write(19,*) zz(1),"[km]"
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
