@@ -22,8 +22,8 @@ C     LOCAL VARIABLES
       real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror
       real*8 hevent_th(1000),hevent_dat(1000)
 C     EXTERNAL FUNCTIONS
-      real*8 hfunc1D_th,hfunc1D_dat,dchi2,futil
-      external hfunc1D_th,hfunc1D_dat,dchi2,futil
+      real*8 hfunc1D,dchi2,futil
+      external hfunc1D,dchi2,futil
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -37,11 +37,14 @@ C     ----------
       z_dat(7) = zz(4)*zz(5)*1d9*avog   ! N_target
       z_dat(8) = zz(3)  ! Power [GW]
       z_dat(9) = zz(6)*y2s     ! Exposure time [s]
+      z_dat(10) = 0     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
       z(5) = z_dat(5)
       z(6) = -1*z_dat(6)
       z(7) = z_dat(7)
       z(8) = z_dat(8)
       z(9) = z_dat(9)
+      z(10) = z_dat(10)
+      
 
       error(1) = 0.025d0
       error(2) = 0.01d0
@@ -63,11 +66,11 @@ C     ----------
       nevent = 0
       hmode = 1
       evform_th = 2
-      call MakeHisto1D(nout,hfunc1D_dat,z,nevent,nbins,x
+      call MakeHisto1D(nout,hfunc1D,z,nevent,nbins,x
      &     ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &     ,nevent_th)
       evform_dat = 1
-      call MakeHisto1D(nout,hfunc1D_dat,z_dat,nevent,nbins,x
+      call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &     ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &     ,nevent_dat)
 

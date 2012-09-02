@@ -17,7 +17,6 @@ C     BEGIN CODE
 C     ----------
       dchi2 = 0d0
 
-c      open(nout,file="error.txt",status="replace")
       do i = 1,nbins
          if (dat(i).ge.10) then
             sgm2 = dat(i)
@@ -32,8 +31,6 @@ c            stop
             stop
          endif
       enddo
-
-c      close(nout)
 
       do i = 1,nparm
          dchi2 = dchi2 +( parm(i) -parm0(i) )**2 / error(i)**2
