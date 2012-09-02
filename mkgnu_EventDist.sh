@@ -13,4 +13,5 @@ sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
     -e "s/YYY/${Y}/" EventDist_temp.gnu > temp.gnu
+
 mv temp.gnu ${output}

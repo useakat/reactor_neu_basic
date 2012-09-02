@@ -34,7 +34,7 @@ eventdist: $(OBJS_eventdist)
 	 $(F77) $(FFLAGS) $(LIBDIR) $(OBJS_eventdist) $(LIBS) -o $@
 
 clean: 
-	@rm *.o *~ test fft basic_plots *# fort*
+	@rm *.o *~ *# fort* basic_plots fft dist dchi2 eventdist
 
 clean_all:
-	@rm *.o *~ test fft basic_plots *# fort* *.dat *.eps
+	@rm *.o *~ *# fort* *.dat *.eps basic_plots fft dist dchi2 eventdist

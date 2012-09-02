@@ -1,4 +1,5 @@
       real*8 function feventdist(x,z)
+! This function returns dN/d[sqrt(E_vis)] = 2*sqrt(E_vis)*dN/dE_vis 
 
       implicit none
 
@@ -20,7 +21,7 @@
       E = x**2 +0.8d0
       loe = L/E
 
-      feventdist = flux(E)*P/L**2*xsec(E)
+      feventdist = 2*x*flux(E)*P/L**2*xsec(E)
      &     *prob_ee(loe,z,error,mode,0,0)*Np*YY
 
       return

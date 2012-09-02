@@ -82,16 +82,20 @@ while [ $i -ne 110 ]; do
     mv edh1ih.dat events_1.5_ih_${i}.dat
     i=`expr $i + 10`
 done
+read norm < norm.dat
 ./mkgnu_EventDist.sh $P $V $R $Y
 gnuplot EventDist.gnu
 Eres=6
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres}
+#norm=2
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 gnuplot EventDist_h.gnu
 Eres=3
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres}
+#norm=2
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 gnuplot EventDist_h.gnu
 Eres=1.5
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres}
+#norm=2
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 gnuplot EventDist_h.gnu
 
 cp -rf plots ${run_dir}/. 

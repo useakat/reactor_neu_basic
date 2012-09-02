@@ -22,7 +22,7 @@
       call MakeHisto1D(nout,f,z,nevent,indiv,x,evform
      &     ,serror,snmax,hmode,event,hevent,nevent_out)
 
-      if (hmode.eq.0) norm = 2
+      if (hmode.eq.0) norm = 1
       open(1,file=filename,status="replace")      
       if (norm.eq.1) then
          do i = 1,indiv
@@ -34,7 +34,7 @@
          enddo
       endif
       close(1)
-      
+      write(*,*) "nevent_makedist =",nevent_out
 
       return
       end

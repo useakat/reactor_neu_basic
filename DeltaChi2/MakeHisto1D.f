@@ -22,14 +22,16 @@ C     ----------
 C     BEGIN CODE
 C     ----------
       sumy = 0d0
+      nevent_th = 0d0
 
       if (mode.eq.0) then
          do i = 1,nbins
+            dx(i) = x(i) -x(i-1)
             xi = x(i-1)
-            event(i) = f(xi,z)
-            hevent(i) = 0d0
+            hevent(i) = f(xi,z)
+            event(i) = hevent(i)*dx(i)
+            nevent_th = nevent_th +event(i)
          enddo
-         return
       else
          do i = 1,nbins
             dx(i) = x(i) -x(i-1)
@@ -54,10 +56,9 @@ C     ----------
             rnevent = nevent
          endif
 
-         nevent_th = 0d0
          do i = 1,nbins
             if (evform.eq.1) then
-               event(i) = int( y(i)*rnevent / sumy )
+               event(i) = idint( y(i)*rnevent / sumy )
             elseif (evform.eq.2) then
                event(i) = y(i)*rnevent / sumy
             endif
@@ -65,7 +66,7 @@ C     ----------
             nevent_th = nevent_th +event(i) 
          enddo
       endif
-
+      write(*,*) "nevent_makehisto =",nevent_th
       
       return
       end
