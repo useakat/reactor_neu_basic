@@ -55,70 +55,72 @@ echo "Detector Volume:" $V "kton" >> ${defout}
 echo "Free Proton Weight Fraction:" $R >> ${defout}
 echo "Exposure time:" $Y "year" >> ${defout}
 
-make dist >/dev/null 2>&1
-# plotting Figure 1, 2
-./dist 1 $P 0 0 0 0.06
-
-mv distxx.dat FluxXsec.dat
-read norm < normxx.dat
-./mkgnu_FluxXsec.sh 1 $P ${norm} 
-gnuplot FluxXsec.gnu
-
-mv dist_h.dat FluxXsec_h.dat
-mv disth2.dat FluxXsec_h2.dat
-read norm < norm_h.dat
-./mkgnu_FluxXsec_h.sh 1 $P ${norm}
-gnuplot FluxXsec_h.gnu
-
-#plotting Figure 3
-echo "" >> ${defout}
-echo "[Naive Delta Chi^2 Extimation]" >> ${defout}
-make eventdist >/dev/null 2>&1
-i=10
-while [ $i -ne 110 ]; do
-    ./eventdist $i $P $V $R $Y
-
-    echo "L =" $i "km" >> ${defout}
-    cat deltachi2.txt >> ${defout}
-    echo "" >> ${defout}
-
-    mv evdist.dat events_${i}.dat
-    mv edh6nh.dat events_6_nh_${i}.dat
-    mv edh6ih.dat events_6_ih_${i}.dat
-    mv edh3nh.dat events_3_nh_${i}.dat
-    mv edh3ih.dat events_3_ih_${i}.dat
-    mv edh1nh.dat events_1.5_nh_${i}.dat
-    mv edh1ih.dat events_1.5_ih_${i}.dat
-
-    i=`expr $i + 10`
-done
-read norm < norm.dat
-./mkgnu_EventDist.sh $P $V $R $Y
-gnuplot EventDist.gnu
-Eres=6
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-gnuplot EventDist_h.gnu
-Eres=3
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-gnuplot EventDist_h.gnu
-Eres=1.5
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-gnuplot EventDist_h.gnu
-
-
-# Plotting Delta-Chi2 vs. L
 make dchi2 >/dev/null 2>&1
 Lmin=10
 Lmax=100
 ndiv=100
 Eres=6
-./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres}
+
+# plotting Figure 1, 2
+mode=1
+./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+norm=1
+./mkgnu_FluxXsec.sh 1 $P ${norm} 
+./mkgnu_FluxXsec_h.sh 1 $P ${norm}
+
+#plotting Figure 3
+echo "" >> ${defout}
+#echo "[Naive Delta Chi^2 Estimation]" >> ${defout}
+mode=2
+i=10
+while [ $i -ne 110 ]; do
+#    echo "L =" $i "km" >> ${defout}
+
+    Eres=6
+    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+#    cat deltachi2.txt >> ${defout}
+#    echo "" >> ${defout}
+    mv evdinh.dat events_nh_${i}.dat
+    mv evdiih.dat events_ih_${i}.dat
+    mv edh6nh.dat events_6_nh_${i}.dat
+    mv edh6ih.dat events_6_ih_${i}.dat
+
+    Eres=3
+    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+#    cat deltachi2.txt >> ${defout}
+#    echo "" >> ${defout}
+    mv edh6nh.dat events_3_nh_${i}.dat
+    mv edh6ih.dat events_3_ih_${i}.dat
+
+    Eres=1.5
+    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+#    cat deltachi2.txt >> ${defout}
+#    echo "" >> ${defout}
+    mv edh6nh.dat events_1.5_nh_${i}.dat
+    mv edh6ih.dat events_1.5_ih_${i}.dat
+
+    i=`expr $i + 10`
+done
+./mkgnu_EventDist.sh $P $V $R $Y
+norm=2
+Eres=6
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
+Eres=3
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
+Eres=1.5
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
+
+
+# Plotting Delta-Chi2 vs. L
+mode=0
+Eres=6
+./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
 Eres=3
-./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres}
+./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
 Eres=1.5
-./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres}
+./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
 
 cp -rf plots ${run_dir}/. 

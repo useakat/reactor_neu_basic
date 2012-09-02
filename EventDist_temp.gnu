@@ -85,16 +85,26 @@ const56=7.84896
 
 set multiplot
 plot \
-'events_10.dat' u ($1**2+0.8):($2/(2*$1)) t '10km' w l lt 1 lc rgb 'red' lw 3 ,\
-'events_20.dat' u ($1**2+0.8):($2/(2*$1)) t '20km' w l lt 1 lc rgb 'green' lw 3 ,\
-'events_30.dat' u ($1**2+0.8):($2/(2*$1)) t '30km' w l lt 1 lc rgb 'blue' lw 3 ,\
-'events_40.dat' u ($1**2+0.8):($2/(2*$1)) t '40km' w l lt 1 lc rgb 'purple' lw 3 ,\
-'events_50.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'cyan' lw 3 ,\
-'events_60.dat' u ($1**2+0.8):($2/(2*$1)) t '60km' w l lt 1 lc rgb 'black' lw 3 ,\
-'events_70.dat' u ($1**2+0.8):($2/(2*$1)) t '70km' w l lt 1 lc rgb 'red' lw 3 ,\
-'events_80.dat' u ($1**2+0.8):($2/(2*$1)) t '80km' w l lt 1 lc rgb 'gray' lw 3 ,\
-'events_90.dat' u ($1**2+0.8):($2/(2*$1)) t '90km' w l lt 1 lc rgb 'orange' lw 3 ,\
-'events_100.dat' u ($1**2+0.8):($2/(2*$1)) t '100km' w l lt 2 lc rgb 'purple' lw 3 ,\
+'events_nh_10.dat' u ($1**2+0.8):($2/(2*$1)) t '10km' w l lt 1 lc rgb 'red' lw 3 ,\
+'events_nh_20.dat' u ($1**2+0.8):($2/(2*$1)) t '20km' w l lt 1 lc rgb 'green' lw 3 ,\
+'events_nh_30.dat' u ($1**2+0.8):($2/(2*$1)) t '30km' w l lt 1 lc rgb 'blue' lw 3 ,\
+'events_nh_40.dat' u ($1**2+0.8):($2/(2*$1)) t '40km' w l lt 1 lc rgb 'purple' lw 3 ,\
+'events_nh_50.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'cyan' lw 3 ,\
+'events_nh_60.dat' u ($1**2+0.8):($2/(2*$1)) t '60km' w l lt 1 lc rgb 'black' lw 3 ,\
+'events_nh_70.dat' u ($1**2+0.8):($2/(2*$1)) t '70km' w l lt 1 lc rgb 'red' lw 3 ,\
+'events_nh_80.dat' u ($1**2+0.8):($2/(2*$1)) t '80km' w l lt 1 lc rgb 'gray' lw 3 ,\
+'events_nh_90.dat' u ($1**2+0.8):($2/(2*$1)) t '90km' w l lt 1 lc rgb 'orange' lw 3 ,\
+'events_nh_100.dat' u ($1**2+0.8):($2/(2*$1)) t '100km' w l lt 1 lc rgb 'green' lw 3 ,\
+'events_ih_10.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'events_ih_20.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3 ,\
+'events_ih_30.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'events_ih_40.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'purple' lw 3 ,\
+'events_ih_50.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'cyan' lw 3 ,\
+'events_ih_60.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'black' lw 3 ,\
+'events_ih_70.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'events_ih_80.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'gray' lw 3 ,\
+'events_ih_90.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'orange' lw 3 ,\
+'events_ih_100.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3 ,\
 const1,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const2,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const3,t notitle lt 2 lc rgb 'black' lw 1 ,\

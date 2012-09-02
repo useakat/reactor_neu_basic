@@ -7,11 +7,11 @@ Y=$4
 
 RR=`echo "scale=1; ${R}*100" | bc`
 
-output=EventDist.gnu
-
 sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
     -e "s/YYY/${Y}/" EventDist_temp.gnu > temp.gnu
 
-mv temp.gnu ${output}
+mv temp.gnu plot.gnu
+
+gnuplot plot.gnu
