@@ -36,22 +36,24 @@ ttime=`date '+%T'`
 echo ${date} ${ttime}
 
 run_dir=rslt_${run}
+defout=${run_dir}/summary.txt
+
 if [ -e ${run_dir} ]; then
     rm -rf ${run_dir}/*
 else
     mkdir ${run_dir}
 fi
 
-echo ${date} ${ttime} > ${run_dir}/summary.txt
+echo ${date} ${ttime} > ${defout}
 
 ### start program ###
 
-echo "" >> ${run_dir}/summary.txt
-echo "[Parameters]" >> ${run_dir}/summary.txt
-echo "Reactor Power:" $P "GW_{th}" >> ${run_dir}/summary.txt
-echo "Detector Volume:" $V "kton" >> ${run_dir}/summary.txt
-echo "Free Proton Weight Fraction:" $R >> ${run_dir}/summary.txt
-echo "Exposure time:" $Y "year" >> ${run_dir}/summary.txt
+echo "" >> ${defout}
+echo "[Input Parameters]" >> ${defout}
+echo "Reactor Power:" $P "GW_{th}" >> ${defout}
+echo "Detector Volume:" $V "kton" >> ${defout}
+echo "Free Proton Weight Fraction:" $R >> ${defout}
+echo "Exposure time:" $Y "year" >> ${defout}
 
 make dist >/dev/null 2>&1
 # plotting Figure 1, 2
@@ -69,10 +71,17 @@ read norm < norm_h.dat
 gnuplot FluxXsec_h.gnu
 
 #plotting Figure 3
+echo "" >> ${defout}
+echo "[Naive Delta Chi^2 Extimation]" >> ${defout}
 make eventdist >/dev/null 2>&1
 i=10
 while [ $i -ne 110 ]; do
     ./eventdist $i $P $V $R $Y
+
+    echo "L =" $i "km" >> ${defout}
+    cat deltachi2.txt >> ${defout}
+    echo "" >> ${defout}
+
     mv evdist.dat events_${i}.dat
     mv edh6nh.dat events_6_nh_${i}.dat
     mv edh6ih.dat events_6_ih_${i}.dat
@@ -80,6 +89,7 @@ while [ $i -ne 110 ]; do
     mv edh3ih.dat events_3_ih_${i}.dat
     mv edh1nh.dat events_1.5_nh_${i}.dat
     mv edh1ih.dat events_1.5_ih_${i}.dat
+
     i=`expr $i + 10`
 done
 read norm < norm.dat
@@ -108,8 +118,8 @@ SS=`expr ${SS} % 60`
 elapsed_time="${HH}:${MM}:${SS}" 
 echo "Elapsed time:" $elapsed_time
 
-echo "" >> ${run_dir}/summary.txt
-echo "total time = " $elapsed_time >> ${run_dir}/summary.txt
+echo "" >> ${defout}
+echo "total time = " $elapsed_time >> ${defout}
 
 echo ""
 echo `date '+%T'`
