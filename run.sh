@@ -1,57 +1,115 @@
 #!/bin/bash
-eps=$1
-make fft >/dev/null 2>&1
-L=("10" "20" "30" "40" "50" "60" "100" "150" "200" "250" "300")
-#L=("60")
-#nL=1
-nL=11
-gnu_file=fft_nor_inv.gnu
-i=0
-while [ $i -ne $nL ]; do
-    ./fft $eps ${L[$i]}
-    echo "set terminal postscript eps enhanced 'Times-Roman' color 17" > $gnu_file
-    echo "#set logscale x" >> $gnu_file
-    echo "#set logscale y" >> $gnu_file
-    echo "#set format x '%L'" >> $gnu_file
-    echo "#set format y '%L'" >> $gnu_file
-    echo "#set xtics (0.001,0.01)" >> $gnu_file
-    echo "#set ytics (1,10,1E2)" >> $gnu_file
-    echo "#set tics scale 2" >> $gnu_file
-    echo "set grid" >> $gnu_file
-    echo "#set key at 1.0E3,1.0E7 samplen 2" >> $gnu_file
-    echo "#set key spacing 1.5" >> $gnu_file
-    echo "#set xlabel 'cost' offset -1,0" >> $gnu_file
-    echo "#set ylabel 'log_{/=10 10} L (Mpc)' offset 1,0" >> $gnu_file
-    echo "#set xrange [-1:1]" >> $gnu_file
-    echo "#set yrange [1E-5:2E8]" >> $gnu_file
-    echo "" >> $gnu_file
-    echo "set output 'plots/fct_nor_inv_${eps}_${L[$i]}.eps'" >> $gnu_file
-    echo "set xlabel '${L[$i]} km   dE/E = $eps %' offset -1,0" >> $gnu_file
-    echo "set multiplot" >> $gnu_file
-    echo "plot \\" >> $gnu_file
-    echo "'fct_nor.dat' u 1:2 t 'FCT: NH'  w l lt 1 lc rgb 'red' lw 3 ,\\" >> $gnu_file
-    echo "'fct_nor.dat' u 1:3 t 'err +'  w l lt 2 lc rgb 'red' lw 1 ,\\" >> $gnu_file
-    echo "'fct_nor.dat' u 1:4 t 'err -'  w l lt 3 lc rgb 'red' lw 1 ,\\">> $gnu_file
-    echo "'fct_inv.dat' u 1:2 t 'IH'  w l lt 1 lc rgb 'blue' lw 3 ,\\">> $gnu_file
-    echo "'fct_inv.dat' u 1:3 t 'err +'  w l lt 2 lc rgb 'blue' lw 1 ,\\" >> $gnu_file
-    echo "'fct_inv.dat' u 1:4 t 'err -'  w l lt 3 lc rgb 'blue' lw 1" >> $gnu_file
-    echo "set nomultiplot" >> $gnu_file
-    echo "set xlabel '${L[$i]} km   dE/E = $eps %' offset -1,0" >> $gnu_file
-    echo "set output 'plots/fst_nor_inv_${eps}_${L[$i]}.eps'" >> $gnu_file
-    echo "plot \\" >> $gnu_file
-    echo "'fst_nor.dat' u 1:2 t 'FST: NH'  w l lt 1 lc rgb 'red' lw 3 ,\\" >> $gnu_file
-    echo "'fst_nor.dat' u 1:3 t 'err +'  w l lt 2 lc rgb 'red' lw 1 ,\\" >> $gnu_file
-    echo "'fst_nor.dat' u 1:4 t 'err -'  w l lt 3 lc rgb 'red' lw 1 ,\\">> $gnu_file
-    echo "'fst_inv.dat' u 1:2 t 'IH'  w l lt 1 lc rgb 'blue' lw 3 ,\\">> $gnu_file
-    echo "'fst_inv.dat' u 1:3 t 'err +'  w l lt 2 lc rgb 'blue' lw 1 ,\\" >> $gnu_file
-    echo "'fst_inv.dat' u 1:4 t 'err -'  w l lt 3 lc rgb 'blue' lw 1" >> $gnu_file
-    echo "set nomultiplot" >> $gnu_file
-    echo "reset" >> $gnu_file
-    gnuplot $gnu_file
-    i=`expr $i + 1`
-done
+if [[ "$1" == "-h" ]]; then
+    echo ""
+    echo "Usage: run.sh [run_name]"
+    echo ""
+    exit
+fi
 
-#cp fft_nor_inv_tmp.gnu fft_nor_inv.gnu
-#sed -e 's/SEDL/$L' \
-#    -e 's/SEDEPS/$eps' fft_nor_inv.gnu > tmp.gnu
-#mv tmp.gnu fft_nor_inv.gnu
+if [[ $1 = "" ]]; then
+    echo "input run name"
+    read run
+    echo "input reactor Power [GW]"
+    read P
+    echo "input baseline length [km]"
+    read L
+    echo "input detector volume [kton]"
+    read V
+    echo "input free proton fraction in the detector"
+    read R 
+    echo "input exposure time [year]"
+    read Y   
+else
+    run=$1
+    P=$2
+    L=$3
+    V=$4
+    R=$5
+    Y=$6
+fi    
+
+make clean >/dev/null 2>&1
+rm -rf plots/*
+start_time=`date '+%s'`
+date=`date '+%Y/%m/%d'`
+ttime=`date '+%T'`
+echo ${date} ${ttime}
+
+run_dir=rslt_${run}
+if [ -e ${run_dir} ]; then
+    rm -rf ${run_dir}/*
+else
+    mkdir ${run_dir}
+fi
+
+echo ${date} ${ttime} > ${run_dir}/summary.txt
+
+### start program ###
+
+echo "" >> ${run_dir}/summary.txt
+echo "[Parameters]" >> ${run_dir}/summary.txt
+echo "Reactor Power:" $P "GW_{th}" >> ${run_dir}/summary.txt
+echo "Detector Volume:" $V "kton" >> ${run_dir}/summary.txt
+echo "Free Proton Weight Fraction:" $R >> ${run_dir}/summary.txt
+echo "Exposure time:" $Y "year" >> ${run_dir}/summary.txt
+
+make dist >/dev/null 2>&1
+# plotting Figure 1, 2
+./dist 1 $P 0 0 0 0.06
+
+mv distxx.dat FluxXsec.dat
+read norm < normxx.dat
+./mkgnu_FluxXsec.sh 1 $P ${norm} 
+gnuplot FluxXsec.gnu
+
+mv dist_h.dat FluxXsec_h.dat
+mv disth2.dat FluxXsec_h2.dat
+read norm < norm_h.dat
+./mkgnu_FluxXsec_h.sh 1 $P ${norm}
+gnuplot FluxXsec_h.gnu
+
+#plotting Figure 3
+make eventdist >/dev/null 2>&1
+i=10
+while [ $i -ne 110 ]; do
+    ./eventdist $i $P $V $R $Y
+    mv evdist.dat events_${i}.dat
+    mv edh6nh.dat events_6_nh_${i}.dat
+    mv edh6ih.dat events_6_ih_${i}.dat
+    mv edh3nh.dat events_3_nh_${i}.dat
+    mv edh3ih.dat events_3_ih_${i}.dat
+    mv edh1nh.dat events_1.5_nh_${i}.dat
+    mv edh1ih.dat events_1.5_ih_${i}.dat
+    i=`expr $i + 10`
+done
+read norm < norm.dat
+./mkgnu_EventDist.sh $P $V $R $Y
+gnuplot EventDist.gnu
+Eres=6
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
+gnuplot EventDist_h.gnu
+Eres=3
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
+gnuplot EventDist_h.gnu
+Eres=1.5
+./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
+gnuplot EventDist_h.gnu
+
+cp -rf plots ${run_dir}/. 
+
+### end program ###
+
+end_time=`date '+%s'`
+SS=`expr ${end_time} - ${start_time}` 
+HH=`expr ${SS} / 3600` 
+SS=`expr ${SS} % 3600` 
+MM=`expr ${SS} / 60` 
+SS=`expr ${SS} % 60` 
+elapsed_time="${HH}:${MM}:${SS}" 
+echo "Elapsed time:" $elapsed_time
+
+echo "" >> ${run_dir}/summary.txt
+echo "total time = " $elapsed_time >> ${run_dir}/summary.txt
+
+echo ""
+echo `date '+%T'`

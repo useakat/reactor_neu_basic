@@ -1,3 +1,4 @@
+rslt_*
 funcs
 fort*
 fft
@@ -7,3 +8,16 @@ fft
 a.out
 check
 plots/*
+MakeHisto
+*.out
+test
+lench.f
+basic_plots
+date.txt
+dchi2
+EventDist.gnu
+FluxXsec.gnu
+FluxXsec_h.gnu
+dist
+EventDist_h.gnu
+eventdist
