@@ -11,7 +11,7 @@ C     ARGUMENTS
       integer npar,iflag
       real*8 grad,dchisq
 C     GLOBAL VARIABLES
-      real*8 zz(10)
+      real*8 zz(40)
       common /zz/ zz
 C     LOCAL VARIABLES 
       integer i
@@ -30,10 +30,14 @@ C     BEGIN CODE
 C     ----------
       imode = int(zz(8))
 
-      z_dat(1) = 0.852d0
-      z_dat(2) = 0.1d0
-      z_dat(3) = 7.5d-5
-      z_dat(4) = 2.35d-3
+      z_dat(1) = zz(9)
+      z_dat(2) = zz(11)
+      z_dat(3) = zz(13)
+      z_dat(4) = zz(15)
+      error(1) = zz(10)
+      error(2) = zz(12)
+      error(3) = zz(14)
+      error(4) = zz(16)
 
       z_dat(5) = zz(1)                  ! L [km]
       z_dat(6) = zz(2)                  ! NH/IH
@@ -47,20 +51,16 @@ C     ----------
       z(8) = z_dat(8)
       z(9) = z_dat(9)
       z(10) = z_dat(10)
-      
-      error(1) = 0.025d0
-      error(2) = 0.01d0
-      error(3) = 0.2d-5
-      error(4) = 0.1d-3
 
-      Emin = 1.81d0   ! Emin > 1.80473
-      Emax = 8d0
+      serror = zz(19)
+      snmax = zz(20)
+      Emin = zz(17)  ! Emin > 1.80473
+      Emax = zz(18)
       Eres = zz(7)
+
       xmin = dsqrt(Emin-0.8d0)
       xmax = dsqrt(Emax-0.8d0)
 
-      serror = 1d-2
-      snmax = 3
       nevent = 0
 
       if (imode.eq.0) then  ! For Delta Chi^2 minimization
@@ -120,7 +120,7 @@ C     ----------
          enddo
          close(1)
 
-      elseif (imode.eq.2) then
+      elseif (imode.eq.2) then  ! dN/dE plots
          z_dat(10) = 0    ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]  
 
          hmode = 0       ! 0:continuous 1:simpson 2:center-value 
@@ -172,6 +172,9 @@ C     ----------
             write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
          enddo
          close(1)
+
+c      elseif (imode.eq.3) then  ! P_ee vs. L/E plots
+c         z_dat(10) = 0    ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]  
 
       endif
 

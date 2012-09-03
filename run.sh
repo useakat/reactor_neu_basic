@@ -1,7 +1,7 @@
 #!/bin/bash
 if [[ "$1" == "-h" ]]; then
     echo ""
-    echo "Usage: run.sh [run_name]"
+    echo "Usage: run.sh [run_name] [Power] [Volume] [Proton Ratio] [Year] [run mode]"
     echo ""
     exit
 fi
@@ -11,21 +11,23 @@ if [[ $1 = "" ]]; then
     read run
     echo "input reactor Power [GW]"
     read P
-    echo "input baseline length [km]"
-    read L
+#    echo "input baseline length [km]"
+#    read L
     echo "input detector volume [kton]"
     read V
     echo "input free proton fraction in the detector"
     read R 
     echo "input exposure time [year]"
     read Y   
+    echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2"
+    read run_mode  
 else
     run=$1
     P=$2
-    L=$3
-    V=$4
-    R=$5
-    Y=$6
+    V=$3
+    R=$4
+    Y=$5
+    run_mode=$6
 fi    
 
 make clean >/dev/null 2>&1
@@ -59,77 +61,77 @@ make dchi2 >/dev/null 2>&1
 Lmin=10
 Lmax=100
 ndiv=100
-Eres=6
+Eres=5
 
-# plotting Figure 1, 2
-mode=1
-./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-norm=1
-./mkgnu_FluxXsec.sh 1 $P ${norm} 
-./mkgnu_FluxXsec_h.sh 1 $P ${norm}
-
-#plotting Figure 3
-echo "" >> ${defout}
+if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Figure 1, 2
+    mode=1
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    norm=1
+    ./mkgnu_FluxXsec.sh 1 $P ${norm} 
+    ./mkgnu_FluxXsec_h.sh 1 $P ${norm}
+fi    
+if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting Figure 3
+    echo "" >> ${defout}
 #echo "[Naive Delta Chi^2 Estimation]" >> ${defout}
-mode=2
-i=10
-while [ $i -ne 110 ]; do
+    mode=2
+    i=10
+    while [ $i -ne 110 ]; do
 #    echo "L =" $i "km" >> ${defout}
-
+	
+	Eres=6
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+#    cat deltachi2.txt >> ${defout}
+#    echo "" >> ${defout}
+	mv evdinh.dat events_nh_${i}.dat
+	mv evdiih.dat events_ih_${i}.dat
+	mv edh6nh.dat events_6_nh_${i}.dat
+	mv edh6ih.dat events_6_ih_${i}.dat
+	
+	Eres=3
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+#    cat deltachi2.txt >> ${defout}
+#    echo "" >> ${defout}
+	mv edh6nh.dat events_3_nh_${i}.dat
+	mv edh6ih.dat events_3_ih_${i}.dat
+	
+	Eres=1.5
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+#    cat deltachi2.txt >> ${defout}
+#    echo "" >> ${defout}
+	mv edh6nh.dat events_1.5_nh_${i}.dat
+	mv edh6ih.dat events_1.5_ih_${i}.dat
+	
+	i=`expr $i + 10`
+    done
+    ./mkgnu_EventDist.sh $P $V $R $Y
+    norm=2
     Eres=6
-    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    cat deltachi2.txt >> ${defout}
-#    echo "" >> ${defout}
-    mv evdinh.dat events_nh_${i}.dat
-    mv evdiih.dat events_ih_${i}.dat
-    mv edh6nh.dat events_6_nh_${i}.dat
-    mv edh6ih.dat events_6_ih_${i}.dat
-
+    ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
     Eres=3
-    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    cat deltachi2.txt >> ${defout}
-#    echo "" >> ${defout}
-    mv edh6nh.dat events_3_nh_${i}.dat
-    mv edh6ih.dat events_3_ih_${i}.dat
-
+    ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
     Eres=1.5
-    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    cat deltachi2.txt >> ${defout}
-#    echo "" >> ${defout}
-    mv edh6nh.dat events_1.5_nh_${i}.dat
-    mv edh6ih.dat events_1.5_ih_${i}.dat
-
-    i=`expr $i + 10`
-done
-./mkgnu_EventDist.sh $P $V $R $Y
-norm=2
-Eres=6
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-Eres=3
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-Eres=1.5
-./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-
-
-# Plotting Delta-Chi2 vs. L
-mode=0
-Eres=6
-./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
-Eres=3
-./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
-Eres=1.5
-./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+    ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
+fi
+if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 vs. L
+    mode=0
+    Eres=6
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+    Eres=3
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+    Eres=1.5
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+    
+    echo "" >> ${defout}
+    cat dchi2_result.txt >> ${defout}
+fi    
 
 cp -rf plots ${run_dir}/. 
 
-echo "" >> ${defout}
-cat dchi2_result.txt >> ${defout}
-
 ### end program ###
-
+    
 end_time=`date '+%s'`
 SS=`expr ${end_time} - ${start_time}` 
 HH=`expr ${SS} / 3600` 
@@ -138,7 +140,6 @@ MM=`expr ${SS} / 60`
 SS=`expr ${SS} % 60` 
 elapsed_time="${HH}:${MM}:${SS}" 
 echo "Elapsed time:" $elapsed_time
-
 echo "" >> ${defout}
 echo "total time = " $elapsed_time >> ${defout}
 

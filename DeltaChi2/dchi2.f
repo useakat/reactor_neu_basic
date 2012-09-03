@@ -7,7 +7,8 @@ C     ****************************************************
       implicit none
 
 C     ARGUMENTS 
-      integer nbins,nmin,nout,nparm
+      integer nbins,nmin,nout,nparm,minevents
+      parameter (minevents=0)
       real*8 dat(nbins),th(nbins),parm(nparm),parm0(nparm),error(nparm)
 C     LOCAL VARIABLES 
       integer i
@@ -18,7 +19,7 @@ C     ----------
       dchi2 = 0d0
 
       do i = 1,nbins
-         if (dat(i).ge.10) then
+         if (dat(i).ge.0) then
             sgm2 = dat(i)
             chi = ( dat(i) -th(i) )**2 / sgm2
             dchi2 = dchi2 + chi

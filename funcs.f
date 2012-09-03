@@ -36,6 +36,7 @@ C     ----------
      &      +fPu241*dexp( 0.793d0 -0.080*E -0.1085*E**2 )
 
       flux = a*preflux/(4*pi*1d0**2)*1d12/1.602176487d0
+c      flux = a*preflux*1d22/1.602176487d0
 
 
       return

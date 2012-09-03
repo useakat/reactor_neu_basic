@@ -10,7 +10,7 @@ set grid
 #set key at 1.0E3,1.0E7 samplen 2
 #set key spacing 1.5
 #set xrange [-1:1]
-set yrange [0:1E-33]
+#set yrange [0:1E-33]
 
 set output "plots/FluxXsec.eps"
 set title "P_{reactor} = PPPGW_{th}, L = LLLkm"

@@ -4,14 +4,15 @@
       integer i,j,k
       integer ierr,lencm,npari,nparx,istat,ndiv,mode
       real*8 arg(10),pval(10),perr(10),plo(10),phi(10),gint
-      real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres
+      real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2)
+      real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
       character*10 cEres,cmode
       
       integer iflag
       real*8 z(20),dchisq,grad,futil
 
-      real*8 zz(10)
+      real*8 zz(40)
       common /zz/ zz
 
       integer lench
@@ -35,10 +36,51 @@
       read (cY,*) zz(6) 
       read (cEres,*) Eres 
       read (cmode,*) mode
+      s2sun_2(1) = 0.852d0
+      s2sun_2(2) = 0.025d0
+      s213_2(1) = 0.1d0
+      s213_2(2) = 0.01d0
+      dm21_2(1) = 7.5d-5
+      dm21_2(2) = 0.2d-5
+      dm31_2(1) = 2.35d-3
+      dm31_2(2) = 0.1d-3
+      Emin = 1.81d0  
+      Emax = 8d0
+      serror = 1d-2
+      snmax = 3
+
       zz(7) = Eres/100d0
       zz(8) = mode
+      zz(9) = s2sun_2(1)
+      zz(10) = s2sun_2(2)
+      zz(11) = s213_2(1)
+      zz(12) = s213_2(2)
+      zz(13) = dm21_2(1)
+      zz(14) = dm21_2(2)
+      zz(15) = dm31_2(1)
+      zz(16) = dm31_2(2)
+      zz(17) = Emin
+      zz(18) = Emax
+      zz(19) = serror
+      zz(20) = snmax
 
       open(19,file='dchi2_result.txt',status='replace')
+      write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"
+     &     ,s2sun_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "sin213_2 = ",s213_2(1)," +-"
+     &     ,s213_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "dm21_2 = ",dm21_2(1)," +-"
+     &     ,dm21_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "dm31_2 = ",dm31_2(1)," +-"
+     &     ,dm31_2(2)
+      write(19,*) ""
+      write(19,*) "Ev Range:",Emin," -",Emax," [MeV]"
+c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
+      write(19,*) ""
+      write(19,*) "( Simpson Integration Parameters )"
+      write(19,*) "Accuracy:",serror
+      write(19,*) "Max division = 2^",snmax+1
+      write(19,*) ""
       write(19,*) ""
       write(19,*) "[Delta-Chi2 analysis]"
       if (mode.eq.0) then
@@ -55,17 +97,20 @@
             endif
             do j = 0,ndiv
                zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
-               
+               write(19,*) zz(1),"[km]"               
+
                call mninit(5,20,7)
                
-               call mnparm(1,'s2sun_2',0.852d0,0.025d0,0d0,1d0,ierr)
-               call mnparm(2,'s213_2',0.1d0,0.01d0,0d0,1d0,ierr)
-               call mnparm(3,'dm12_2',7.5d-5,0.2d-5,0d0,0d0,ierr)
-               call mnparm(4,'dm13_2',2.35d-3,0.1d-3,0d0,0d0,ierr)
+               call mnparm(1,'s2sun_2',s2sun_2(1),s2sun_2(2),0d0,0d0
+     &              ,ierr)
+               call mnparm(2,'s213_2',s213_2(1),s213_2(2),0d0,0d0,ierr)
+               call mnparm(3,'dm12_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
+               call mnparm(4,'dm13_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
                
-               arg(1) = 1d0
+               arg(1) = -1d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
-c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
+c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0
+               arg(1) = 1d0
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
                
                do i = 1,4
@@ -73,18 +118,12 @@ c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
      &                 ,ierr)
                enddo
                call mnstat(chisqmin,fedm,errdef,npari,nparx,istat)
-               write (20,*)
-               write (20,'(5a7)') 'DELTA CHI2','ERROR','NPARAMS'
-     &              ,'NPARAMS','ISTAT'
-               write (20,'(2e14.7,3i10)') chisqmin,fedm,npari,nparx
-     &              ,istat
+
                write(21,'(e10.3,14e13.5)') zz(1),chisqmin,fedm
      &              ,pval(1),perr(1),(pval(1)-0.852d0)/0.025d0
      &              ,pval(2),perr(2),(pval(2)-0.1d0)/0.01d0
      &              ,pval(3),perr(3),(pval(3)-7.5d-5)/0.2d-5
      &              ,pval(4),perr(4),(pval(4)-2.35d-3)/0.1d-3
-               write(19,*) ""
-               write(19,*) zz(1),"[km]"
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,chisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
@@ -95,6 +134,11 @@ c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
      &              ,pval(3)," +-",perr(3)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "dm31^2      = "
      &              ,pval(4)," +-",perr(4)
+               write(19,*) ""
+               call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
+               call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
+               write(19,*) ""
+               write(19,*) ""
             enddo
             write(19,*) ""
             write(19,*) ""
