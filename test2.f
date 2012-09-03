@@ -147,20 +147,38 @@ c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0
          close(20)
          close(21)
 
-      elseif (mode.eq.1) then
+      elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
+         zz(1) = Lmin
          npari = 4
          do i = 1,npari
             z(i) = 1d0
          enddo
          call minfunc(npari,grad,dchisq,z,iflag,0)
 
-      elseif (mode.eq.2) then
+      elseif (mode.eq.2) then ! For dN/dE plots
          npari = 4
          do i = 1,npari
             z(i) = 1d0
          enddo
          zz(1) = Lmin
          call minfunc(npari,grad,dchisq,z,iflag,0)
+
+      elseif (mode.eq.3) then ! For F vs. L/E distribution
+         zz(1) = Lmin
+         npari = 4
+         do i = 1,npari
+            z(i) = 1d0
+         enddo
+         call minfunc(npari,grad,dchisq,z,iflag,0)
+
+      elseif (mode.eq.4) then ! For F vs. E distribution
+         zz(1) = Lmin
+         npari = 4
+         do i = 1,npari
+            z(i) = 1d0
+         enddo
+         call minfunc(npari,grad,dchisq,z,iflag,0)
+
       endif
 
       end

@@ -21,4 +21,13 @@ plot \
 'FluxXsec.dat' u ($1**2+0.8):TWO notitle  w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
+set output "plots/FluxXsecPee.eps"
+set title "P_{reactor} = PPPGW_{th}, L = LLLkm"
+set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
+set ylabel 'd( flux * Xsec * Pee) / dE_{/Symbol=\156} [1/s/MeV^2]' offset 1,0
+set multiplot
+plot \
+'FluxXsecPee.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
+set nomultiplot
+
 reset

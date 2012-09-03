@@ -63,14 +63,32 @@ Lmax=100
 ndiv=100
 Eres=5
 
-if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Figure 1, 2
-    mode=1
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec, Flux*Xsec*Pee
     norm=1
-    ./mkgnu_FluxXsec.sh 1 $P ${norm} 
-    ./mkgnu_FluxXsec_h.sh 1 $P ${norm}
+
+    mode=1
+    Lmin=1
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./mkgnu_FluxXsec.sh ${Lmin} $P ${norm} 
+    ./mkgnu_FluxXsec_h.sh ${Lmin} $P ${norm}
+
+    mode=3
+    i=10
+    while [ $i -ne 110 ]; do
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./mkgnu_FvsLoE.sh $i $P ${norm} 
+	i=`expr $i + 10`
+    done
+
+    mode=4
+    i=10
+    while [ $i -ne 110 ]; do
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./mkgnu_FvsE.sh $i $P
+	i=`expr $i + 10`
+    done
 fi    
-if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting Figure 3
+if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     echo "" >> ${defout}
 #echo "[Naive Delta Chi^2 Estimation]" >> ${defout}
     mode=2

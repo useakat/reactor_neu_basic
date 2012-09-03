@@ -124,6 +124,7 @@ C     ----------
       s13 = dsqrt(s13_2)
       c13 = dsqrt(1d0 -s13**2)
       s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
+c      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff) )/2d0
       s12 = dsqrt(s12_2)
       c12 = dsqrt(1d0 -s12**2)
       ue1 = c12*c13
