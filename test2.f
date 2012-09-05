@@ -89,12 +89,12 @@ c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
             if (k.eq.1) then
                open(20,file='minorm_nh.dat',status='replace')
                open(21,file='dchi2min_nh.dat',status='replace')
-               open(22,file='dchi2min_nh_bestfit.dat',status='replace')
+               open(22,file='dchi2min_bestfit2nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
                open(21,file='dchi2min_ih.dat',status='replace')
-               open(22,file='dchi2min_ih_bestfit.dat',status='replace')
+               open(22,file='dchi2min_bestfit2ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv

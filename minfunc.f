@@ -140,23 +140,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       elseif (imode.eq.2) then  
          z_dat(10) = 20    ! N vs. sqrt(E)
-
-         open(2,file='dchi2min_nh_bestfit.dat',status='old',err=200)
-         do 
-            read(2,*,end=100) z_min(5),z_min(1),z_min(2),z_min(3)
-     &           ,z_min(4)
-            if ((z_min(5).ge.z_dat(5)).and.(z_min(5).lt.z_dat(5)+1.1d0))
-     &           then
-               minflag = 1
-               do i = 5,10
-                  z_min(i) = z(i)
-               enddo
-               goto 100
-            endif
-         enddo
- 100     close(2)
          
- 200     hmode = 0              ! 0:continuous 1:simpson 2:center-value 
+         hmode = 0              ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 2   ! 1:integer 2:real*8
          xmin = dsqrt(Emin-0.8d0)
          xmax = dsqrt(Emax-0.8d0)
@@ -182,48 +167,6 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
          enddo
          close(1)
-         if (minflag.eq.1) then
-            z_min(6) = -1
-            call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
-     &           ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
-     &           ,nevent_dat,ierr)
-            open(1,file="evdiihmin.dat",status="replace")
-            do i = 1,nbins
-               write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
-            enddo
-            close(1)
-
-            hmode = 1
-            xmin = dsqrt(Emin-0.8d0)
-            xmax = dsqrt(Emax-0.8d0)
-            nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100000
-            do i = 0,nbins
-               x(i) = xmin +Eres/2d0*i
-            enddo
-            z_dat(6) = 1
-            evform_dat = 2
-            call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
-     &           ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
-     &           ,nevent_dat,ierr1)
-            do i =1,nbins
-            enddo
-               z_dat(6) = -1
-            evform_th = 2
-            call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
-     &           ,evform_th,serror,snmax,hmode,event_th,hevent_th
-     &           ,nevent_th,ierr2)
-            z_min(6) = -1
-            evform_th = 2
-            call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
-     &           ,evform_th,serror,snmax,hmode,event_fit,hevent_fit
-     &           ,nevent_fit,ierr2)
-            open(1,file="event_min.dat",status="replace")
-            do i = 1,nbins
-               write(1,*) x(i-1)**2+0.8d0,event_dat(i),event_th(i),event_fit(i)
-            enddo
-            close(1)
-         endif
-
 
          hmode = 1       ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 1   ! 1:integer 2:real*8
@@ -249,6 +192,118 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
          enddo
          close(1)
+
+CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
+
+         open(2,file='dchi2min_bestfit2nh.dat',status='old',err=200)
+         do 
+            read(2,*,end=100) z_min(5),z_min(1),z_min(2),z_min(3)
+     &           ,z_min(4)
+            if ((z_min(5).ge.z_dat(5)).and.(z_min(5).lt.z_dat(5)+1.1d0))
+     &           then
+               minflag = 1
+               do i = 5,10
+                  z_min(i) = z(i)
+               enddo
+               goto 100
+            endif
+         enddo
+ 100     close(2)
+         z_min(6) = -1
+         call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
+     &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
+     &        ,nevent_dat,ierr)
+         open(1,file="evdinhmin.dat",status="replace")
+         do i = 1,nbins
+            write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
+         enddo
+         close(1)
+         
+         hmode = 1
+         xmin = dsqrt(Emin-0.8d0)
+         xmax = dsqrt(Emax-0.8d0)
+         nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100000
+         do i = 0,nbins
+            x(i) = xmin +Eres/2d0*i
+         enddo
+         z_dat(6) = 1
+         evform_dat = 2
+         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
+     &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
+     &        ,nevent_dat,ierr1)
+         z_dat(6) = -1
+         evform_th = 2
+         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
+     &        ,evform_th,serror,snmax,hmode,event_th,hevent_th
+     &        ,nevent_th,ierr2)
+         z_min(6) = -1
+         evform_th = 2
+         call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
+     &        ,evform_th,serror,snmax,hmode,event_fit,hevent_fit
+     &        ,nevent_fit,ierr2)
+         open(1,file="event_min2nh.dat",status="replace")
+         do i = 1,nbins
+            write(1,*) x(i-1)**2+0.8d0,event_dat(i),event_th(i),event_fit(i)
+         enddo
+         close(1)
+ 200  continue
+
+      open(2,file='dchi2min_bestfit2ih.dat',status='old',err=400)
+      do 
+         read(2,*,end=300) z_min(5),z_min(1),z_min(2),z_min(3)
+     &        ,z_min(4)
+         if ((z_min(5).ge.z_dat(5)).and.(z_min(5).lt.z_dat(5)+1.1d0))
+     &        then
+            minflag = 1
+            do i = 5,10
+               z_min(i) = z(i)
+            enddo
+            goto 300
+         endif
+      enddo
+ 300  close(2)
+      z_min(6) = 1
+      call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
+     &     ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
+     &     ,nevent_dat,ierr)
+      open(1,file="evdiihmin.dat",status="replace")
+      do i = 1,nbins
+         write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
+      enddo
+      close(1)
+      
+      hmode = 1
+      xmin = dsqrt(Emin-0.8d0)
+      xmax = dsqrt(Emax-0.8d0)
+      nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100000
+      do i = 0,nbins
+         x(i) = xmin +Eres/2d0*i
+      enddo
+      z_dat(6) = 1
+      evform_dat = 2
+      call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
+     &     ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
+     &     ,nevent_dat,ierr1)
+      do i =1,nbins
+      enddo
+      z_dat(6) = -1
+      evform_th = 2
+      call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
+     &     ,evform_th,serror,snmax,hmode,event_th,hevent_th
+     &     ,nevent_th,ierr2)
+      z_min(6) = 1
+      evform_th = 2
+      call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
+     &     ,evform_th,serror,snmax,hmode,event_fit,hevent_fit
+     &     ,nevent_fit,ierr2)
+      open(1,file="event_min2ih.dat",status="replace")
+      do i = 1,nbins
+         write(1,*) x(i-1)**2+0.8d0,event_dat(i),event_th(i),event_fit(i)
+      enddo
+      close(1)
+ 400  continue
+      
+      
 
 CCCCCCCCCCCCCCCCCCCCCC  F vs. L/E distributions  CCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCC                           CCCCCCCCCCCCCCCCCCCCCC
