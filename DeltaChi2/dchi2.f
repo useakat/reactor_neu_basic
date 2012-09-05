@@ -12,14 +12,14 @@ C     ARGUMENTS
       real*8 dat(nbins),th(nbins),parm(nparm),parm0(nparm),error(nparm)
 C     LOCAL VARIABLES 
       integer i
-      real*8 chi,sgm2
+      real*8 chi,sgm2,dchi22
 C     ----------
 C     BEGIN CODE
 C     ----------
       dchi2 = 0d0
 
       do i = 1,nbins
-         if (dat(i).ge.0) then
+         if (dat(i).ge.minevents) then
             sgm2 = dat(i)
             chi = ( dat(i) -th(i) )**2 / sgm2
             dchi2 = dchi2 + chi
@@ -33,9 +33,13 @@ c            stop
          endif
       enddo
 
+      dchi22 = 0d0
       do i = 1,nparm
-         dchi2 = dchi2 +( parm(i) -parm0(i) )**2 / error(i)**2
+         dchi22 = dchi22 +( parm(i) -parm0(i) )**2 / error(i)**2
       enddo
+c      write(6,*) dchi2,dchi22
+      dchi2 = dchi2 +dchi22
+      
 
       return
       end

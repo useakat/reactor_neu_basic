@@ -57,11 +57,14 @@ echo "Detector Volume:" $V "kton" >> ${defout}
 echo "Free Proton Weight Fraction:" $R >> ${defout}
 echo "Exposure time:" $Y "year" >> ${defout}
 
+cd DeltaChi2
+make >/dev/null 2>&1
+cd ..
 make dchi2 >/dev/null 2>&1
 Lmin=10
 Lmax=100
 ndiv=100
-Eres=5
+Eres=6
 
 if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec, Flux*Xsec*Pee
     norm=1
@@ -135,12 +138,53 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     Eres=6
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
     ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+    mv dchi2min_ih_bestfit.dat dchi2min_ih_bestfit_6.dat
     Eres=3
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
     ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+    mv dchi2min_ih_bestfit.dat dchi2min_ih_bestfit_3.dat
     Eres=1.5
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
     ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
+    mv dchi2min_ih_bestfit.dat dchi2min_ih_bestfit_1.5.dat
+
+    mode=2
+    Lmaxp10=`expr ${Lmax} + 10`
+    
+    Eres=6
+    mv dchi2min_ih_bestfit_6.dat dchi2min_ih_bestfit.dat
+    i=${Lmin}
+    while [ $i -ne ${Lmaxp10} ]; do
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	mv evdinh.dat events_nh_${i}.dat
+	mv evdiih.dat events_ih_${i}.dat
+	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
+	mv event_min.dat ${run_dir}/events_${i}_${Eres}.txt
+	i=`expr $i + 10`
+    done
+    Eres=3
+    mv dchi2min_ih_bestfit_3.dat dchi2min_ih_bestfit.dat
+    i=${Lmin}
+    while [ $i -ne ${Lmaxp10} ]; do
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
+	mv event_min.dat ${run_dir}/events_${i}_${Eres}.txt
+	i=`expr $i + 10`
+    done
+    Eres=1.5
+    mv dchi2min_ih_bestfit_1.5.dat dchi2min_ih_bestfit.dat
+    i=${Lmin}
+    while [ $i -ne ${Lmaxp10} ]; do
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
+	mv event_min.dat ${run_dir}/events_${i}_${Eres}.txt
+	i=`expr $i + 10`
+    done
+    i=${Lmin}
+    while [ $i -ne ${Lmaxp10} ]; do
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i	
+	i=`expr $i + 10`
+    done
     
     echo "" >> ${defout}
     cat dchi2_result.txt >> ${defout}

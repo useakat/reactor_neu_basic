@@ -45,7 +45,10 @@
          hfunc1D = 2*x*flux(E)*P/L**2*xsec(E)
       endif
 
-
+c      write(6,*) "z=",z(1),z(2),z(3),z(4),z(5),z(6),z(7),z(8),z(9),z(10)
+c      write(6,*) "porb=",prob_ee(L/E,z,error,sign,0,0),Np,YY
+c      write(6,*) "flux=",flux(E),P/L**2,xsec(E)
+c      write(6,*)
       return
       end
 

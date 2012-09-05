@@ -21,7 +21,7 @@ set xlabel 'L [km]' offset -1,0
 set multiplot
 plot \
 'dchi2min_nh.dat' u 1:2 t 'NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'dchi2min_ih.dat' u 1:2 t 'IH'  w l lt 2 lc rgb 'blue' lw 3
+'dchi2min_ih.dat' u 1:2 t 'IH'  w l lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
 set output 'plots/sin212_2_ERES.eps'

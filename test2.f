@@ -47,7 +47,7 @@
       Emin = 1.81d0  
       Emax = 8d0
       serror = 1d-2
-      snmax = 3
+      snmax = 4
 
       zz(7) = Eres/100d0
       zz(8) = mode
@@ -89,16 +89,17 @@ c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
             if (k.eq.1) then
                open(20,file='minorm_nh.dat',status='replace')
                open(21,file='dchi2min_nh.dat',status='replace')
+               open(22,file='dchi2min_nh_bestfit.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
                open(21,file='dchi2min_ih.dat',status='replace')
+               open(22,file='dchi2min_ih_bestfit.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
                zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
                write(19,*) zz(1),"[km]"               
-
                call mninit(5,20,7)
                
                call mnparm(1,'s2sun_2',s2sun_2(1),s2sun_2(2),0d0,0d0
@@ -107,11 +108,12 @@ c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
                call mnparm(3,'dm12_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
                call mnparm(4,'dm13_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
                
-               arg(1) = -1d0
+               arg(1) = 0d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
-c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0
-               arg(1) = 1d0
+c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
+c               arg(1) = 1d0
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
+c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
                
                do i = 1,4
                   call mnpout(i,name(i),pval(i),perr(i),plo(i),phi(i)
@@ -124,6 +126,7 @@ c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0
      &              ,pval(2),perr(2),(pval(2)-0.1d0)/0.01d0
      &              ,pval(3),perr(3),(pval(3)-7.5d-5)/0.2d-5
      &              ,pval(4),perr(4),(pval(4)-2.35d-3)/0.1d-3
+               write(22,*) zz(1),pval(1),pval(2),pval(3),pval(4)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,chisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
@@ -146,6 +149,7 @@ c     call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0
          close(19)
          close(20)
          close(21)
+         close(22)
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
          zz(1) = Lmin
