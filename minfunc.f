@@ -18,11 +18,11 @@ C     LOCAL VARIABLES
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode
       integer maxnbin,imode,minflag,ierr,ierr1,ierr2
       parameter (nout=6, maxnbin=20000)
-      real*8 x(0:maxnbin),z_dat(20),event_th(maxnbin),z(20)
+      real*8 x(0:maxnbin),z_dat(40),event_th(maxnbin),z(40)
       real*8 nevent_th,ans,erro,event_dat(maxnbin),nevent_dat,error(10)
       real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror
       real*8 hevent_th(maxnbin),hevent_dat(maxnbin),xmin,xmax
-      real*8 z_min(20),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
+      real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil
       external hfunc1D,dchi2,futil
@@ -36,28 +36,30 @@ C     ----------
       z_dat(2) = zz(11)
       z_dat(3) = zz(13)
       z_dat(4) = zz(15)
+      z_dat(5) = zz(17)
       error(1) = zz(10)
       error(2) = zz(12)
       error(3) = zz(14)
       error(4) = zz(16)
+      error(5) = zz(18)
 
-      z_dat(5) = zz(1)                  ! L [km]
       z_dat(6) = zz(2)                  ! NH/IH
       z_dat(7) = zz(4)*zz(5)*1d9*avog   ! N_target
       z_dat(8) = zz(3)                  ! Power [GW]
       z_dat(9) = zz(6)*y2s              ! Exposure time [s]
       z_dat(10) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
-      z(5) = z_dat(5)
+      z_dat(11) = zz(1)                  ! L [km]
       z(6) = -1*z_dat(6)
       z(7) = z_dat(7)
       z(8) = z_dat(8)
       z(9) = z_dat(9)
       z(10) = z_dat(10)
+      z(11) = z_dat(11)
 
-      serror = zz(19)
-      snmax = zz(20)
-      Emin = zz(17)  ! Emin > 1.80473
-      Emax = zz(18)
+      serror = zz(21)
+      snmax = zz(22)
+      Emin = zz(19)  ! Emin > 1.80473
+      Emax = zz(20)
       Eres = zz(7)
 
       nevent = 0
@@ -197,18 +199,19 @@ CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
          open(2,file='dchi2min_bestfit2nh.dat',status='old',err=200)
          do 
-            read(2,*,end=100) z_min(5),z_min(1),z_min(2),z_min(3)
-     &           ,z_min(4)
-            if ((z_min(5).ge.z_dat(5)).and.(z_min(5).lt.z_dat(5)+1.1d0))
+            read(2,*,end=100) z_min(11),z_min(1),z_min(2),z_min(3)
+     &           ,z_min(4),z_min(5)
+            if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+1.1d0))
      &           then
                minflag = 1
-               do i = 5,10
+               do i = 6,11
                   z_min(i) = z(i)
                enddo
                goto 100
             endif
          enddo
  100     close(2)
+         hmode = 0
          z_min(6) = -1
          call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
@@ -250,12 +253,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
       open(2,file='dchi2min_bestfit2ih.dat',status='old',err=400)
       do 
-         read(2,*,end=300) z_min(5),z_min(1),z_min(2),z_min(3)
-     &        ,z_min(4)
-         if ((z_min(5).ge.z_dat(5)).and.(z_min(5).lt.z_dat(5)+1.1d0))
+         read(2,*,end=300) z_min(11),z_min(1),z_min(2),z_min(3)
+     &        ,z_min(4),z_min(5)
+         if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+1.1d0))
      &        then
             minflag = 1
-            do i = 5,10
+            do i = 6,11
                z_min(i) = z(i)
             enddo
             goto 300
@@ -309,8 +312,8 @@ CCCCCCCCCCCCCCCCCCCCCC  F vs. L/E distributions  CCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCC                           CCCCCCCCCCCCCCCCCCCCCC
 
       elseif (imode.eq.3) then
-         xmax = z_dat(5)/Emin
-         xmin = z_dat(5)/Emax
+         xmax = z_dat(11)/Emin
+         xmin = z_dat(11)/Emax
          nbins = 10000 ! nbins should be less than 100000
          do i = 0,nbins
             x(i) = xmin +(xmax-xmin)/dble(nbins)*i

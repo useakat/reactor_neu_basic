@@ -16,16 +16,16 @@ set output "plots/EventDist.eps"
 set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
-#set logscale y
+set logscale y
 set logscale x
-#set format y "10^%L"
+set format y "10^%L"
 set xrange [1.81:8]
-#set yrange [5:1E6]
+set yrange [1:1E6]
 #set key at 1.5,5E5 samplen 2
 set xtics (2,3,4,5,6,7,8)    
 set nogrid    
 set parametric
-set trange [5:1E6]    
+set trange [1:1E6]    
 const1=1.81
 const2=1.8712
 const3=1.9342

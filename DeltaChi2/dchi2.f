@@ -34,6 +34,7 @@ c            stop
       enddo
 
       dchi22 = 0d0
+c      write(6,*) nparm
       do i = 1,nparm
          dchi22 = dchi22 +( parm(i) -parm0(i) )**2 / error(i)**2
       enddo

@@ -66,7 +66,7 @@ Lmax=100
 ndiv=100
 Eres=6
 
-if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec, Flux*Xsec*Pee
+if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     norm=1
 
     mode=1
@@ -133,6 +133,8 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     Eres=1.5
     ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 fi
+
+
 if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 vs. L
     mode=0
     Eres=6

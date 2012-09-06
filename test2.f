@@ -6,6 +6,7 @@
       real*8 arg(10),pval(10),perr(10),plo(10),phi(10),gint
       real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2)
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
+      real*8 ovnorm(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
       character*10 cEres,cmode
       
@@ -36,14 +37,20 @@
       read (cY,*) zz(6) 
       read (cEres,*) Eres 
       read (cmode,*) mode
-      s2sun_2(1) = 0.852d0
+      s2sun_2(1) = 0.85d0
       s2sun_2(2) = 0.025d0
+c      s213_2(1) = 0.1d0
+c      s213_2(2) = 0.01d0
       s213_2(1) = 0.1d0
-      s213_2(2) = 0.01d0
+      s213_2(2) = 0.005d0
       dm21_2(1) = 7.5d-5
       dm21_2(2) = 0.2d-5
-      dm31_2(1) = 2.35d-3
+      dm31_2(1) = 2.4d-3
+c      dm31_2(2) = 0.1d-3
       dm31_2(2) = 0.1d-3
+      ovnorm(1) = 1d0
+      ovnorm(2) = 0.03d0
+
       Emin = 1.81d0  
       Emax = 8d0
       serror = 1d-2
@@ -59,10 +66,12 @@
       zz(14) = dm21_2(2)
       zz(15) = dm31_2(1)
       zz(16) = dm31_2(2)
-      zz(17) = Emin
-      zz(18) = Emax
-      zz(19) = serror
-      zz(20) = snmax
+      zz(17) = ovnorm(1)
+      zz(18) = ovnorm(2)
+      zz(19) = Emin
+      zz(20) = Emax
+      zz(21) = serror
+      zz(22) = snmax
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"
@@ -73,6 +82,8 @@
      &     ,dm21_2(2)
       write(19,'(a11,e12.5,a3,e9.2)') "dm31_2 = ",dm31_2(1)," +-"
      &     ,dm31_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "ovnorm = ",ovnorm(1)," +-"
+     &     ,ovnorm(2)
       write(19,*) ""
       write(19,*) "Ev Range:",Emin," -",Emax," [MeV]"
 c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
@@ -107,7 +118,9 @@ c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
                call mnparm(2,'s213_2',s213_2(1),s213_2(2),0d0,0d0,ierr)
                call mnparm(3,'dm12_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
                call mnparm(4,'dm13_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
-               
+               call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
+c               call mncomd(minfunc,'FIX 5',iflag,0)
+
                arg(1) = 0d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
 c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
@@ -115,18 +128,19 @@ c               arg(1) = 1d0
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
 c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
                
-               do i = 1,4
+               call mnstat(chisqmin,fedm,errdef,npari,nparx,istat)
+               do i = 1,nparx
                   call mnpout(i,name(i),pval(i),perr(i),plo(i),phi(i)
      &                 ,ierr)
                enddo
-               call mnstat(chisqmin,fedm,errdef,npari,nparx,istat)
 
-               write(21,'(e10.3,14e13.5)') zz(1),chisqmin,fedm
+               write(21,'(e10.3,17e13.5)') zz(1),chisqmin,fedm
      &              ,pval(1),perr(1),(pval(1)-0.852d0)/0.025d0
      &              ,pval(2),perr(2),(pval(2)-0.1d0)/0.01d0
      &              ,pval(3),perr(3),(pval(3)-7.5d-5)/0.2d-5
      &              ,pval(4),perr(4),(pval(4)-2.35d-3)/0.1d-3
-               write(22,*) zz(1),pval(1),pval(2),pval(3),pval(4)
+     &              ,pval(5),perr(5),(pval(5)-1d0)/0.03d0
+               write(22,*) zz(1),pval(1),pval(2),pval(3),pval(4),pval(5)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,chisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
@@ -137,6 +151,8 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
      &              ,pval(3)," +-",perr(3)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "dm31^2      = "
      &              ,pval(4)," +-",perr(4)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
+     &              ,pval(5)," +-",perr(5)
                write(19,*) ""
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)

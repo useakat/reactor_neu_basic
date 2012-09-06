@@ -5,7 +5,7 @@
       include 'const.inc'
 
       integer sign,mode
-      real*8 x,z(20),error(10),L,E,loe,Np,P,YY
+      real*8 x,z(40),error(10),L,E,loe,Np,P,YY,ovnorm
       real*8 flux,xsec,prob_ee
       external flux,xsec,prob_ee      
 
@@ -13,8 +13,10 @@
       error(2) = 0.01d0
       error(3) = 0.2d-5
       error(4) = 0.1d-3
+      error(5) = 0.03d0
 
-      L = z(5)
+      ovnorm = z(5)
+      L = z(11)
       sign = int(z(6))
       Np = z(7)
       P = z(8)
@@ -40,15 +42,11 @@
          hfunc1D = prob_ee(L/E,z,error,sign,0,0)         
       elseif (mode.eq.20) then  ! N vs. sqrt(E)
          hfunc1D = 2*x*flux(E)*P/L**2*xsec(E)
-     &        *prob_ee(L/E,z,error,sign,0,0)*Np*YY
+     &        *prob_ee(L/E,z,error,sign,0,0)*Np*YY*ovnorm
       elseif (mode.eq.21) then  ! Flux*Xsec vs. sqrt(E)
          hfunc1D = 2*x*flux(E)*P/L**2*xsec(E)
       endif
 
-c      write(6,*) "z=",z(1),z(2),z(3),z(4),z(5),z(6),z(7),z(8),z(9),z(10)
-c      write(6,*) "porb=",prob_ee(L/E,z,error,sign,0,0),Np,YY
-c      write(6,*) "flux=",flux(E),P/L**2,xsec(E)
-c      write(6,*)
       return
       end
 
