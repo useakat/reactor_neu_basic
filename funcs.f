@@ -36,6 +36,7 @@ C     ----------
      &      +fPu241*dexp( 0.793d0 -0.080*E -0.1085*E**2 )
 
       flux = a*preflux/(4*pi*1d0**2)*1d12/1.602176487d0
+c      flux = a*preflux*1d22/1.602176487d0
 
 
       return
@@ -122,7 +123,8 @@ C     ----------
       s13_2 = 0.5*s213_2_eff/( 1d0 +dsqrt(1d0 -s213_2_eff) )
       s13 = dsqrt(s13_2)
       c13 = dsqrt(1d0 -s13**2)
-      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
+c      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
+      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff) )/2d0
       s12 = dsqrt(s12_2)
       c12 = dsqrt(1d0 -s12**2)
       ue1 = c12*c13
@@ -136,6 +138,9 @@ C     ----------
          prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2_eff*aa/4d0)**2
      &        -4*ue1**2*ue3**2*dsin(dm13_2_eff*aa/4d0)**2
      &        -4*ue2**2*ue3**2*dsin(dm23_2_eff*aa/4d0)**2
+c         Prob_ee = 1d0 -4*c13**4*s12**2*c12**2*dsin(dm12_2*a*1270d0)**2
+c     &        -c12**2*s213_2*dsin(dm13_2*a*1270d0)**2
+c     &        -s12**2*s213_2*dsin(dm23_2*a*1270d0)**2
       elseif (mode.eq.21) then
          prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2_eff*aa/4d0)**2
       elseif (mode.eq.31) then

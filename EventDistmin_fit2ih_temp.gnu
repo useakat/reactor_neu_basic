@@ -12,20 +12,20 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/EventDist.eps"
-set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
+set output "plots/EventDistmin_fit2ih_LLL.eps"
+set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, LLL km"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
-set logscale y
+#set logscale y
 set logscale x
-set format y "10^%L"
+#set format y "10^%L"
 set xrange [1.81:8]
-set yrange [1:1E6]
+YRANGE
 #set key at 1.5,5E5 samplen 2
 set xtics (2,3,4,5,6,7,8)    
 set nogrid    
 set parametric
-set trange [1:1E6]    
+set trange [0:1E6]    
 const1=1.81
 const2=1.8712
 const3=1.9342
@@ -85,26 +85,9 @@ const56=7.84896
 
 set multiplot
 plot \
-'events_nh_10.dat' u ($1**2+0.8):($2/(2*$1)) t '10km' w l lt 1 lc rgb 'red' lw 3 ,\
-'events_nh_20.dat' u ($1**2+0.8):($2/(2*$1)) t '20km' w l lt 1 lc rgb 'green' lw 3 ,\
-'events_nh_30.dat' u ($1**2+0.8):($2/(2*$1)) t '30km' w l lt 1 lc rgb 'blue' lw 3 ,\
-'events_nh_40.dat' u ($1**2+0.8):($2/(2*$1)) t '40km' w l lt 1 lc rgb 'purple' lw 3 ,\
-'events_nh_50.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'cyan' lw 3 ,\
-'events_nh_60.dat' u ($1**2+0.8):($2/(2*$1)) t '60km' w l lt 1 lc rgb 'black' lw 3 ,\
-'events_nh_70.dat' u ($1**2+0.8):($2/(2*$1)) t '70km' w l lt 1 lc rgb 'red' lw 3 ,\
-'events_nh_80.dat' u ($1**2+0.8):($2/(2*$1)) t '80km' w l lt 1 lc rgb 'gray' lw 3 ,\
-'events_nh_90.dat' u ($1**2+0.8):($2/(2*$1)) t '90km' w l lt 1 lc rgb 'orange' lw 3 ,\
-'events_nh_100.dat' u ($1**2+0.8):($2/(2*$1)) t '100km' w l lt 1 lc rgb 'green' lw 3 ,\
-'events_ih_10.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'events_ih_20.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3 ,\
-'events_ih_30.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'events_ih_40.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'purple' lw 3 ,\
-'events_ih_50.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'cyan' lw 3 ,\
-'events_ih_60.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'black' lw 3 ,\
-'events_ih_70.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'events_ih_80.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'gray' lw 3 ,\
-'events_ih_90.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'orange' lw 3 ,\
-'events_ih_100.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3 ,\
+'events_nh_LLL.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'red' lw 3 ,\
+'events_ih_LLL.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'events_ihmin_LLL_1.5.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best fit to IH data (1.5%)' w l lt 1 lc rgb 'red' lw 1 ,\
 const1,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const2,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const3,t notitle lt 2 lc rgb 'black' lw 1 ,\

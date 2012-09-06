@@ -12,13 +12,14 @@ set grid
 #set xrange [-1:1]
 #set yrange [0:1E-33]
 
-set output "plots/FluxXsec.eps"
-set title "P_{reactor} = PPPGW_{th}, L = LLLkm"
+set output "plots/Pee_LLL.eps"
+set title "L = LLLkm"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
-set ylabel 'd( flux * Xsec ) / dE_{/Symbol=\156} [1/s/MeV^2]' offset 1,0
+set ylabel 'Pee' offset 1,0
 set multiplot
 plot \
-'FluxXsec.dat' u ($1**2+0.8):TWO notitle  w l lt 1 lc rgb 'red' lw 3
+'PeeNH.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
+'PeeIH.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
 reset
