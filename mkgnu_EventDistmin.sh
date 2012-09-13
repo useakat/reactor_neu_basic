@@ -36,9 +36,9 @@ elif [ $L -eq 100 ]; then
     sed -e "s/YRANGE/set yrange [0:2E3]/" temp.gnu > temp2.gnu
 fi
 
-mv temp2.gnu plot.gnu
+mv temp2.gnu EventDistmin_fit2nh.gnu
 
-gnuplot plot.gnu
+gnuplot EventDistmin_fit2nh.gnu
 
 
 
@@ -70,8 +70,8 @@ elif [ $L -eq 100 ]; then
     sed -e "s/YRANGE/set yrange [0:2E3]/" temp.gnu > temp2.gnu
 fi
 
-mv temp2.gnu plot.gnu
+mv temp2.gnu EventDistmin_fit2ih.gnu
 
-gnuplot plot.gnu
+gnuplot EventDistmin_fit2ih.gnu
 
 rm temp.gnu

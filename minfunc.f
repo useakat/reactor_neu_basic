@@ -16,13 +16,14 @@ C     GLOBAL VARIABLES
 C     LOCAL VARIABLES 
       integer i
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode
-      integer maxnbin,imode,minflag,ierr,ierr1,ierr2
+      integer maxnbin,imode,minflag,ierr,ierr1,ierr2,iswitch_smear
       parameter (nout=6, maxnbin=20000)
       real*8 x(0:maxnbin),z_dat(40),event_th(maxnbin),z(40)
       real*8 nevent_th,ans,erro,event_dat(maxnbin),nevent_dat,error(10)
-      real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror
+      real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror,rdx
       real*8 hevent_th(maxnbin),hevent_dat(maxnbin),xmin,xmax
       real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
+      real*8 event2_dat(maxnbin),event2_th(maxnbin)
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil
       external hfunc1D,dchi2,futil
@@ -63,7 +64,8 @@ C     ----------
       Eres = zz(7)
 
       nevent = 0
-
+      iswitch_smear = 1
+      rdx = 0.005
 
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
@@ -73,24 +75,30 @@ CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCC
          hmode = 1 ! 0:continuous 1:simpson 2:center-value 
          xmin = dsqrt(Emin-0.8d0)
          xmax = dsqrt(Emax-0.8d0)
-         nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100000
+
+         nbins = int( ( xmax -xmin ) / rdx ) ! nbins should be less than 100000
          do i = 0,nbins
-            x(i) = xmin +Eres/2d0*i
+            x(i) = xmin +rdx*i
          enddo
+c         nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100000
+c         do i = 0,nbins
+c            x(i) = xmin +Eres/2d0*i
+c         enddo
          evform_dat = 2
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
-     &        ,nevent_dat,ierr1)
-         
+     &        ,nevent_dat,ierr1) 
+         call smearing(event_dat,nbins,rdx,Eres,event2_dat,iswitch_smear)         
+        
          evform_th = 2
          call MakeHisto1D(nout,hfunc1D,z,nevent,nbins,x
      &        ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &        ,nevent_th,ierr2)
-
+         call smearing(event_th,nbins,rdx,Eres,event2_th,iswitch_smear)
 cc         if ( (ierr1.ne.0).or.(ierr2.ne.0) ) then
 c            dchisq = 1d10
 c         else
-            dchisq = dchi2(nout,event_dat,event_th,nbins,npar,z,z_dat
+            dchisq = dchi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
      &           ,error)  
 c         endif
 
@@ -196,12 +204,15 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          close(1)
 
 CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
-
+         nbins = 10000
+         do i = 0,nbins
+            x(i) = xmin +( xmax -xmin ) / dble(nbins)*i
+         enddo
          open(2,file='dchi2min_bestfit2nh.dat',status='old',err=200)
          do 
             read(2,*,end=100) z_min(11),z_min(1),z_min(2),z_min(3)
      &           ,z_min(4),z_min(5)
-            if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+1.1d0))
+            if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+0.9d0))
      &           then
                minflag = 1
                do i = 6,11
@@ -213,6 +224,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
  100     close(2)
          hmode = 0
          z_min(6) = -1
+c        z_dat(6) = 1
          call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)
@@ -239,9 +251,10 @@ CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &        ,nevent_th,ierr2)
-         z_min(6) = -1
+c         z_min(6) = -1
+         z_dat(6) = 1
          evform_th = 2
-         call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
+         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_th,serror,snmax,hmode,event_fit,hevent_fit
      &        ,nevent_fit,ierr2)
          open(1,file="event_min2nh.dat",status="replace")
@@ -251,11 +264,15 @@ CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
          close(1)
  200  continue
 
+      nbins = 10000
+      do i = 0,nbins
+         x(i) = xmin +( xmax -xmin ) / dble(nbins)*i
+      enddo
       open(2,file='dchi2min_bestfit2ih.dat',status='old',err=400)
       do 
          read(2,*,end=300) z_min(11),z_min(1),z_min(2),z_min(3)
      &        ,z_min(4),z_min(5)
-         if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+1.1d0))
+         if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+0.9d0))
      &        then
             minflag = 1
             do i = 6,11
@@ -266,6 +283,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
       enddo
  300  close(2)
       z_min(6) = 1
+c      z_dat(6) = -1
       call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
      &     ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &     ,nevent_dat,ierr)
@@ -294,9 +312,10 @@ CCCCCCCCCCCCCCCCCCCCCCCCC  Best fit plots and data  CCCCCCCCCCCCCCCCCCCCCCCCCCCC
       call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &     ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &     ,nevent_th,ierr2)
-      z_min(6) = 1
+c      z_min(6) = 1
+      z_dat(6) = -1
       evform_th = 2
-      call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
+      call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &     ,evform_th,serror,snmax,hmode,event_fit,hevent_fit
      &     ,nevent_fit,ierr2)
       open(1,file="event_min2ih.dat",status="replace")
