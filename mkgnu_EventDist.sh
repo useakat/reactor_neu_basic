@@ -12,6 +12,6 @@ sed -e "s/PPP/${P}/" \
     -e "s/RRR/${RR}/" \
     -e "s/YYY/${Y}/" EventDist_temp.gnu > temp.gnu
 
-mv temp.gnu plot.gnu
+mv temp.gnu EventDist.gnu
 
-gnuplot plot.gnu
+gnuplot EventDist.gnu

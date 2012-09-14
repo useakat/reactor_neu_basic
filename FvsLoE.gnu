@@ -12,25 +12,25 @@ set grid
 #set xrange [-1:1]
 #set yrange [0:1E-33]
 
-set output "plots/FluxXsecPee_loe_LLL.eps"
-set title "P_{reactor} = PPPGW_{th}, L = LLLkm"
+set output "plots/FluxXsecPee_loe_100.eps"
+set title "P_{reactor} = 20GW_{th}, L = 100km"
 set xlabel 'L/E_{/Symbol=\156} [km/MeV]' offset -1,0
 set ylabel 'd( flux * Xsec * Pee) / d(L/E_{/Symbol=\156}) [MeV/s/cm^3]' offset 1,0
 set multiplot
 plot \
-'FluxXsec_loe_LLL.dat' u 1:2 t 'No Oscillation' w l lt 2 lc rgb 'red' lw 3 ,\
-'FluxXsecPeeNH_loe_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
-'FluxXsecPeeIH_loe_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
+'FluxXsec_loe_100.dat' u 1:2 t 'No Oscillation' w l lt 2 lc rgb 'red' lw 3 ,\
+'FluxXsecPeeNH_loe_100.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
+'FluxXsecPeeIH_loe_100.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
-set output "plots/Pee_loe_LLL.eps"
-set title "L = LLLkm"
+set output "plots/Pee_loe_100.eps"
+set title "L = 100km"
 set xlabel 'L/E_{/Symbol=\156} [km/MeV]' offset -1,0
 set ylabel 'Pee' offset 1,0
 set multiplot
 plot \
-'PeeNH_loe_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
-'PeeIH_loe_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
+'PeeNH_loe_100.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
+'PeeIH_loe_100.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
 reset

@@ -12,21 +12,23 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/adchi2_LLL.eps"
-set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, LLL km"
+set output "plots/int_adchi2.eps"
+set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years,  {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
-set ylabel 'Del chi2' offset 0,0
+set ylabel '{/Symbol=\104}{/Symbol=\143}^2' offset 0,0
+set label '{/= 25 Analytic {/Symbol=\104}{/Symbol=\143}^2}' at 15,35
 #set logscale y
-set logscale x
+#set logscale x
 #set format y "10^%L"
-set xrange [1.81:8]
+#set xrange [1.81:8]
 #set key at 1.5,5E5 samplen 2
-set xtics (2,3,4,5,6,7,8)    
+#set xtics (2,3,4,5,6,7,8)    
+#set nogrid    
 
 set multiplot
 plot \
-'adchi2_fit2nh_LLL_6.dat' u ($1**2+0.8):2 title 'fit to NH' w l lt 1 lc rgb 'red' lw 1 ,\
-'adchi2_fit2ih_LLL_6.dat' u ($1**2+0.8):2 title 'fit to IH' w l lt 1 lc rgb 'blue' lw 1
+'int_adchi2_fit2nh_6.dat' u 1:2 title 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
+'int_adchi2_fit2ih_6.dat' u 1:2 title 'IH' w l lt 1 lc rgb 'blue' lw 3 
 set nomultiplot
 
 reset

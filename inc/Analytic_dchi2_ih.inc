@@ -1,5 +1,5 @@
 C -*- fortran -*-
-         z_dat(10) = 20
+         z_dat(10) = 22
          include 'bining_value.inc'  ! bining by value
 
          z_dat(6) = -1

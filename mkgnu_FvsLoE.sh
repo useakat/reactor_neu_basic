@@ -7,6 +7,6 @@ norm=$3
 sed -e "s/PPP/${P}/" \
     -e "s/LLL/${L}/" FvsLoE_temp.gnu > temp.gnu
 
-mv temp.gnu plot.gnu
+mv temp.gnu FvsLoE.gnu
 
-gnuplot plot.gnu
+gnuplot FvsLoE.gnu

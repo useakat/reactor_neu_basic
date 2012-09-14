@@ -14,9 +14,9 @@ sed -e "s/PPP/${P}/" \
     -e "s/LLL/${L}/" \
     -e "s/YYY/${Y}/" adchi2_temp.gnu > temp.gnu
 
-mv temp.gnu plot.gnu
+mv temp.gnu adchi2.gnu
 
-gnuplot plot.gnu
+gnuplot adchi2.gnu
 
 
 sed -e "s/PPP/${P}/" \
@@ -25,6 +25,6 @@ sed -e "s/PPP/${P}/" \
     -e "s/LLL/${L}/" \
     -e "s/YYY/${Y}/" int_adchi2_temp.gnu > temp.gnu
 
-mv temp.gnu plot.gnu
+mv temp.gnu int_adchi2.gnu
 
-gnuplot plot.gnu
+gnuplot int_adchi2.gnu

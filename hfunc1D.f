@@ -10,7 +10,7 @@
       external flux,xsec,prob_ee      
 
       error(1) = 0.025d0
-      error(2) = 0.01d0
+      error(2) = 0.005d0
       error(3) = 0.2d-5
       error(4) = 0.1d-3
       error(5) = 0.03d0
@@ -45,6 +45,9 @@
      &        *prob_ee(L/E,z,error,sign,0,0)*Np*YY*ovnorm
       elseif (mode.eq.21) then  ! Flux*Xsec vs. sqrt(E)
          hfunc1D = 2*x*flux(E)*P/L**2*xsec(E)
+      elseif (mode.eq.22) then  ! N vs. E
+         hfunc1D = flux(E)*P/L**2*xsec(E)
+     &        *prob_ee(L/E,z,error,sign,0,0)*Np*YY*ovnorm
       endif
 
       return
