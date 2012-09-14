@@ -73,8 +73,6 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     mode=1
     Lmin=1
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    ./mkgnu_FluxXsec.sh ${Lmin} $P ${norm} 
-#    ./mkgnu_FluxXsec_h.sh ${Lmin} $P ${norm}
 
     mode=3
     i=10
@@ -85,7 +83,6 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 	mv FluxXsecPeeIH_loe.dat FluxXsecPeeIH_loe_${i}.dat
 	mv PeeNH_loe.dat PeeNH_loe_${i}.dat
 	mv PeeIH_loe.dat PeeIH_loe_${i}.dat
-#	./mkgnu_FvsLoE.sh $i $P ${norm} 
 	i=`expr $i + 10`
     done
 
@@ -95,7 +92,6 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 	mv PeeNH.dat PeeNH_${i}.dat
 	mv PeeIH.dat PeeIH_${i}.dat
-#	./mkgnu_FvsE.sh $i $P
 	i=`expr $i + 10`
     done
 fi    
@@ -122,15 +118,7 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 	
 	i=`expr $i + 10`
     done
-#    ./mkgnu_EventDist.sh $P $V $R $Y
 
-#     norm=2
-#     Eres=6
-#     ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-#     Eres=3
-#     ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
-#     Eres=1.5
-#     ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 fi
 
 
@@ -138,21 +126,18 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     mode=0
     Eres=6
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
     mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
     mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
     mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
     mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
     Eres=3
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
     mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
     mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
     mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
     mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
     Eres=1.5
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
     mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
     mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
     mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
@@ -170,8 +155,8 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-	mv evdinh.dat events_nh_${i}.dat
-	mv evdiih.dat events_ih_${i}.dat
+	mv evdinh.dat events_nh_${i}_${Eres}.dat
+	mv evdiih.dat events_ih_${i}_${Eres}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
 	mv evdinhmin.dat events_nhmin_${i}_${Eres}.dat
 #       	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
@@ -192,8 +177,8 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-	mv evdinh.dat events_nh_${i}.dat
-	mv evdiih.dat events_ih_${i}.dat
+	mv evdinh.dat events_nh_${i}_${Eres}.dat
+	mv evdiih.dat events_ih_${i}_${Eres}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
 	mv evdinhmin.dat events_nhmin_${i}_${Eres}.dat
 #       	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
@@ -214,8 +199,8 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-	mv evdinh.dat events_nh_${i}.dat
-	mv evdiih.dat events_ih_${i}.dat
+	mv evdinh.dat events_nh_${i}_${Eres}.dat
+	mv evdiih.dat events_ih_${i}_${Eres}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
 	mv evdinhmin.dat events_nhmin_${i}_${Eres}.dat
 #       	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
@@ -228,14 +213,6 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
 	echo $i ${int_adchi2} >> int_adchi2_fit2ih_${Eres}.dat
 	i=`expr $i + 10`
     done
-
-#     i=${Lmin}
-#     while [ $i -lt ${Lmaxp10} ]; do
-# 	./mkgnu_EventDistmin.sh $P $V $R $Y $i	
-# 	./mkgnu_adchi2.sh $P $V $R $Y $i	
-# 	i=`expr $i + 10`
-#     done
-#    ./mkgnu_dchi2_combine.sh $P $V $R $Y
 
     echo "" >> ${defout}
     cat dchi2_result.txt >> ${defout}

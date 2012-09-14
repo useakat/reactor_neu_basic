@@ -15,3 +15,14 @@ sed -e "s/PPP/${P}/" \
 mv temp.gnu EventDist.gnu
 
 gnuplot EventDist.gnu
+
+
+output=EventDist_combine_0
+sed -e "s/PPP/${P}/" \
+    -e "s/VVV/${V}/" \
+    -e "s/RRR/${RR}/" \
+    -e "s/YYY/${Y}/" ${output}_temp.gnu > temp.gnu
+
+mv temp.gnu ${output}.gnu
+
+gnuplot ${output}.gnu
