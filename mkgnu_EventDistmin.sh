@@ -5,6 +5,7 @@ V=$2
 R=$3
 Y=$4
 L=$5
+Eres=$6
 
 RR=`echo "scale=1; ${R}*100" | bc`
 
@@ -12,6 +13,7 @@ sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
     -e "s/LLL/${L}/" \
+    -e "s/ERES/${Eres}/g" \
     -e "s/YYY/${Y}/" EventDistmin_fit2nh_temp.gnu > temp.gnu
 
 if [ $L -eq 10 ]; then
@@ -41,11 +43,11 @@ mv temp2.gnu EventDistmin_fit2nh.gnu
 gnuplot EventDistmin_fit2nh.gnu
 
 
-
 sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
     -e "s/LLL/${L}/" \
+    -e "s/ERES/${Eres}/g" \
     -e "s/YYY/${Y}/" EventDistmin_fit2ih_temp.gnu > temp.gnu
 
 if [ $L -eq 10 ]; then
@@ -73,5 +75,6 @@ fi
 mv temp2.gnu EventDistmin_fit2ih.gnu
 
 gnuplot EventDistmin_fit2ih.gnu
+
 
 rm temp.gnu

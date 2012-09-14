@@ -68,12 +68,18 @@ elif [ ${mode} -eq 3 ]; then
 #    ./mkgnu_dchi2.sh $P $V $R $Y 1.5
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i	
-	./mkgnu_adchi2.sh $P $V $R $Y $i	
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 6	
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 3
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 1.5
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 0			
+#	./mkgnu_adchi2.sh $P $V $R $Y $i	
 	i=`expr $i + 10`
     done
     ./mkgnu_dchi2_combine.sh $P $V $R $Y ${fit_mode}
-    ./mkgnu_EventDist_combine.sh $P $V $R $Y
+    ./mkgnu_EventDist_combine.sh $P $V $R $Y 6
+    ./mkgnu_EventDist_combine.sh $P $V $R $Y 3
+    ./mkgnu_EventDist_combine.sh $P $V $R $Y 1.5
+    ./mkgnu_EventDist_combine.sh $P $V $R $Y 0
 
 fi
 

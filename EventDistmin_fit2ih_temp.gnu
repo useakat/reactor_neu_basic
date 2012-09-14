@@ -12,7 +12,7 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/EventDistmin_fit2ih_LLL.eps"
+set output "plots/EventDistmin_fit2ih_ERES_LLL.eps"
 set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, LLL km"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
@@ -26,9 +26,9 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'events_nh_LLL_6.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'red' lw 3 ,\
-'events_ih_LLL_6.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'blue' lw 3 ,\
-'events_ihmin_LLL_6.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best fit to IH data (6%)' w l lt 1 lc rgb 'red' lw 1
+'events_nh_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'events_ih_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
+'events_ihmin_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best fit to IH data (ERES %)' w l lt 1 lc rgb 'blue' lw 1
 set nomultiplot
 
 reset

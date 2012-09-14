@@ -15,7 +15,7 @@ set yrange [5E-39:2E-36]
 set output "plots/FluxXsec_combine.eps"
 set title "P_{reactor} = PPPGW_{th}"
 set xlabel 'E_{/Symbol=\156}  [MeV]' offset -1,0
-set ylabel 'd(Flux * Xsec) / dE_{/Symbol=\156}  [1/s/cm^2/MeV]' offset 1,0
+set ylabel 'd(Flux * Xsec) / dE_{/Symbol=\156}  [1/s/MeV]' offset 1,0
 set multiplot
 plot \
 'FluxXsec.dat' u ($1**2+0.8):TWO/30**2 title '30km'  w l lt 1 lc rgb 'red' lw 3 ,\

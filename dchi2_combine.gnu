@@ -15,7 +15,8 @@ set xrange [10:100]
 #set yrange [1E-5:2E8]
 
 set output 'plots/dchi2_combine.eps'
-set title 'P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years'
+#set title 'P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years'
+set title '20GW_{th}, 5kton, 5 years'
 set ylabel '{/Symbol=\104}{/Symbol=\143}^2'
 set xlabel 'L [km]' offset -1,0
 #set label '1.5%' at 60,15
@@ -23,8 +24,8 @@ set xlabel 'L [km]' offset -1,0
 #set label '6%' at 50,9
 set multiplot
 plot \
-'int_adchi2_fit2nh_6.dat' u ($1**2+0.8):2 title '0% NH' w l lt 1 lc rgb 'orange' lw 3 ,\
-'int_adchi2_fit2ih_6.dat' u ($1**2+0.8):2 title '   IH' w l lt 2 lc rgb 'orange' lw 3 ,\
+'dchi2min_nh_0.dat' u 1:2 t '0% NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
+'dchi2min_ih_0.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
 'dchi2min_nh_1.5.dat' u 1:2 t '1.5% NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
 'dchi2min_ih_1.5.dat' u 1:2 t '     IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
 'dchi2min_nh_3.dat' u 1:2 t '3% NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
@@ -38,7 +39,8 @@ set grid
 set key samplen 2 at 99,0.7
 set output 'plots/params.eps'
 unset title
-set title '{/=20 P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years}'
+#set title '{/=20 P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years}'
+set title '{/=20 20GW_{th}, 5kton, 5 years}'
 #set xlabel 'L [km]' offset -1,0
 #set label '1.5%' at 60,15
 #set label '3%' at 50,14
@@ -58,12 +60,14 @@ set label '{/=25 sin^22{/Symbol=\161}_{12}}' at 12,0.4
 set ytics (-0.25,0,0.25,0.5)
 set yrange[-0.5:0.75]
 plot \
-'dchi2min_nh_1.5.dat' u 1:7 t '1.5%: NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'dchi2min_ih_1.5.dat' u 1:7 t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
-'dchi2min_nh_3.dat' u 1:7 t '3%: NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'dchi2min_ih_3.dat' u 1:7 t 'IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
-'dchi2min_nh_6.dat' u 1:7 t '6%: NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'dchi2min_ih_6.dat' u 1:7 t 'IH'  w l lt 2 lc rgb 'red' lw 3
+'dchi2min_nh_0.dat' u 1:7 t '0% NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
+'dchi2min_ih_0.dat' u 1:7 t '   IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
+'dchi2min_nh_1.5.dat' u 1:7 t '1.5% NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'dchi2min_ih_1.5.dat' u 1:7 t '     IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
+'dchi2min_nh_3.dat' u 1:7 t '3% NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'dchi2min_ih_3.dat' u 1:7 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
+'dchi2min_nh_6.dat' u 1:7 t '6% NH'  w l lt 1 lc rgb 'red' lw 3 ,\
+'dchi2min_ih_6.dat' u 1:7 t '   IH'  w l lt 2 lc rgb 'red' lw 3
 
 unset title
 unset label
@@ -71,6 +75,8 @@ set yrange[-0.5:0.75]
 set ytics (-0.25,0,0.25,0.5)
 set label '{/=25 sin^22{/Symbol=\161}_{13}}' at 12,0.4
 plot \
+'dchi2min_nh_0.dat' u 1:11 notitle  w l lt 1 lc rgb 'orange' lw 3 ,\
+'dchi2min_ih_0.dat' u 1:11 notitle  w l lt 2 lc rgb 'orange' lw 3 ,\
 'dchi2min_nh_1.5.dat' u 1:11 notitle  w l lt 1 lc rgb '#006400' lw 3 ,\
 'dchi2min_ih_1.5.dat' u 1:11 notitle  w l lt 2 lc rgb '#006400' lw 3 ,\
 'dchi2min_nh_3.dat' u 1:11 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
@@ -84,6 +90,8 @@ set yrange[-0.5:0.75]
 set ytics (-0.25,0,0.25,0.5)
 set label '{/=25 {/Symbol=\104}m^2_{12}}' at 12,0.45
 plot \
+'dchi2min_nh_0.dat' u 1:15 notitle w l lt 1 lc rgb 'orange' lw 3 ,\
+'dchi2min_ih_0.dat' u 1:15 notitle w l lt 2 lc rgb 'orange' lw 3 ,\
 'dchi2min_nh_1.5.dat' u 1:15 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
 'dchi2min_ih_1.5.dat' u 1:15 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
 'dchi2min_nh_3.dat' u 1:15 notitle w l lt 1 lc rgb 'blue' lw 3 ,\
@@ -97,6 +105,8 @@ set yrange[-0.5:0.75]
 set ytics (-0.25,0,0.25,0.5)
 set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{13}{/Symbol=\174}}' at 12,0.1
 plot \
+'dchi2min_nh_0.dat' u 1:19 notitle w l lt 1 lc rgb 'orange' lw 3 ,\
+'dchi2min_ih_0.dat' u 1:19 notitle w l lt 2 lc rgb 'orange' lw 3 ,\
 'dchi2min_nh_1.5.dat' u 1:19 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
 'dchi2min_ih_1.5.dat' u 1:19 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
 'dchi2min_nh_3.dat' u 1:19 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
@@ -112,6 +122,8 @@ set yrange[-0.5:0.75]
 set ytics (-0.25,0,0.25,0.5)
 set label '{/=25 Norm}' at 12,0.48 
 plot \
+'dchi2min_nh_0.dat' u 1:23 notitle w l lt 1 lc rgb 'orange' lw 3 ,\
+'dchi2min_ih_0.dat' u 1:23 notitle w l lt 2 lc rgb 'orange' lw 3 ,\
 'dchi2min_nh_1.5.dat' u 1:23 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
 'dchi2min_ih_1.5.dat' u 1:23 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
 'dchi2min_nh_3.dat' u 1:23 notitle w l lt 1 lc rgb 'blue' lw 3 ,\

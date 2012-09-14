@@ -65,8 +65,7 @@ c      z(6) = z_dat(6)
       Eres = zz(7)
 
       nevent = 0
-      iswitch_smear = 0
-      rdx = 0.01
+      rdx = 0.005
       nnbins = 1000
 
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC
