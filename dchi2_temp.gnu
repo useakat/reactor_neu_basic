@@ -18,6 +18,8 @@ set output 'plots/dchi2_ERES.eps'
 set title 'P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, {/Symbol=\144}E_{vis}/E_{vis} = ERES%/{/Symbol=\326}E_{vis}'
 set ylabel '{/Symbol=\104}{/Symbol=\143}^2'
 set xlabel 'L [km]' offset -1,0
+set label '{/= 25 Binned {/Symbol=\104}{/Symbol=\143}^2}' at 15,35
+set label '{/= 25 D = 0.0003' at 15,30
 set multiplot
 plot \
 'dchi2min_nh.dat' u 1:2 t 'NH'  w l lt 1 lc rgb 'red' lw 3 ,\

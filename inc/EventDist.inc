@@ -1,13 +1,9 @@
 C -*- fortran -*-
+         z_dat(10) = 20    ! N vs. sqrt(E)
          hmode = 0              ! 0:continuous 1:simpson 2:center-value 
-         xmin = dsqrt(Emin-0.8d0)
-         xmax = dsqrt(Emax-0.8d0)
-c         nbins = int( ( xmax -xmin ) / rdx ) ! nbins should be less than 100000
-c         nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100000 
-         nbins = 100
-         do i = 0,nbins
-            x(i) = xmin +( xmax -xmin ) / dble(nbins)*i
-         enddo
+         evform_dat = 2   ! 1:integer 2:real*8
+         include 'bining_value.inc'  ! bining by value
+
          z_dat(6) = 1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
@@ -28,10 +24,8 @@ c         nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100
          close(1)
 
          hmode = 1       ! 0:continuous 1:simpson 2:center-value 
-         nbins = int( ( xmax -xmin ) / Eres*2 ) ! nbins should be less than 100000
-         do i = 0,nbins
-            x(i) = xmin +Eres/2d0*i
-         enddo
+         evform_dat = 1   ! 1:integer 2:real*8
+         include 'bining_Eres.inc'
          z_dat(6) = 1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat

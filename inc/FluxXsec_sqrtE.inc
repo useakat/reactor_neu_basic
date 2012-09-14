@@ -1,6 +1,8 @@
 C -*- fortran -*-
+         include 'bining_Eres.inc'
          z_dat(10) = 21   ! Flux*Xsec vs.sqrt(E)
          evform_dat = 2   ! 1:integer 2:real*8
+
          hmode = 0        ! 0:continuous 1:simpson 2:center-value 
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat

@@ -13,14 +13,14 @@ set grid
 #set yrange [1E-5:2E8]
 
 set output "plots/EventDistmin_fit2nh_100.eps"
-set title "P_{reactor} = 20GW_{th}, V = 5kton (5.00% free proton), 5 years, 100 km"
+set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years, 100 km"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 #set logscale y
 set logscale x
 #set format y "10^%L"
 set xrange [1.81:8]
-set yrange [0:2E3]
+set yrange [0:6E3]
 #set key at 1.5,5E5 samplen 2
 set xtics (2,3,4,5,6,7,8)    
 set nogrid    

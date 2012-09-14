@@ -32,6 +32,7 @@ fi
 
 make clean >/dev/null 2>&1
 rm -rf plots/*
+rm *.dat
 start_time=`date '+%s'`
 date=`date '+%Y/%m/%d'`
 ttime=`date '+%T'`
@@ -140,8 +141,10 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     Eres=6
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
     ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
-    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_6.dat
-    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_6.dat
+#    mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
+#    mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
+    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
+    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
 #    Eres=3
 #    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 #    ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
@@ -159,8 +162,10 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     Lmaxp10=`expr ${Lmax} + 10`
     
     Eres=6
-    mv dchi2min_bestfit2ih_6.dat dchi2min_bestfit2ih.dat
-    mv dchi2min_bestfit2nh_6.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2nh_${Eres}.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2ih_${Eres}.dat dchi2min_bestfit2ih.dat
+    touch int_adchi2_fit2nh_${Eres}.dat
+    touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
     while [ $i -ne ${Lmaxp10} ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
@@ -170,6 +175,12 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
 	mv evdinhmin.dat events_nhmin_${i}_${Eres}.dat
        	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
        	mv event_min2ih.dat ${run_dir}/events_fit2ih_${i}_${Eres}.txt
+	mv adchi2_fit2nh.dat adchi2_fit2nh_${i}_${Eres}.dat
+	mv adchi2_fit2ih.dat adchi2_fit2ih_${i}_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2nh.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2nh_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2ih.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2ih_${Eres}.dat
 	i=`expr $i + 10`
     done
 #     Eres=3
@@ -199,6 +210,7 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     i=${Lmin}
     while [ $i -ne ${Lmaxp10} ]; do
 	./mkgnu_EventDistmin.sh $P $V $R $Y $i	
+	./mkgnu_adchi2.sh $P $V $R $Y $i	
 	i=`expr $i + 10`
     done
 
