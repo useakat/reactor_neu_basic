@@ -1,5 +1,4 @@
-      subroutine smearing(rhisto_in,inbins,rbinsize,rEres,rhisto_out
-     &     ,iswitch)
+      subroutine smearing(rhisto_in,inbins,rbinsize,rEres,rhisto_out)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Sep.7 2012
 C     
@@ -8,7 +7,7 @@ C     ****************************************************
 C     
 C     ARGUMENTS 
 C     
-      integer inbins,iswitch
+      integer inbins
       real*8 rhisto_in(inbins),rbinsize,rEres,rhisto_out(inbins)
       
       integer i,j,im
@@ -19,13 +18,13 @@ C
 C     ----------
 C     BEGIN CODE
 C     ----------
-      if (iswitch.eq.0) then
+      if (rEres.eq.0) then
          do i = 1,inbins
             rhisto_out(i) = rhisto_in(i)
          enddo
       else
          ra = rEres*100
-         rsigma = ra*rbinsize
+         rsigma = ra*0.005
          im = int(3.5*ra)
          do i = 1,inbins
             rhisto_out(i) = Pn(0,rbinsize,rsigma)*rhisto_in(i)

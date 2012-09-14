@@ -65,7 +65,6 @@ c      z(6) = z_dat(6)
       Eres = zz(7)
 
       nevent = 0
-      iswitch_smear = 1
       rdx = 0.005
       nnbins = 1000
 
