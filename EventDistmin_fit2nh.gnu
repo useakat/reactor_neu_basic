@@ -12,15 +12,15 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/EventDistmin_LLL.eps"
-set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, LLL km"
+set output "plots/EventDistmin_fit2nh_100.eps"
+set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years, 100 km"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
-set ylabel 'Del chi2' offset 0,0
+set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 #set logscale y
 set logscale x
 #set format y "10^%L"
 set xrange [1.81:8]
-YRANGE
+set yrange [0:6E3]
 #set key at 1.5,5E5 samplen 2
 set xtics (2,3,4,5,6,7,8)    
 set nogrid    
@@ -85,7 +85,9 @@ const56=7.84896
 
 set multiplot
 plot \
-'adchi2_LLL_1.5.dat' u ($1**2+0.8):2 notitle w l lt 1 lc rgb 'blue' lw 1 ,\
+'events_nh_100.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'red' lw 3 ,\
+'events_ih_100.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'events_nhmin_100_6.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best fit to NH data (1.5%)' w l lt 1 lc rgb 'blue' lw 1 ,\
 const1,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const2,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const3,t notitle lt 2 lc rgb 'black' lw 1 ,\

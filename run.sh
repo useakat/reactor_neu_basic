@@ -32,6 +32,7 @@ fi
 
 make clean >/dev/null 2>&1
 rm -rf plots/*
+rm *.dat
 start_time=`date '+%s'`
 date=`date '+%Y/%m/%d'`
 ttime=`date '+%T'`
@@ -61,7 +62,7 @@ cd DeltaChi2
 make >/dev/null 2>&1
 cd ..
 make dchi2 >/dev/null 2>&1
-Lmin=10
+Lmin=1
 Lmax=100
 ndiv=100
 Eres=6
@@ -77,7 +78,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 
     mode=3
     i=10
-    while [ $i -ne 110 ]; do
+    while [ $i -lt 110 ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 	./mkgnu_FvsLoE.sh $i $P ${norm} 
 	i=`expr $i + 10`
@@ -85,7 +86,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 
     mode=4
     i=10
-    while [ $i -ne 110 ]; do
+    while [ $i -lt 110 ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 	./mkgnu_FvsE.sh $i $P
 	i=`expr $i + 10`
@@ -96,7 +97,7 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 #echo "[Naive Delta Chi^2 Estimation]" >> ${defout}
     mode=2
     i=10
-    while [ $i -ne 110 ]; do
+    while [ $i -lt 110 ]; do
 #    echo "L =" $i "km" >> ${defout}
 	
 	Eres=6
@@ -117,8 +118,6 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 	
 	Eres=1.5
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-#    cat deltachi2.txt >> ${defout}
-#    echo "" >> ${defout}
 	mv edh6nh.dat events_1.5_nh_${i}.dat
 	mv edh6ih.dat events_1.5_ih_${i}.dat
 	
@@ -140,18 +139,27 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     Eres=6
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
     ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
-    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_6.dat
-    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_6.dat
+    mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
+    mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
+    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
+    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
     Eres=3
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
     ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
-    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_3.dat
-    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_3.dat
+    mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
+    mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
+    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
+    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
     Eres=1.5
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
     ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
-    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_1.5.dat
-    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_1.5.dat
+    mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
+    mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
+    mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
+    mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
+
+
+    ./mkgnu_dchi2_combine.sh $P $V $R $Y
 
 #################  Best Fit Plots and Data #####################
 
@@ -159,10 +167,12 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     Lmaxp10=`expr ${Lmax} + 10`
     
     Eres=6
-    mv dchi2min_bestfit2ih_6.dat dchi2min_bestfit2ih.dat
-    mv dchi2min_bestfit2nh_6.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2nh_${Eres}.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2ih_${Eres}.dat dchi2min_bestfit2ih.dat
+    touch int_adchi2_fit2nh_${Eres}.dat
+    touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
-    while [ $i -ne ${Lmaxp10} ]; do
+    while [ $i -lt ${Lmaxp10} ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
 	mv evdinh.dat events_nh_${i}.dat
 	mv evdiih.dat events_ih_${i}.dat
@@ -170,38 +180,66 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
 	mv evdinhmin.dat events_nhmin_${i}_${Eres}.dat
        	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
        	mv event_min2ih.dat ${run_dir}/events_fit2ih_${i}_${Eres}.txt
+	mv adchi2_fit2nh.dat adchi2_fit2nh_${i}_${Eres}.dat
+	mv adchi2_fit2ih.dat adchi2_fit2ih_${i}_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2nh.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2nh_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2ih.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2ih_${Eres}.dat
 	i=`expr $i + 10`
     done
     Eres=3
-    mv dchi2min_bestfit2ih_3.dat dchi2min_bestfit2ih.dat
-    mv dchi2min_bestfit2nh_3.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2nh_${Eres}.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2ih_${Eres}.dat dchi2min_bestfit2ih.dat
+    touch int_adchi2_fit2nh_${Eres}.dat
+    touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
-    while [ $i -ne ${Lmaxp10} ]; do
+    while [ $i -lt ${Lmaxp10} ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	mv evdinh.dat events_nh_${i}.dat
+	mv evdiih.dat events_ih_${i}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
 	mv evdinhmin.dat events_nhmin_${i}_${Eres}.dat
-	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
-	mv event_min2ih.dat ${run_dir}/events_fit2ih_${i}_${Eres}.txt
+       	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
+       	mv event_min2ih.dat ${run_dir}/events_fit2ih_${i}_${Eres}.txt
+	mv adchi2_fit2nh.dat adchi2_fit2nh_${i}_${Eres}.dat
+	mv adchi2_fit2ih.dat adchi2_fit2ih_${i}_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2nh.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2nh_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2ih.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2ih_${Eres}.dat
 	i=`expr $i + 10`
     done
     Eres=1.5
-    mv dchi2min_bestfit2ih_1.5.dat dchi2min_bestfit2ih.dat
-    mv dchi2min_bestfit2nh_1.5.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2nh_${Eres}.dat dchi2min_bestfit2nh.dat
+    mv dchi2min_bestfit2ih_${Eres}.dat dchi2min_bestfit2ih.dat
+    touch int_adchi2_fit2nh_${Eres}.dat
+    touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
-    while [ $i -ne ${Lmaxp10} ]; do
+    while [ $i -lt ${Lmaxp10} ]; do
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	mv evdinh.dat events_nh_${i}.dat
+	mv evdiih.dat events_ih_${i}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
 	mv evdinhmin.dat events_nhmin_${i}_${Eres}.dat
-	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
-	mv event_min2ih.dat ${run_dir}/events_fit2ih_${i}_${Eres}.txt
+       	mv event_min2nh.dat ${run_dir}/events_fit2nh_${i}_${Eres}.txt
+       	mv event_min2ih.dat ${run_dir}/events_fit2ih_${i}_${Eres}.txt
+	mv adchi2_fit2nh.dat adchi2_fit2nh_${i}_${Eres}.dat
+	mv adchi2_fit2ih.dat adchi2_fit2ih_${i}_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2nh.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2nh_${Eres}.dat
+	read int_adchi2 < int_adchi2_fit2ih.dat 
+	echo $i ${int_adchi2} >> int_adchi2_fit2ih_${Eres}.dat
 	i=`expr $i + 10`
     done
+
     i=${Lmin}
-    while [ $i -ne ${Lmaxp10} ]; do
+    while [ $i -lt ${Lmaxp10} ]; do
 	./mkgnu_EventDistmin.sh $P $V $R $Y $i	
+	./mkgnu_adchi2.sh $P $V $R $Y $i	
 	i=`expr $i + 10`
     done
-    
+
     echo "" >> ${defout}
     cat dchi2_result.txt >> ${defout}
 fi    

@@ -39,14 +39,11 @@
       read (cmode,*) mode
       s2sun_2(1) = 0.85d0
       s2sun_2(2) = 0.025d0
-c      s213_2(1) = 0.1d0
-c      s213_2(2) = 0.01d0
       s213_2(1) = 0.1d0
       s213_2(2) = 0.005d0
       dm21_2(1) = 7.5d-5
       dm21_2(2) = 0.2d-5
       dm31_2(1) = 2.4d-3
-c      dm31_2(2) = 0.1d-3
       dm31_2(2) = 0.1d-3
       ovnorm(1) = 1d0
       ovnorm(2) = 0.03d0
@@ -86,7 +83,6 @@ c      dm31_2(2) = 0.1d-3
      &     ,ovnorm(2)
       write(19,*) ""
       write(19,*) "Ev Range:",Emin," -",Emax," [MeV]"
-c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
       write(19,*) ""
       write(19,*) "( Simpson Integration Parameters )"
       write(19,*) "Accuracy:",serror
@@ -116,8 +112,8 @@ c      write(19,*) "E_vis Resolusion:",Eres," [MeV]"
                call mnparm(1,'s2sun_2',s2sun_2(1),s2sun_2(2),0d0,0d0
      &              ,ierr)
                call mnparm(2,'s213_2',s213_2(1),s213_2(2),0d0,0d0,ierr)
-               call mnparm(3,'dm12_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
-               call mnparm(4,'dm13_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
+               call mnparm(3,'dm21_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
+               call mnparm(4,'dm31_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
                call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
 c               call mncomd(minfunc,'FIX 5',iflag,0)
 
@@ -134,12 +130,12 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
      &                 ,ierr)
                enddo
 
-               write(21,'(e10.3,17e13.5)') zz(1),chisqmin,fedm
-     &              ,pval(1),perr(1),(pval(1)-0.852d0)/0.025d0
-     &              ,pval(2),perr(2),(pval(2)-0.1d0)/0.01d0
-     &              ,pval(3),perr(3),(pval(3)-7.5d-5)/0.2d-5
-     &              ,pval(4),perr(4),(pval(4)-2.35d-3)/0.1d-3
-     &              ,pval(5),perr(5),(pval(5)-1d0)/0.03d0
+               write(21,'(e10.3,22e13.5)') zz(1),chisqmin,fedm
+     &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
+     &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
+     &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
+     &              ,pval(4),perr(4),dm31_2(2),(pval(4)-dm31_2(1))/dm31_2(2)
+     &              ,pval(5),perr(5),ovnorm(2),(pval(5)-ovnorm(1))/ovnorm(2)
                write(22,*) zz(1),pval(1),pval(2),pval(3),pval(4),pval(5)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,chisqmin," +-",fedm

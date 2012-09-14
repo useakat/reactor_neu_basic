@@ -87,7 +87,7 @@ set multiplot
 plot \
 'events_nh_LLL.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'red' lw 3 ,\
 'events_ih_LLL.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'blue' lw 3 ,\
-'events_ihmin_LLL_1.5.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best fit to IH data (1.5%)' w l lt 1 lc rgb 'red' lw 1 ,\
+'events_ihmin_LLL_6.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best fit to IH data (1.5%)' w l lt 1 lc rgb 'red' lw 1 ,\
 const1,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const2,t notitle lt 2 lc rgb 'black' lw 1 ,\
 const3,t notitle lt 2 lc rgb 'black' lw 1 ,\
