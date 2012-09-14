@@ -51,6 +51,7 @@ C     ----------
       z_dat(10) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
       z_dat(11) = zz(1)                  ! L [km]
       z(6) = -1*z_dat(6)
+c      z(6) = z_dat(6)
       z(7) = z_dat(7)
       z(8) = z_dat(8)
       z(9) = z_dat(9)
@@ -100,7 +101,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
  100     close(2)
          include 'inc/EventDist_BestFitPlot_nh.inc'
          include 'inc/Analytic_dchi2_nh.inc'
-         include 'inc/BestFitData_nh.inc'
+c         include 'inc/BestFitData_nh.inc'
+ 200  continue
 
          open(2,file='dchi2min_bestfit2ih.dat',status='old',err=400)
          do 
@@ -118,7 +120,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
  300     close(2)
          include 'inc/EventDist_BestFitPlot_ih.inc'
          include 'inc/Analytic_dchi2_ih.inc'
-         include 'inc/BestFitData_ih.inc'
+c         include 'inc/BestFitData_ih.inc'
+ 400  continue
 
 CCCCCCCCCCCCCCCCCCCCCC  F vs. L/E distributions  CCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCC                           CCCCCCCCCCCCCCCCCCCCCC

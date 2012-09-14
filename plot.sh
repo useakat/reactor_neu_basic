@@ -9,3 +9,4 @@ i=10
 
 ./mkgnu_dchi2.sh $P $V $R $Y ${Eres}
 ./mkgnu_adchi2.sh $P $V $R $Y $i	
+./mkgnu_dchi2_combine.sh $P $V $R $Y

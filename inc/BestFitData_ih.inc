@@ -26,4 +26,3 @@ c      z_dat(6) = -1
          write(1,*) x(i-1)**2+0.8d0,event_dat(i),event_th(i),event_fit(i)
       enddo
       close(1)
- 400  continue
