@@ -27,9 +27,9 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'events_nh_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
-'events_ih_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
-'events_nhmin_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb 'red' lw 1
+'DATADIR/events_nh_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/events_ih_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
+'DATADIR/events_nhmin_LLL_ERES.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb 'red' lw 1
 set nomultiplot
 
 reset

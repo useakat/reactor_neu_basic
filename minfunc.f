@@ -24,6 +24,7 @@ C     LOCAL VARIABLES
       real*8 hevent_th(maxnbin),hevent_dat(maxnbin),xmin,xmax
       real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
+      real*8 Eres_nl
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2
       external hfunc1D,dchi2,futil,adchi2
@@ -63,6 +64,7 @@ c      z(6) = z_dat(6)
       Emin = zz(19)  ! Emin > 1.80473
       Emax = zz(20)
       Eres = zz(7)
+      Eres_nl = zz(23)
 
       nevent = 0
       rdx = 0.005

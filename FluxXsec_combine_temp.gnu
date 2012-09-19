@@ -18,10 +18,10 @@ set xlabel 'E_{/Symbol=\156}  [MeV]' offset -1,0
 set ylabel 'd(Flux * Xsec) / dE_{/Symbol=\156}  [1/s/MeV]' offset 1,0
 set multiplot
 plot \
-'FluxXsec.dat' u ($1**2+0.8):TWO/30**2 title '30km'  w l lt 1 lc rgb 'red' lw 3 ,\
-'FluxXsec.dat' u ($1**2+0.8):TWO/40**2 title '40km'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'FluxXsec.dat' u ($1**2+0.8):TWO/50**2 title '50km'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'FluxXsec.dat' u ($1**2+0.8):TWO/60**2 title '60km'  w l lt 1 lc rgb 'orange' lw 3
+'DATADIR/FluxXsec.dat' u ($1**2+0.8):TWO/30**2 title '30km'  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/FluxXsec.dat' u ($1**2+0.8):TWO/40**2 title '40km'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/FluxXsec.dat' u ($1**2+0.8):TWO/50**2 title '50km'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/FluxXsec.dat' u ($1**2+0.8):TWO/60**2 title '60km'  w l lt 1 lc rgb 'orange' lw 3
 set nomultiplot
 
 reset

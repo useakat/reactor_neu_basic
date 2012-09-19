@@ -38,12 +38,12 @@ set label '{/=20 {/Symbol=\163}_{input} = 0.024}' at 30,0.7
 set ytics (0.2,0.4,0.6,0.8)
 set yrange[0:1]
 plot \
-'dchi2min_nh_1.5.dat' u 1:($5/$6) t '1.5%: NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'dchi2min_ih_1.5.dat' u 1:($5/$6) t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
-'dchi2min_nh_3.dat' u 1:($5/$6) t '3%: NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'dchi2min_ih_3.dat' u 1:($5/$6) t 'IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
-'dchi2min_nh_6.dat' u 1:($5/$6) t '6%: NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'dchi2min_ih_6.dat' u 1:($5/$6) t 'IH'  w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_1.5.dat' u 1:($5/$6) t '1.5%: NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_1.5.dat' u 1:($5/$6) t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3.dat' u 1:($5/$6) t '3%: NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3.dat' u 1:($5/$6) t 'IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6.dat' u 1:($5/$6) t '6%: NH'  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6.dat' u 1:($5/$6) t 'IH'  w l lt 2 lc rgb 'red' lw 3
 
 unset title
 unset label
@@ -52,12 +52,12 @@ unset label
 set label '{/=25 sin^22{/Symbol=\161}_{13}}' at 12,0.35
 set label '{/=20 {/Symbol=\163}_{input} = 0.005}' at 30,0.65
 plot \
-'dchi2min_nh_1.5.dat' u 1:($9/$10) notitle  w l lt 1 lc rgb '#006400' lw 3 ,\
-'dchi2min_ih_1.5.dat' u 1:($9/$10) notitle  w l lt 2 lc rgb '#006400' lw 3 ,\
-'dchi2min_nh_3.dat' u 1:($9/$10) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-'dchi2min_ih_3.dat' u 1:($9/$10) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-'dchi2min_nh_6.dat' u 1:($9/$10) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'dchi2min_ih_6.dat' u 1:($9/$10) notitle  w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_1.5.dat' u 1:($9/$10) notitle  w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_1.5.dat' u 1:($9/$10) notitle  w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3.dat' u 1:($9/$10) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3.dat' u 1:($9/$10) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6.dat' u 1:($9/$10) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6.dat' u 1:($9/$10) notitle  w l lt 2 lc rgb 'red' lw 3
 
 unset label
 set ylabel '{/=25 {/Symbol=\163}_{fit} / {/Symbol=\163}_{input}}' offset 1,0
@@ -66,12 +66,12 @@ set ylabel '{/=25 {/Symbol=\163}_{fit} / {/Symbol=\163}_{input}}' offset 1,0
 set label '{/=25 {/Symbol=\104}m^2_{12}}' at 12,0.35
 set label '{/=20 {/Symbol=\163}_{input} = 0.2{/Symbol=\264}10^{-5}}' at 30,0.7
 plot \
-'dchi2min_nh_1.5.dat' u 1:($13/$14) notitle w l lt 1 lc rgb '#006400' lw 3 ,\
-'dchi2min_ih_1.5.dat' u 1:($13/$14) notitle w l lt 2 lc rgb '#006400' lw 3 ,\
-'dchi2min_nh_3.dat' u 1:($13/$14) notitle w l lt 1 lc rgb 'blue' lw 3 ,\
-'dchi2min_ih_3.dat' u 1:($13/$14) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'dchi2min_nh_6.dat' u 1:($13/$14) notitle w l lt 1 lc rgb 'red' lw 3 ,\
-'dchi2min_ih_6.dat' u 1:($13/$14) notitle w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_1.5.dat' u 1:($13/$14) notitle w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_1.5.dat' u 1:($13/$14) notitle w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3.dat' u 1:($13/$14) notitle w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3.dat' u 1:($13/$14) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6.dat' u 1:($13/$14) notitle w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6.dat' u 1:($13/$14) notitle w l lt 2 lc rgb 'red' lw 3
 
 unset label
 unset ylabel
@@ -82,12 +82,12 @@ set ytics (0,0.2,0.4,0.6,0.8)
 set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{13}{/Symbol=\174}}' at 12,0.4
 set label '{/=20 {/Symbol=\163}_{input} = 0.1{/Symbol=\264}10^{-3}}' at 30,0.7
 plot \
-'dchi2min_nh_1.5.dat' u 1:($17/$18) notitle w l lt 1 lc rgb '#006400' lw 3 ,\
-'dchi2min_ih_1.5.dat' u 1:($17/$18) notitle w l lt 2 lc rgb '#006400' lw 3 ,\
-'dchi2min_nh_3.dat' u 1:($17/$18) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-'dchi2min_ih_3.dat' u 1:($17/$18) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-'dchi2min_nh_6.dat' u 1:($17/$18) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'dchi2min_ih_6.dat' u 1:($17/$18) notitle  w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_1.5.dat' u 1:($17/$18) notitle w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_1.5.dat' u 1:($17/$18) notitle w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3.dat' u 1:($17/$18) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3.dat' u 1:($17/$18) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6.dat' u 1:($17/$18) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6.dat' u 1:($17/$18) notitle  w l lt 2 lc rgb 'red' lw 3
 
 set nomultiplot
 

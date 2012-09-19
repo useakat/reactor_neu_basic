@@ -4,11 +4,11 @@
       integer i,j,k
       integer ierr,lencm,npari,nparx,istat,ndiv,mode
       real*8 arg(10),pval(10),perr(10),plo(10),phi(10),gint
-      real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2)
+      real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2),Eres_nl
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
-      character*10 cEres,cmode
+      character*10 cEres,cmode,cEres_nl
       
       integer iflag
       real*8 z(20),dchisq,grad,futil
@@ -27,7 +27,8 @@
       call getarg(6,cR)
       call getarg(7,cY)
       call getarg(8,cEres)
-      call getarg(9,cmode)
+      call getarg(9,cEres_nl)
+      call getarg(10,cmode)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -36,6 +37,7 @@
       read (cR,*) zz(5) 
       read (cY,*) zz(6) 
       read (cEres,*) Eres 
+      read (cEres_nl,*) Eres_nl 
       read (cmode,*) mode
       s2sun_2(1) = 0.85d0
       s2sun_2(2) = 0.025d0
@@ -69,6 +71,7 @@
       zz(20) = Emax
       zz(21) = serror
       zz(22) = snmax
+      zz(23) = Eres_nl
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"

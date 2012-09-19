@@ -18,8 +18,8 @@ set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'Pee' offset 1,0
 set multiplot
 plot \
-'PeeNH_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
-'PeeIH_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
+'DATADIR/PeeNH_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/PeeIH_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
 reset

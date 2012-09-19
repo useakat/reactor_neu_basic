@@ -39,6 +39,48 @@ C     ----------
       end
 
 
+      subroutine smearing_nl(rhisto_in,x,inbins,rbinsize,rEres1,rEres2,rhisto_out)
+C     ****************************************************
+C     By Yoshitaro Takaesu @KIAS Sep.7 2012
+C     
+C     ****************************************************
+      implicitnone
+C     
+C     ARGUMENTS 
+C     
+      integer inbins
+      real*8 rhisto_in(inbins),rbinsize,rEres1,rEres2,rhisto_out(inbins)
+      
+      integer i,j,im
+      real*8 rsigma,ra,rb,x(0:inbins)
+      
+      real*8 Pn
+      external Pn
+C     ----------
+C     BEGIN CODE
+C     ----------
+      if ((rEres1.eq.0).and.(rEres2.eq.0)) then
+         do i = 1,inbins
+            rhisto_out(i) = rhisto_in(i)
+         enddo
+      else
+         ra = rEres1*100
+         rb = rEres2
+         do i = 1,inbins
+            rsigma = ra*0.005 +rb*0.005*( x(i) +x(i-1) )/2d0
+            im = int(3.5*rsigma/0.005)
+            rhisto_out(i) = Pn(0,rbinsize,rsigma)*rhisto_in(i)
+            do j = 1,im
+               rhisto_out(i) = rhisto_out(i) +Pn(j,rbinsize,rsigma)
+     &              *( rhisto_in(i+j) +rhisto_in(i-j) )
+            enddo
+         enddo
+      endif
+
+      return
+      end
+
+
 
       real*8 function Pn(in,rbinsize,rerror)
 C     ****************************************************
