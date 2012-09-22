@@ -18,11 +18,11 @@ set grid
 #set key samplen 2 at 
 set output 'plots/EventDist_combine_ERES.eps'
 unset title
-#set title '{/=20 PPPGW_{th}, VVVkton, YYY years, {/Symbol=\144}E_{vis}/E_{vis} = ERES%/{/Symbol=\326}E_{vis}}'
-set size 1,0.98
+set title '{/=20 PPPGW_{th}, VVVkton, YYY years, {/Symbol=\144}E_{vis}/E_{vis} = ERES%/{/Symbol=\326}E_{vis}}'
+set size 1,1.07
 set multiplot layout 5,1 scale 1,1 offset 0,-0.05
 set lmargin 9
-set rmargin 1
+set rmargin 3
 set tmargin 0
 set bmargin 0
 unset xlabel

@@ -2,6 +2,8 @@
 if [[ $1 = "" ]]; then
     echo "input run name"
     read run
+    echo "input non-linear energy resolution [%]"
+    read Eres_nl
 #    echo "input reactor Power [GW]"
 #    read P
 #    echo "input baseline length [km]"
@@ -76,11 +78,19 @@ elif [ ${mode} -eq 3 ]; then
 	i=`expr $i + 10`
     done
     ./mkgnu_dchi2_combine.sh $P $V $R $Y ${fit_mode} ${run_dir} ${Eres_nl}
-    ./mkgnu_EventDist_combine.sh $P $V $R $Y 6 ${run_dir}
-    ./mkgnu_EventDist_combine.sh $P $V $R $Y 3 ${run_dir}
-    ./mkgnu_EventDist_combine.sh $P $V $R $Y 1.5 ${run_dir} 
-    ./mkgnu_EventDist_combine.sh $P $V $R $Y 0 ${run_dir}
 
+#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 6 ${run_dir}
+#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 3 ${run_dir}
+#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 1.5 ${run_dir} 
+#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 0 ${run_dir}
+#####   EventDist_combine with parameter description in title bar #########
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 6 ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 3 ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 1.5 ${run_dir} 
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 0 ${run_dir}
+###########################################################################
+
+    ./mkgnu_EventDistmin_combine.sh $P $V $R $Y $i ${run_dir}
 fi
 
 cp -rf plots ${run_dir}/. 

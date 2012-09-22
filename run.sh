@@ -19,6 +19,8 @@ if [[ $1 = "" ]]; then
     read R 
     echo "input exposure time [year]"
     read Y   
+    echo "input non-linear energy resolution [%]"
+    read Eres_nl
     echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2"
     read run_mode  
 else
@@ -78,7 +80,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     mode=3
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv FluxXsec_loe.dat FluxXsec_loe_${i}.dat
 	mv FluxXsecPeeNH_loe.dat FluxXsecPeeNH_loe_${i}.dat
 	mv FluxXsecPeeIH_loe.dat FluxXsecPeeIH_loe_${i}.dat
