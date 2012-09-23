@@ -36,8 +36,8 @@ set yrange[1:4E4]
 #set ytics (5E3,1E4,5E4)
 set arrow from 1.81914, graph 0.35 to 1.81914, graph 0.15 lw 3  lc rgb 'red'
 plot \
-'events_nh_30.dat' u ($1**2+0.8):($2/(2*$1)) t '30 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'events_ih_30.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'DATADIR/events_nh_30.dat' u ($1**2+0.8):($2/(2*$1)) t '30 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'DATADIR/events_ih_30.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 unset title
 unset label
@@ -49,8 +49,8 @@ set ytics (2000,6000,10000,14000)
 unset arrow
 set arrow from 2.425, graph 0.40 to 2.425, graph 0.2 lw 3  lc rgb 'red'
 plot \
-'events_nh_40.dat' u ($1**2+0.8):($2/(2*$1)) t '40 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'events_ih_40.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'DATADIR/events_nh_40.dat' u ($1**2+0.8):($2/(2*$1)) t '40 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'DATADIR/events_ih_40.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 unset label
 set ylabel '{/=25 dN / dE_{/Symbol=\156} [1/MeV]}' offset 0.5,2
@@ -62,8 +62,8 @@ set ytics (1000,3000,5000,7000)
 unset arrow
 set arrow from 3.03, graph 0.65 to 3.03, graph 0.45 lw 3  lc rgb 'red'
 plot \
-'events_nh_50.dat' u ($1**2+0.8):($2/(2*$1)) t '50 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'events_ih_50.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'DATADIR/events_nh_50.dat' u ($1**2+0.8):($2/(2*$1)) t '50 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'DATADIR/events_ih_50.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 unset label
 unset ylabel
@@ -77,8 +77,8 @@ set ytics (0,1000,2000,3000,4000)
 unset arrow
 set arrow from 3.638, graph 0.70 to 3.638, graph 0.50 lw 3  lc rgb 'red'
 plot \
-'events_nh_60.dat' u ($1**2+0.8):($2/(2*$1)) t '60 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'events_ih_60.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'DATADIR/events_nh_60.dat' u ($1**2+0.8):($2/(2*$1)) t '60 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'DATADIR/events_ih_60.dat' u ($1**2+0.8):($2/(2*$1)) t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 set nomultiplot
 

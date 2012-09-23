@@ -19,6 +19,8 @@ if [[ $1 = "" ]]; then
     read R 
     echo "input exposure time [year]"
     read Y   
+    echo "input non-linear energy resolution [%]"
+    read Eres_nl
     echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2"
     read run_mode  
 else
@@ -27,12 +29,13 @@ else
     V=$3
     R=$4
     Y=$5
-    run_mode=$6
+    Eres_nl=$6
+    run_mode=$7
 fi    
 
 make clean >/dev/null 2>&1
 rm -rf plots/*
-rm *.dat
+rm -rf data/*
 start_time=`date '+%s'`
 date=`date '+%Y/%m/%d'`
 ttime=`date '+%T'`
@@ -62,7 +65,7 @@ cd DeltaChi2
 make >/dev/null 2>&1
 cd ..
 make dchi2 >/dev/null 2>&1
-Lmin=10
+Lmin=1
 Lmax=100
 ndiv=100
 Eres=6
@@ -72,12 +75,12 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 
     mode=1
     Lmin=1
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 
     mode=3
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv FluxXsec_loe.dat FluxXsec_loe_${i}.dat
 	mv FluxXsecPeeNH_loe.dat FluxXsecPeeNH_loe_${i}.dat
 	mv FluxXsecPeeIH_loe.dat FluxXsecPeeIH_loe_${i}.dat
@@ -89,7 +92,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     mode=4
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv PeeNH.dat PeeNH_${i}.dat
 	mv PeeIH.dat PeeIH_${i}.dat
 	i=`expr $i + 10`
@@ -100,7 +103,7 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     i=10
     while [ $i -lt 110 ]; do
 	Eres=6
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv evdinh.dat events_nh_${i}.dat
 	mv evdiih.dat events_ih_${i}.dat
 #	mv edh6nh.dat events_6_nh_${i}.dat
@@ -125,25 +128,25 @@ fi
 if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 vs. L
     mode=0
     Eres=6
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} $Eres_nl} ${mode}
     mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
     mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
     mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
     mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
     Eres=3
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} $Eres_nl} ${mode}
     mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
     mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
     mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
     mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
     Eres=1.5
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} $Eres_nl} ${mode}
     mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
     mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
     mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
     mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}.dat
     Eres=0
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} 0 ${mode}
     mv dchi2min_nh.dat dchi2min_nh_${Eres}.dat
     mv dchi2min_ih.dat dchi2min_ih_${Eres}.dat
     mv dchi2min_bestfit2ih.dat dchi2min_bestfit2ih_${Eres}.dat
@@ -160,7 +163,7 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv evdinh.dat events_nh_${i}_${Eres}.dat
 	mv evdiih.dat events_ih_${i}_${Eres}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
@@ -182,7 +185,7 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv evdinh.dat events_nh_${i}_${Eres}.dat
 	mv evdiih.dat events_ih_${i}_${Eres}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
@@ -204,7 +207,7 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv evdinh.dat events_nh_${i}_${Eres}.dat
 	mv evdiih.dat events_ih_${i}_${Eres}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
@@ -220,13 +223,14 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
 	i=`expr $i + 10`
     done
     Eres=0
+    Eres_nl=0
     mv dchi2min_bestfit2nh_${Eres}.dat dchi2min_bestfit2nh.dat
     mv dchi2min_bestfit2ih_${Eres}.dat dchi2min_bestfit2ih.dat
     touch int_adchi2_fit2nh_${Eres}.dat
     touch int_adchi2_fit2ih_${Eres}.dat
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} 0 ${mode}
 	mv evdinh.dat events_nh_${i}_${Eres}.dat
 	mv evdiih.dat events_ih_${i}_${Eres}.dat
 	mv evdiihmin.dat events_ihmin_${i}_${Eres}.dat
@@ -245,6 +249,11 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 v
     echo "" >> ${defout}
     cat dchi2_result.txt >> ${defout}
 fi    
+
+mv *.dat data/.
+cp -rf data ${run_dir}/.
+
+./plots.sh ${run} ${Eres_nl} 10 100 ${run_mode}
 
 ### end program ###
     

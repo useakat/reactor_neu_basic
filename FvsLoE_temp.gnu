@@ -18,9 +18,9 @@ set xlabel 'L/E_{/Symbol=\156} [km/MeV]' offset -1,0
 set ylabel 'd( flux * Xsec * Pee) / d(L/E_{/Symbol=\156}) [MeV/s/cm^3]' offset 1,0
 set multiplot
 plot \
-'FluxXsec_loe_LLL.dat' u 1:2 t 'No Oscillation' w l lt 2 lc rgb 'red' lw 3 ,\
-'FluxXsecPeeNH_loe_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
-'FluxXsecPeeIH_loe_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
+'DATADIR/FluxXsec_loe_LLL.dat' u 1:2 t 'No Oscillation' w l lt 2 lc rgb 'red' lw 3 ,\
+'DATADIR/FluxXsecPeeNH_loe_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/FluxXsecPeeIH_loe_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
 set output "plots/Pee_loe_LLL.eps"
@@ -29,8 +29,8 @@ set xlabel 'L/E_{/Symbol=\156} [km/MeV]' offset -1,0
 set ylabel 'Pee' offset 1,0
 set multiplot
 plot \
-'PeeNH_loe_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
-'PeeIH_loe_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
+'DATADIR/PeeNH_loe_LLL.dat' u 1:2 t 'NH' w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/PeeIH_loe_LLL.dat' u 1:2 t 'IH' w l lt 1 lc rgb 'blue' lw 3
 set nomultiplot
 
 reset
