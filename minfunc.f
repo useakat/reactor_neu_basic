@@ -51,8 +51,8 @@ C     ----------
       z_dat(9) = zz(6)*y2s              ! Exposure time [s]
       z_dat(10) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
       z_dat(11) = zz(1)                  ! L [km]
-      z(6) = -1*z_dat(6)
-c      z(6) = z_dat(6)
+c      z(6) = -1*z_dat(6)
+      z(6) = z_dat(6)
       z(7) = z_dat(7)
       z(8) = z_dat(8)
       z(9) = z_dat(9)

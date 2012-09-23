@@ -65,7 +65,7 @@ cd DeltaChi2
 make >/dev/null 2>&1
 cd ..
 make dchi2 >/dev/null 2>&1
-Lmin=10
+Lmin=1
 Lmax=100
 ndiv=100
 Eres=6
@@ -252,6 +252,8 @@ fi
 
 mv *.dat data/.
 cp -rf data ${run_dir}/.
+
+./plots.sh ${run} ${Eres_nl} 10 100 ${run_mode}
 
 ### end program ###
     

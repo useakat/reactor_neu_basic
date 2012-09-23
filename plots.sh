@@ -84,10 +84,10 @@ elif [ ${mode} -eq 3 ]; then
 #    ./mkgnu_EventDist_combine.sh $P $V $R $Y 1.5 ${run_dir} 
 #    ./mkgnu_EventDist_combine.sh $P $V $R $Y 0 ${run_dir}
 #####   EventDist_combine with parameter description in title bar #########
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 6 ${run_dir}
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 3 ${run_dir}
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 1.5 ${run_dir} 
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 0 ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 6 ${Eres_nl} ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 3 ${Eres_nl} ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 1.5 ${Eres_nl} ${run_dir} 
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 0 ${Eres_nl} ${run_dir}
 ###########################################################################
 
     ./mkgnu_EventDistmin_combine.sh $P $V $R $Y $i ${run_dir}
