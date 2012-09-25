@@ -12,9 +12,9 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/EventDistmin_fit2nh_0_100.eps"
+set output "plots/EventDistmin_fit2nh_2_100.eps"
 #set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years, 100 km"
-set title "20GW_{th}, 5kton, 5 years, 100 km, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis} "
+set title "20GW_{th}, 5kton, 5 years, 100 km, {/Symbol=\144}E_{vis}/E_{vis} = 2%/{/Symbol=\326}E_{vis} "
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 #set logscale y
@@ -27,9 +27,9 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'rslt_b0.5/data/events_nh_100_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_b0.5/data/events_ih_100_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_b0.5/data/events_nhmin_100_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb 'red' lw 1
+'rslt_bin0.0025_3/data/events_nh_100_2.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_bin0.0025_3/data/events_ih_100_2.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_bin0.0025_3/data/events_nhmin_100_2.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb 'red' lw 1
 set nomultiplot
 
 reset

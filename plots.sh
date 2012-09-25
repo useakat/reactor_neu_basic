@@ -71,13 +71,14 @@ elif [ ${mode} -eq 3 ]; then
     i=${Lmin}
     while [ $i -lt ${Lmaxp10} ]; do
 	./mkgnu_EventDistmin.sh $P $V $R $Y $i 6 ${run_dir} 	
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 3 ${run_dir}
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 1.5 ${run_dir}
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 0 ${run_dir}			
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 5 ${run_dir}
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 4 ${run_dir}
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 3 ${run_dir}			
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i 2 ${run_dir}			
 #	./mkgnu_adchi2.sh $P $V $R $Y $i	
 	i=`expr $i + 10`
     done
-    ./mkgnu_dchi2_combine.sh $P $V $R $Y ${fit_mode} ${run_dir} ${Eres_nl}
+    ./mkgnu_dchi2_combine.sh $P $V $R $Y ${Eres_nl} ${run_dir}
 
 #    ./mkgnu_EventDist_combine.sh $P $V $R $Y 6 ${run_dir}
 #    ./mkgnu_EventDist_combine.sh $P $V $R $Y 3 ${run_dir}
@@ -85,12 +86,13 @@ elif [ ${mode} -eq 3 ]; then
 #    ./mkgnu_EventDist_combine.sh $P $V $R $Y 0 ${run_dir}
 #####   EventDist_combine with parameter description in title bar #########
      ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 6 ${Eres_nl} ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 5 ${Eres_nl} ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 4 ${Eres_nl} ${run_dir} 
      ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 3 ${Eres_nl} ${run_dir}
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 1.5 ${Eres_nl} ${run_dir} 
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 0 ${Eres_nl} ${run_dir}
+     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 2 ${Eres_nl} ${run_dir}
 ###########################################################################
 
-    ./mkgnu_EventDistmin_combine.sh $P $V $R $Y $i ${run_dir}
+#    ./mkgnu_EventDistmin_combine.sh $P $V $R $Y $i ${run_dir}
 fi
 
 cp -rf plots ${run_dir}/. 
