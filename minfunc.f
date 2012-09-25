@@ -67,9 +67,9 @@ c      z(6) = z_dat(6)
       Eres_nl = zz(23)
 
       nevent = 0
-      rdx = 0.005
+c      rdx = 0.005
 c      rdx = 0.0025
-c      rdx = 0.00125
+      rdx = 0.00125
       nnbins = 1000
 
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC
