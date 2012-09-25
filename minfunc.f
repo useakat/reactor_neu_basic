@@ -26,8 +26,8 @@ C     LOCAL VARIABLES
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
       real*8 Eres_nl
 C     EXTERNAL FUNCTIONS
-      real*8 hfunc1D,dchi2,futil,adchi2
-      external hfunc1D,dchi2,futil,adchi2
+      real*8 hfunc1D,dchi2,futil,adchi2,dchi2_2
+      external hfunc1D,dchi2,futil,adchi2,dchi2_2
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -51,8 +51,8 @@ C     ----------
       z_dat(9) = zz(6)*y2s              ! Exposure time [s]
       z_dat(10) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
       z_dat(11) = zz(1)                  ! L [km]
-c      z(6) = -1*z_dat(6)
-      z(6) = z_dat(6)
+      z(6) = -1*z_dat(6)
+c      z(6) = z_dat(6)
       z(7) = z_dat(7)
       z(8) = z_dat(8)
       z(9) = z_dat(9)
@@ -68,6 +68,8 @@ c      z(6) = -1*z_dat(6)
 
       nevent = 0
       rdx = 0.005
+c      rdx = 0.0025
+c      rdx = 0.00125
       nnbins = 1000
 
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC

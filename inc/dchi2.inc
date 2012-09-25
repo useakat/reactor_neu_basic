@@ -17,6 +17,8 @@ c         call smearing(event_dat,nbins,rdx,Eres,event2_dat)
 c         call smearing(event_th,nbins,rdx,Eres,event2_th)
          call smearing_nl(event_th,x,nbins,rdx,Eres,Eres_nl,event2_th)         
 
-            dchisq = dchi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
-     &           ,error)  
+c            dchisq = dchi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
+c     &           ,error)  
+            dchisq = dchi2_2(nout,event2_dat,event2_th,nbins,npar,z
+     &        ,z_dat,error)  
 
