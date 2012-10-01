@@ -1,5 +1,5 @@
 	real*8 pi
-	parameter (pi=3.14159265358979)
+	parameter (pi=3.14159265358979d0)
 
 	real*8 avog,bolt 
 	parameter (avog=6.02214179d23) ! Avogadro number

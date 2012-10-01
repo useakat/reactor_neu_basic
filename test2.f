@@ -39,16 +39,26 @@
       read (cEres,*) Eres 
       read (cEres_nl,*) Eres_nl 
       read (cmode,*) mode
-      s2sun_2(1) = 0.85d0
-      s2sun_2(2) = 0.025d0
-      s213_2(1) = 0.1d0
+      s2sun_2(1) = 0.857d0
+      s2sun_2(2) = 0.024d0
+      s213_2(1) = 0.098d0
       s213_2(2) = 0.005d0
-      dm21_2(1) = 7.5d-5
-      dm21_2(2) = 0.2d-5
-      dm31_2(1) = 2.4d-3
+      dm21_2(1) = 7.50d-5
+      dm21_2(2) = 0.20d-5
+      dm31_2(1) = 2.32d-3
       dm31_2(2) = 0.1d-3
       ovnorm(1) = 1d0
       ovnorm(2) = 0.03d0
+C$$$      s2sun_2(1) = 0.85d0
+C$$$      s2sun_2(2) = 0.025d0
+C$$$      s213_2(1) = 0.1d0
+C$$$      s213_2(2) = 0.005d0
+C$$$      dm21_2(1) = 7.5d-5
+C$$$      dm21_2(2) = 0.2d-5
+C$$$      dm31_2(1) = 2.4d-3
+C$$$      dm31_2(2) = 0.1d-3
+C$$$      ovnorm(1) = 1d0
+C$$$      ovnorm(2) = 0.03d0
 
       Emin = 1.81d0  
       Emax = 8d0
@@ -93,6 +103,7 @@
       write(19,*) ""
       write(19,*) ""
       write(19,*) "[Delta-Chi2 analysis]"
+
       if (mode.eq.0) then
          do k = -1,1,2
             zz(2) = k
@@ -167,7 +178,7 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
          close(22)
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
-         zz(1) = Lmin
+c         zz(1) = Lmin
          npari = 4
          do i = 1,npari
             z(i) = 1d0
@@ -191,6 +202,14 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
          call minfunc(npari,grad,dchisq,z,iflag,0)
 
       elseif (mode.eq.4) then ! For F vs. E distribution
+         zz(1) = Lmin
+         npari = 4
+         do i = 1,npari
+            z(i) = 1d0
+         enddo
+         call minfunc(npari,grad,dchisq,z,iflag,0)
+
+      elseif (mode.eq.5) then ! For dN/dE distribution
          zz(1) = Lmin
          npari = 4
          do i = 1,npari

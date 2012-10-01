@@ -17,7 +17,9 @@ if [[ $1 = "" ]]; then
 #     read R 
 #     echo "input exposure time [year]"
 #     read Y   
-     echo "input non-linear energy resolution [%]"
+    echo "input energy resolution [%]"
+    read Eres
+    echo "input non-linear energy resolution [%]"
     read Eres_nl
     echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2"
     read run_mode  
@@ -29,13 +31,17 @@ else
 #     Y=$5
 #    Eres_nl=$6
 #    run_mode=$7
-    Eres_nl=$2
-    run_mode=$3
+    Eres=$2
+    Eres_nl=$3
+    run_mode=$4
 fi    
 P=20
 V=5
 R=0.12
 Y=5
+Lmin=10
+Lmax=100
+ndiv=100
 
 make clean >/dev/null 2>&1
 rm -rf plots/*
@@ -69,10 +75,6 @@ cd DeltaChi2
 make >/dev/null 2>&1
 cd ..
 make dchi2 >/dev/null 2>&1
-Lmin=10
-Lmax=100
-ndiv=100
-Eres=6
 
 if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     norm=1
@@ -80,6 +82,17 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     mode=1
     Lmin=1
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+
+    mode=5
+    i=10
+    while [ $i -lt 110 ]; do
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+	mv PeeNH.dat PeeNH_${i}.dat
+	mv PeeIH.dat PeeIH_${i}.dat
+	mv N_nh.dat N_nh_${i}.dat
+	mv N_ih.dat N_ih_${i}.dat
+	i=`expr $i + 10`
+    done
 
     mode=3
     i=10
@@ -93,20 +106,11 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 	i=`expr $i + 10`
     done
 
-    mode=4
-    i=10
-    while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
-	mv PeeNH.dat PeeNH_${i}.dat
-	mv PeeIH.dat PeeIH_${i}.dat
-	i=`expr $i + 10`
-    done
 fi    
 if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     mode=2
     i=10
     while [ $i -lt 110 ]; do
-	Eres=6
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
 	mv evdinh.dat events_nh_${i}.dat
 	mv evdiih.dat events_ih_${i}.dat
@@ -177,7 +181,7 @@ fi
 mv *.dat data/.
 cp -rf data ${run_dir}/.
 
-./plots.sh ${run} ${Eres_nl} 10 100 ${run_mode}
+./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${run_mode}
 
 ### end program ###
     

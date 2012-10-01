@@ -12,13 +12,13 @@ set grid
 #set xrange [-1:1]
 #set yrange [0:1E-33]
 
-set output "plots/FluxXsec.eps"
-set title "P_{reactor} = PPPGW_{th}"
+set output "plots/Flux.eps"
+set title "P_{reactor} = 20GW_{th}
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
-set ylabel 'd( flux * Xsec ) / dE_{/Symbol=\156} [1/s/MeV^2]' offset 1,0
+set ylabel 'dN_{RCT} / dE_{/Symbol=\156} [1/s/MeV^2]' offset 1,0
 set multiplot
 plot \
-'DATADIR/FluxXsec.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
+'rslt_dist/data/Flux.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 reset

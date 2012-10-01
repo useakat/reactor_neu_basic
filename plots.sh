@@ -2,6 +2,8 @@
 if [[ $1 = "" ]]; then
     echo "input run name"
     read run
+    echo "input energy resolution [%]"
+    read Eres
     echo "input non-linear energy resolution [%]"
     read Eres_nl
 #    echo "input reactor Power [GW]"
@@ -17,9 +19,9 @@ if [[ $1 = "" ]]; then
 #    echo "input Energy Resolution"
 #    read Eres
     echo "input Lmin"
-    read run
+    read Lmin
     echo "input Lmax"
-    read run  
+    read Lmax 
     echo "input mode"
     read mode  
 else
@@ -28,10 +30,11 @@ else
 #V=$3
 #R=$4
 #Y=$5
-    Eres_nl=$2
-    Lmin=$3
-    Lmax=$4
-    mode=$5
+    Eres=$2
+    Eres_nl=$3
+    Lmin=$4
+    Lmax=$5
+    mode=$6
 fi
 
 P=20
@@ -40,13 +43,16 @@ R=0.12
 Y=5
 
 norm=1
-fit_mode=-1
 Lmaxp10=`expr ${Lmax} + 10`
 run_dir=rslt_${run}
 
 if [ ${mode} -eq 1 ]; then
+    ./mkgnu_Flux.sh ${run_dir} $P
+    ./mkgnu_Xsec.sh ${run_dir}
     ./mkgnu_FluxXsec.sh ${Lmin} $P ${norm} ${run_dir}
     ./mkgnu_FluxXsec_h.sh ${Lmin} $P ${norm} ${run_dir}
+    ./mkgnu_N.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
+
     i=${Lmin}
     while [ $i -lt ${Lmaxp10}  ]; do 
 	./mkgnu_FvsLoE.sh $i $P ${norm} ${run_dir}

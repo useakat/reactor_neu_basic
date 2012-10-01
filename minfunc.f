@@ -24,7 +24,7 @@ C     LOCAL VARIABLES
       real*8 hevent_th(maxnbin),hevent_dat(maxnbin),xmin,xmax
       real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
-      real*8 Eres_nl
+      real*8 Eres_nl,rdbin
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,dchi2_2
       external hfunc1D,dchi2,futil,adchi2,dchi2_2
@@ -68,8 +68,8 @@ c      z(6) = z_dat(6)
 
       nevent = 0
 c      rdx = 0.005
-c      rdx = 0.0025
-      rdx = 0.00125
+      rdx = 0.0025
+c      rdx = 0.00125
       nnbins = 1000
 
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -78,8 +78,8 @@ CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCC
       if (imode.eq.0) then 
          include 'inc/dchi2.inc'
 
-CCCCCCCCCCCCCCCCCCCCC  F vs. sqrt(E) distributions   CCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCC                  CCCCCCCCCCCCCCCCCC
       elseif (imode.eq.1) then
          include 'inc/FluxXsec_sqrtE.inc'
 
@@ -196,40 +196,11 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC  dPee/d(L/E)  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          enddo
          close(1)
 
-
-CCCCCCCCCCCCCCCCCCCCCC  F vs. E distributions CCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCC                        CCCCCCCCCCCCCCCCCCCCCCCCC
-
-      elseif (imode.eq.4) then
-         xmax = Emax
-         xmin = Emin
-         nbins = 10000 ! nbins should be less than 100000
-         do i = 0,nbins
-            x(i) = xmin +(xmax-xmin)/dble(nbins)*i   
-         enddo
-
-         z_dat(10) = 4    ! Pee vs. E
-         evform_dat = 2   ! 1:integer 2:real*8
-         hmode = 0        ! 0:continuous 1:simpson 2:center-value 
-         z_dat(6) = 1
-         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
-     &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
-     &        ,nevent_dat,ierr)
-         open(1,file="PeeNH.dat",status="replace")
-         do i = 1,nbins
-            write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
-         enddo
-         close(1)
-
-         z_dat(6) = -1
-         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
-     &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
-     &        ,nevent_dat,ierr)
-         open(1,file="PeeIH.dat",status="replace")
-         do i = 1,nbins
-            write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
-         enddo
-         close(1)
+CCCCCCCCCCCCCCCCCCCCCC  distributions with various L CCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCC                              CCCCCCCCCCCCCCCCCCCCCCCCC
+      elseif (imode.eq.5) then
+         include 'inc/Pee.inc'
+         include 'inc/N.inc'
 
       endif
 

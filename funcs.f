@@ -1,10 +1,10 @@
-      real*8 function flux(E)
+      real*8 function flux(E,P)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Aug.31 2012
 C     
 C     Anti-electron-neutrino flux of energy E[MeV] 
-C     at 1[km] away from reactors with the total thermal 
-C     power of 1[GW] in [ 1/s/MeV/cm^2 ] unit
+C     from the reactors with the total thermal 
+C     power of P[GW] in [ 1/s/MeV ] unit
 C     ****************************************************
       implicitnone
 C     
@@ -35,7 +35,8 @@ C     ----------
      &      +fU238*dexp( 0.976d0 -0.162*E -0.0790*E**2 )
      &      +fPu241*dexp( 0.793d0 -0.080*E -0.1085*E**2 )
 
-      flux = a*preflux/(4*pi*1d0**2)*1d12/1.602176487d0
+      flux = P*a*preflux*6.24*1d21
+c      flux = a*preflux*1d12/1.602176487d0
 c      flux = a*preflux*1d22/1.602176487d0
 
 
@@ -69,7 +70,8 @@ C     ----------
       mp = 938.272d0
       mn = 939.565d0
 
-      Ee = (E +mp)/2d0*(1d0 -(mn**2 -me**2)/(2*E*mp +mp**2))
+c      Ee = (E +mp)/2d0*(1d0 -(mn**2 -me**2)/(2*E*mp +mp**2))
+      Ee = E -(mn-mp)
       xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
 
       return

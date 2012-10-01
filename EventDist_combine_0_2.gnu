@@ -29,8 +29,8 @@ unset xlabel
 set format x ""
 #set label '30 km' at 4.5,5E3
 #set label '{/=20 {/Symbol=\163}_{input} = 0.024}' at 30,0.7
-set ytics (10000,20000,30000,40000)
-set yrange[1:4E4]
+set ytics (2000,4000,6000,8000,10000)
+set yrange[1:1E4]
 #set yrange[1E3:6E4]
 #set yrange[1E3:6E4]
 #set ytics (5E3,1E4,5E4)
@@ -41,9 +41,9 @@ plot \
 
 unset title
 unset label
-set yrange[1:1.59E4]
+set yrange[1:4E3]
 #set yrange[1E3:2E4]
-set ytics (2000,6000,10000,14000)
+set ytics (1000,2000,3000)
 #set label '{/=25 sin^22{/Symbol=\161}_{13}}' at 12,0.35
 #set label '{/=20 {/Symbol=\163}_{input} = 0.005}' at 30,0.65
 unset arrow
@@ -54,9 +54,9 @@ plot \
 
 unset label
 set ylabel '{/=25 dN / dE_{/Symbol=\156} [1/MeV]}' offset 0.5,2
-set yrange[1:7.9E3]
+set yrange[1:2E3]
 #set yrange[1E3:1E4]
-set ytics (1000,3000,5000,7000)
+set ytics (500,1000,1500)
 #set label '{/=25 {/Symbol=\104}m^2_{12}}' at 12,0.35
 #set label '{/=20 {/Symbol=\163}_{input} = 0.2{/Symbol=\264}10^{-5}}' at 30,0.7
 unset arrow
@@ -69,9 +69,9 @@ unset label
 unset ylabel
 set xlabel '{/=25 E_{/Symbol=\156} [MeV]}' offset 0,-0.5
 set format x
-set yrange[1:4.9E3]
+set yrange[1:2E3]
 #set yrange[1E3:6E3]
-set ytics (0,1000,2000,3000,4000)
+set ytics (0,500,1000,1500)
 #set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{13}{/Symbol=\174}}' at 12,0.4
 #set label '{/=20 {/Symbol=\163}_{input} = 0.1{/Symbol=\264}10^{-3}}' at 30,0.7
 unset arrow
