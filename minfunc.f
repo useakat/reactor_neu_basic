@@ -67,8 +67,8 @@ c      z(6) = z_dat(6)
       Eres_nl = zz(23)
 
       nevent = 0
-c      rdx = 0.005
-      rdx = 0.0025
+      rdx = 0.005
+c      rdx = 0.0025
 c      rdx = 0.00125
       nnbins = 1000
 

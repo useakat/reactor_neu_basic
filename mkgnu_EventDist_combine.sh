@@ -5,7 +5,8 @@ V=$2
 R=$3
 Y=$4
 Eres=$5
-run_dir=$6
+Eres_nl=$6
+run_dir=$7
 
 data_dir=${run_dir}/data
 

@@ -6,16 +6,17 @@ R=$3
 Y=$4
 L=$5
 Eres=$6
-run_dir=$7
+Eres_nl=$7
+run_dir=$8
 
 data_dir=${run_dir}/data
-
 RR=`echo "scale=1; ${R}*100" | bc`
 
 sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
     -e "s/LLL/${L}/" \
+    -e "s/ERESNL/${Eres_nl}/g" \
     -e "s/ERES/${Eres}/g" \
     -e "s*DATADIR*${data_dir}*" \
     -e "s/YYY/${Y}/" EventDistmin_fit2nh_temp.gnu > temp.gnu
@@ -51,6 +52,7 @@ sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
     -e "s/LLL/${L}/" \
+    -e "s/ERESNL/${Eres_nl}/g" \
     -e "s/ERES/${Eres}/g" \
     -e "s*DATADIR*${data_dir}*" \
     -e "s/YYY/${Y}/" EventDistmin_fit2ih_temp.gnu > temp.gnu

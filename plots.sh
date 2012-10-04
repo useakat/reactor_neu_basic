@@ -61,7 +61,11 @@ if [ ${mode} -eq 1 ]; then
     done
 
 elif [ ${mode} -eq 2 ]; then
-    ./mkgnu_EventDist.sh $P $V $R $Y ${run_dir}
+##### Plots in the draft #############################################
+# Energy distributions
+    ./mkgnu_EventDist.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
+#####################################################################
+
 #     norm=2
 #     Eres=6
 #     ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
@@ -71,34 +75,64 @@ elif [ ${mode} -eq 2 ]; then
 #     ./mkgnu_EventDist_h.sh $P $V $R $Y ${Eres} ${norm}
 
 elif [ ${mode} -eq 3 ]; then
-#    ./mkgnu_dchi2.sh $P $V $R $Y 6
-#    ./mkgnu_dchi2.sh $P $V $R $Y 3
-#    ./mkgnu_dchi2.sh $P $V $R $Y 1.5
-    i=${Lmin}
-    while [ $i -lt ${Lmaxp10} ]; do
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 6 ${run_dir} 	
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 5 ${run_dir}
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 4 ${run_dir}
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 3 ${run_dir}			
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i 2 ${run_dir}			
-#	./mkgnu_adchi2.sh $P $V $R $Y $i	
-	i=`expr $i + 10`
-    done
+##### Plots in the draft #############################################
+# Delta Chi^2 distributions
     ./mkgnu_dchi2_combine.sh $P $V $R $Y ${Eres_nl} ${run_dir}
 
-#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 6 ${run_dir}
-#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 3 ${run_dir}
-#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 1.5 ${run_dir} 
-#    ./mkgnu_EventDist_combine.sh $P $V $R $Y 0 ${run_dir}
-#####   EventDist_combine with parameter description in title bar #########
+# Best-Fit energy distributions
+    Eres=6
+    Eres_nl=0
+    ./mkgnu_EventDistmin_combine.sh $P $V $R $Y 30 ${Eres} ${Eres_nl} ${run_dir}
+###################################################################
+
+elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
+    if [ 1 -eq 1 ]; then
+# Best-Fit energy distributions
+	Eres=2
+	Eres_nl=0
+	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
+	Eres_nl=0.5
+	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
+	Eres_nl=1
+	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
+	Eres=3
+	Eres_nl=0
+	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
+	Eres_nl=0.5
+	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
+	Eres_nl=1
+	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
+    fi
+
+    if [ 1 -eq 0 ]; then
+	i=${Lmin}
+	while [ $i -lt ${Lmaxp10} ]; do
+	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 6 0 ${run_dir} 	
+	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 5 0 ${run_dir}
+	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 4 0 ${run_dir}
+	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 3 0 ${run_dir}			
+	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 2 0 ${run_dir}			
+#	./mkgnu_adchi2.sh $P $V $R $Y $i	
+	    i=`expr $i + 10`
+	done
+    fi
+
+    if [ 1 -eq 0 ]; then
+	./mkgnu_EventDist_combine.sh $P $V $R $Y 6 0 ${run_dir}
+	./mkgnu_EventDist_combine.sh $P $V $R $Y 3 0 ${run_dir}
+	./mkgnu_EventDist_combine.sh $P $V $R $Y 1.5 0 ${run_dir} 
+	./mkgnu_EventDist_combine.sh $P $V $R $Y 0 0 ${run_dir}
+    fi
+
+    if [ 1 -eq 0 ]; then
+# EventDist_combine with parameter description in title bar
      ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 6 ${Eres_nl} ${run_dir}
      ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 5 ${Eres_nl} ${run_dir}
      ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 4 ${Eres_nl} ${run_dir} 
      ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 3 ${Eres_nl} ${run_dir}
      ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 2 ${Eres_nl} ${run_dir}
-###########################################################################
+    fi
 
-#    ./mkgnu_EventDistmin_combine.sh $P $V $R $Y $i ${run_dir}
 fi
 
 cp -rf plots ${run_dir}/. 
