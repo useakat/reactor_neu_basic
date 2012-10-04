@@ -26,16 +26,16 @@ set xlabel '{/=25 L [km]}' offset -1,0
 #set yrange [0:210]
 set multiplot
 plot \
-'DATADIR/dchi2min_nh_2.dat' u 1:2 t '(a,b) = (2,ERESNL) NH'  w l lt 1 lc rgb 'purple' lw 3 ,\
-'DATADIR/dchi2min_ih_2.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'purple' lw 3 ,\
-'DATADIR/dchi2min_nh_3.dat' u 1:2 t '(3,ERESNL) NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
-'DATADIR/dchi2min_ih_3.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
-'DATADIR/dchi2min_nh_4.dat' u 1:2 t '(4,ERESNL) NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_ih_4.dat' u 1:2 t '   IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_nh_5.dat' u 1:2 t '(5,ERESNL) NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_ih_5.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_nh_6.dat' u 1:2 t '(6,ERESNL) NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2min_ih_6.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_2_0.dat' u 1:2 t '(a,b) = (2,ERESNL) NH'  w l lt 1 lc rgb 'purple' lw 3 ,\
+'DATADIR/dchi2min_ih_2_0.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'purple' lw 3 ,\
+'DATADIR/dchi2min_nh_3_0.dat' u 1:2 t '(3,ERESNL) NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
+'DATADIR/dchi2min_ih_3_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
+'DATADIR/dchi2min_nh_4_0.dat' u 1:2 t '(4,ERESNL) NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_4_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_5_0.dat' u 1:2 t '(5,ERESNL) NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_5_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6_0.dat' u 1:2 t '(6,ERESNL) NH'  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'red' lw 3
 set nomultiplot
 
 reset
