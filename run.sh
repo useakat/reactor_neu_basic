@@ -197,10 +197,10 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 
     if [ ${switch4} -eq 1 ]; then 
 	Eres=0
-	Eresnl=0
+	Eres_nl=0
 	source dchi2_bestfit_Eresnl.sh
 	Eres=6
-	Eresnl=0
+	Eres_nl=0
 	source dchi2_bestfit_Eresnl.sh
     fi
 ###############################################
@@ -211,63 +211,53 @@ fi
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
 # chi2 fitting
     mode=0
-
-    Eres=2
+    Eres=0
     Eres_nl=0
     source dchi2_fitting_Eresnl.sh
-    Eres_nl=0.5
-    source dchi2_fitting_Eresnl.sh
-    Eres_nl=1
-    source dchi2_fitting_Eresnl.sh
-    Eres=3
-    Eres_nl=0
-    source dchi2_fitting_Eresnl.sh
-    Eres_nl=0.5
-    source dchi2_fitting_Eresnl.sh
-    Eres_nl=1
-    source dchi2_fitting_Eresnl.sh
-
-#  Best Fit distributions and Data
+    
     mode=2
     Lmaxp10=`expr ${Lmax} + 10`
-
-    Eres=2
-    Eresnl=0
+    Eres=0
+    Eres_nl=0
     source dchi2_bestfit_Eresnl.sh
-    Eresnl=0.5
-    source dchi2_bestfit_Eresnl.sh
-    Eresnl=1
-    source dchi2_bestfit_Eresnl.sh
-
-
-    Eres=3
-    Eresnl=0
-    source dchi2_bestfit_Eresnl.sh
-    Eresnl=0.5
-    source dchi2_bestfit_Eresnl.sh
-    Eresnl=1
-    source dchi2_bestfit_Eresnl.sh
-
-#     Eres=6
-#     source dchi2_fitting.sh
-#     Eres=5
-#     source dchi2_fitting.sh
-#     Eres=4
-#     source dchi2_fitting.sh
-#     Eres=3
-#     source dchi2_fitting.sh
-#     Eres=2
-#     source dchi2_fitting.sh
-
-
-#     Eres_nl=0.25
-#     source dchi2_fitting_Eresnl.sh
-#     Eres_nl=0.5
-#     source dchi2_fitting_Eresnl.sh
-#     Eres_nl=0.75
-#     source dchi2_fitting_Eresnl.sh
-#     Eres_nl=1
-#     source dchi2_fitting_Eresnl.sh
+    
+    if [ 1 -eq 0 ]; then
+	Eres=2
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=1
+	source dchi2_fitting_Eresnl.sh
+	Eres=3
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=1
+	source dchi2_fitting_Eresnl.sh
+	
+#  Best Fit distributions and Data
+	mode=2
+	Lmaxp10=`expr ${Lmax} + 10`
+	
+	Eres=2
+	Eres_nl=0
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=1
+	source dchi2_bestfit_Eresnl.sh
+	
+	
+	Eres=3
+	Eres_nl=0
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=1
+	source dchi2_bestfit_Eresnl.sh
+    fi 
 
 fi
 

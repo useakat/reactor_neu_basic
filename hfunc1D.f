@@ -6,7 +6,7 @@
 
       integer sign,mode
       real*8 x,z(40),error(10),L,E,loe,Np,P,YY,ovnorm
-      real*8 flux,xsec,prob_ee,Lfact
+      real*8 flux,xsec,prob_ee,Lfact,fa,fb
       external flux,xsec,prob_ee      
 
       error(1) = 0.025d0
@@ -14,14 +14,18 @@
       error(3) = 0.2d-5
       error(4) = 0.1d-3
       error(5) = 0.03d0
+      error(6) = 0.1d0
+      error(7) = 0.1d0
 
       ovnorm = z(5)
-      L = z(11)
-      sign = int(z(6))
-      Np = z(7)
-      P = z(8)
-      YY = z(9)
-      mode = z(10)
+      fa = z(6)
+      fb = z(7)
+      L = z(16)
+      sign = int(z(11))
+      Np = z(12)
+      P = z(13)
+      YY = z(14)
+      mode = z(15)
 
       Lfact = 4*pi*(L*1d5)**2
       if (mode.lt.10) then

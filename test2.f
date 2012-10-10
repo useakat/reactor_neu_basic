@@ -6,7 +6,7 @@
       real*8 arg(10),pval(10),perr(10),plo(10),phi(10),gint
       real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2),Eres_nl
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
-      real*8 ovnorm(2)
+      real*8 ovnorm(2),fa(2),fb(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
       character*10 cEres,cmode,cEres_nl
       
@@ -49,6 +49,10 @@
       dm31_2(2) = 0.1d-3
       ovnorm(1) = 1d0
       ovnorm(2) = 0.03d0
+      fa(1) = 1d0
+      fa(2) = 0.1d0
+      fb(1) = 1d0
+      fb(2) = 0.1d0
 C$$$      s2sun_2(1) = 0.85d0
 C$$$      s2sun_2(2) = 0.025d0
 C$$$      s213_2(1) = 0.1d0
@@ -65,23 +69,29 @@ C$$$      ovnorm(2) = 0.03d0
       serror = 1d-2
       snmax = 4
 
+      zz(10) = s2sun_2(1)
+      zz(11) = s2sun_2(2)
+      zz(12) = s213_2(1)
+      zz(13) = s213_2(2)
+      zz(14) = dm21_2(1)
+      zz(15) = dm21_2(2)
+      zz(16) = dm31_2(1)
+      zz(17) = dm31_2(2)
+      zz(18) = ovnorm(1)
+      zz(19) = ovnorm(2)
+      zz(20) = fa(1)
+      zz(21) = fa(2)
+      zz(22) = fb(1)
+      zz(23) = fb(2)
+
       zz(7) = Eres/100d0
       zz(8) = mode
-      zz(9) = s2sun_2(1)
-      zz(10) = s2sun_2(2)
-      zz(11) = s213_2(1)
-      zz(12) = s213_2(2)
-      zz(13) = dm21_2(1)
-      zz(14) = dm21_2(2)
-      zz(15) = dm31_2(1)
-      zz(16) = dm31_2(2)
-      zz(17) = ovnorm(1)
-      zz(18) = ovnorm(2)
-      zz(19) = Emin
-      zz(20) = Emax
-      zz(21) = serror
-      zz(22) = snmax
-      zz(23) = Eres_nl
+      zz(30) = Emin
+      zz(31) = Emax
+      zz(32) = serror
+      zz(33) = snmax
+      zz(34) = Eres_nl
+      zz(35) = ndiv
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"
@@ -94,6 +104,10 @@ C$$$      ovnorm(2) = 0.03d0
      &     ,dm31_2(2)
       write(19,'(a11,e12.5,a3,e9.2)') "ovnorm = ",ovnorm(1)," +-"
      &     ,ovnorm(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "fa = ",fa(1)," +-"
+     &     ,fa(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "fb = ",fb(1)," +-"
+     &     ,fb(2)
       write(19,*) ""
       write(19,*) "Ev Range:",Emin," -",Emax," [MeV]"
       write(19,*) ""
@@ -129,7 +143,10 @@ C$$$      ovnorm(2) = 0.03d0
                call mnparm(3,'dm21_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
                call mnparm(4,'dm31_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
                call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
-c               call mncomd(minfunc,'FIX 5',iflag,0)
+               call mnparm(6,'fa',fa(1),fa(2),0d0,0d0,ierr)
+               call mnparm(7,'fb',fb(1),fb(2),0d0,0d0,ierr)
+               call mncomd(minfunc,'FIX 6',iflag,0)
+               call mncomd(minfunc,'FIX 7',iflag,0)
 
                arg(1) = 0d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
@@ -144,13 +161,16 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
      &                 ,ierr)
                enddo
 
-               write(21,'(e10.3,22e13.5)') zz(1),chisqmin,fedm
+               write(21,'(e10.3,30e13.5)') zz(1),chisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
      &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
      &              ,pval(4),perr(4),dm31_2(2),(pval(4)-dm31_2(1))/dm31_2(2)
      &              ,pval(5),perr(5),ovnorm(2),(pval(5)-ovnorm(1))/ovnorm(2)
-               write(22,*) zz(1),pval(1),pval(2),pval(3),pval(4),pval(5)
+     &              ,pval(6),perr(6),fa(2),(pval(6)-fa(1))/fa(2)
+     &              ,pval(7),perr(7),fb(2),(pval(7)-fb(1))/fb(2)
+               write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
+     &              ,pval(4),pval(5),pval(6),pval(7)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,chisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
@@ -163,6 +183,10 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
      &              ,pval(4)," +-",perr(4)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
      &              ,pval(5)," +-",perr(5)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
+     &              ,pval(6)," +-",perr(6)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
+     &              ,pval(7)," +-",perr(7)
                write(19,*) ""
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
@@ -179,14 +203,14 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
 c         zz(1) = Lmin
-         npari = 4
+         npari = 7
          do i = 1,npari
             z(i) = 1d0
          enddo
          call minfunc(npari,grad,dchisq,z,iflag,0)
 
       elseif (mode.eq.2) then ! For dN/dE plots
-         npari = 4
+         npari = 7
          do i = 1,npari
             z(i) = 1d0
          enddo
@@ -195,7 +219,7 @@ c         zz(1) = Lmin
 
       elseif (mode.eq.3) then ! For F vs. L/E distribution
          zz(1) = Lmin
-         npari = 4
+         npari = 7
          do i = 1,npari
             z(i) = 1d0
          enddo
@@ -203,7 +227,7 @@ c         zz(1) = Lmin
 
       elseif (mode.eq.4) then ! For F vs. E distribution
          zz(1) = Lmin
-         npari = 4
+         npari = 7
          do i = 1,npari
             z(i) = 1d0
          enddo
@@ -211,7 +235,7 @@ c         zz(1) = Lmin
 
       elseif (mode.eq.5) then ! For dN/dE distribution
          zz(1) = Lmin
-         npari = 4
+         npari = 7
          do i = 1,npari
             z(i) = 1d0
          enddo

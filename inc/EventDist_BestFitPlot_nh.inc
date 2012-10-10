@@ -1,12 +1,14 @@
 C -*- fortran -*-
-         z_dat(10) = 20    ! N vs. sqrt(E)
+         z_dat(15) = 20    ! N vs. sqrt(E)
 c         include 'bining_value.inc'
          include 'bining_dx.inc'
          hmode = 1
          evform_dat = 2
 
-         z_min(6) = -1
+         z_min(11) = -1
+c         z_dat(11) = -1
          call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
+c         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x 
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)
 c         call smearing(event_dat,nbins,rdx,Eres,event2_dat)         

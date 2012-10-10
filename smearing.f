@@ -67,7 +67,8 @@ C     ----------
          ra = rEres1*100
          rb = rEres2
          do i = 1,inbins
-            rsigma = ra*0.005 +rb*0.005*( x(i) +x(i-1) )/2d0
+            rsigma = dsqrt( (ra*0.005)**2 
+     &           +(rb*0.005*( x(i) +x(i-1) )/2d0)**2 )
             im = int(3.5*rsigma/rbinsize)
             rhisto_out(i) = Pn(0,rbinsize,rsigma)*rhisto_in(i)
             do j = 1,im

@@ -1,11 +1,11 @@
 C -*- fortran -*-
-         z_dat(10) = 0    ! N vs E_{\nu}
+         z_dat(15) = 0    ! N vs E_{\nu}
          hmode = 0        ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 2   ! 1:integer 2:real*8
 c         include 'bining_dx.inc'
          include 'bining_E.inc'
 
-         z_dat(6) = 1
+         z_dat(11) = 1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)
@@ -18,7 +18,7 @@ c     &        ,event2_dat)
          enddo
          close(1)
 
-         z_dat(6) = -1
+         z_dat(11) = -1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)

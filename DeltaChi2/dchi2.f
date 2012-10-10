@@ -63,7 +63,7 @@ C     LOCAL VARIABLES
 C     ----------
 C     BEGIN CODE
 C     ----------
-      nn = 4
+      nn = 1
 
       dchi2_2 = 0d0
       ipos = 0

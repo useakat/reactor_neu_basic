@@ -2,7 +2,7 @@ C -*- fortran -*-
          include 'bining_E.inc'
          evform_dat = 2   ! 1:integer 2:real*8
 
-         z_dat(10) = 1   ! dFlux/dE
+         z_dat(15) = 1   ! dFlux/dE
          hmode = 0        ! 0:continuous 1:simpson 2:center-value 
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
@@ -13,7 +13,7 @@ C -*- fortran -*-
          enddo
          close(1)
 
-         z_dat(10) = 2   ! dXsec/dE
+         z_dat(15) = 2   ! dXsec/dE
          hmode = 0        ! 0:continuous 1:simpson 2:center-value 
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
@@ -24,7 +24,7 @@ C -*- fortran -*-
          enddo
          close(1)
 
-         z_dat(10) = 4   ! d(Flux*Xsec)/dE_{\nu}
+         z_dat(15) = 4   ! d(Flux*Xsec)/dE_{\nu}
          hmode = 0        ! 0:continuous 1:simpson 2:center-value 
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat

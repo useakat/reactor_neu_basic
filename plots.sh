@@ -42,6 +42,8 @@ V=5
 R=0.12
 Y=5
 
+rm -rf plots/*
+
 norm=1
 Lmaxp10=`expr ${Lmax} + 10`
 run_dir=rslt_${run}
@@ -89,53 +91,18 @@ elif [ ${mode} -eq 3 ]; then
 ###################################################################
 
 elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
-    if [ 1 -eq 1 ]; then
-# Best-Fit energy distributions
-	Eres=2
-	Eres_nl=0
-	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
-	Eres_nl=0.5
-	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
-	Eres_nl=1
-	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
-	Eres=3
-	Eres_nl=0
-	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
-	Eres_nl=0.5
-	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
-	Eres_nl=1
-	./mkgnu_EventDistmin_combine_2.sh $P $V $R $Y 50 ${Eres} ${Eres_nl} ${run_dir}
-    fi
+    
+    Eres=0
+    Eres_nl=0
+    ./mkgnu_dchi2_combine.sh $P $V $R $Y ${Eres_nl} ${run_dir}
 
-    if [ 1 -eq 0 ]; then
-	i=${Lmin}
-	while [ $i -lt ${Lmaxp10} ]; do
-	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 6 0 ${run_dir} 	
-	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 5 0 ${run_dir}
-	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 4 0 ${run_dir}
-	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 3 0 ${run_dir}			
-	    ./mkgnu_EventDistmin.sh $P $V $R $Y $i 2 0 ${run_dir}			
-#	./mkgnu_adchi2.sh $P $V $R $Y $i	
-	    i=`expr $i + 10`
-	done
-    fi
-
-    if [ 1 -eq 0 ]; then
-	./mkgnu_EventDist_combine.sh $P $V $R $Y 6 0 ${run_dir}
-	./mkgnu_EventDist_combine.sh $P $V $R $Y 3 0 ${run_dir}
-	./mkgnu_EventDist_combine.sh $P $V $R $Y 1.5 0 ${run_dir} 
-	./mkgnu_EventDist_combine.sh $P $V $R $Y 0 0 ${run_dir}
-    fi
-
-    if [ 1 -eq 0 ]; then
-# EventDist_combine with parameter description in title bar
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 6 ${Eres_nl} ${run_dir}
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 5 ${Eres_nl} ${run_dir}
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 4 ${Eres_nl} ${run_dir} 
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 3 ${Eres_nl} ${run_dir}
-     ./mkgnu_EventDist_combine_title.sh $P $V $R $Y 2 ${Eres_nl} ${run_dir}
-    fi
-
+    Eres=0
+    Eres_nl=0
+    i=${Lmin}
+    while [ $i -lt ${Lmaxp10} ]; do
+	./mkgnu_EventDistmin.sh $P $V $R $Y $i ${Eres} ${Eres_nl} ${run_dir}			
+	i=`expr $i + 10`
+    done
 fi
 
 cp -rf plots ${run_dir}/. 
