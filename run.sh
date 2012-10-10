@@ -17,9 +17,11 @@ if [[ $1 = "" ]]; then
 #     read R 
 #     echo "input exposure time [year]"
 #     read Y   
-     echo "input non-linear energy resolution [%]"
+    echo "input energy resolution [%]"
+    read Eres
+    echo "input non-linear energy resolution [%]"
     read Eres_nl
-    echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2"
+    echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2 4:Free Analysis"
     read run_mode  
 else
     run=$1
@@ -29,13 +31,17 @@ else
 #     Y=$5
 #    Eres_nl=$6
 #    run_mode=$7
-    Eres_nl=$2
-    run_mode=$3
+    Eres=$2
+    Eres_nl=$3
+    run_mode=$4
 fi    
 P=20
 V=5
 R=0.12
 Y=5
+Lmin=10
+Lmax=100
+ndiv=100
 
 make clean >/dev/null 2>&1
 rm -rf plots/*
@@ -69,10 +75,6 @@ cd DeltaChi2
 make >/dev/null 2>&1
 cd ..
 make dchi2 >/dev/null 2>&1
-Lmin=10
-Lmax=100
-ndiv=100
-Eres=6
 
 if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     norm=1
@@ -80,6 +82,17 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     mode=1
     Lmin=1
     ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+
+    mode=5
+    i=10
+    while [ $i -lt 110 ]; do
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+	mv PeeNH.dat PeeNH_${i}.dat
+	mv PeeIH.dat PeeIH_${i}.dat
+	mv N_nh.dat N_nh_${i}.dat
+	mv N_ih.dat N_ih_${i}.dat
+	i=`expr $i + 10`
+    done
 
     mode=3
     i=10
@@ -93,91 +106,165 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 	i=`expr $i + 10`
     done
 
-    mode=4
-    i=10
-    while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
-	mv PeeNH.dat PeeNH_${i}.dat
-	mv PeeIH.dat PeeIH_${i}.dat
-	i=`expr $i + 10`
-    done
 fi    
 if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     mode=2
+###### Analysis in the draft ###############################################
+# Energy distributions
     i=10
     while [ $i -lt 110 ]; do
-	Eres=6
 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
-	mv evdinh.dat events_nh_${i}.dat
-	mv evdiih.dat events_ih_${i}.dat
-#	mv edh6nh.dat events_6_nh_${i}.dat
-#	mv edh6ih.dat events_6_ih_${i}.dat
-	
-# 	Eres=3
-# 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-# 	mv edh6nh.dat events_3_nh_${i}.dat
-# 	mv edh6ih.dat events_3_ih_${i}.dat
-	
-# 	Eres=1.5
-# 	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
-# 	mv edh6nh.dat events_1.5_nh_${i}.dat
-# 	mv edh6ih.dat events_1.5_ih_${i}.dat
-	
+	mv evdinh.dat events_nh_${i}_${Eres}_${Eres_nl}.dat
+	mv evdiih.dat events_ih_${i}_${Eres}_${Eres_nl}.dat
 	i=`expr $i + 10`
     done
+#######################################################################
+
+#	mv edh6nh.dat events_6_nh_${i}.dat
+#	mv edh6ih.dat events_6_ih_${i}.dat
+
+    if [ 1 -eq 0 ]; then	
+	i=10
+	while [ $i -lt 110 ]; do
+	    Eres=3
+	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	    mv edh6nh.dat events_3_nh_${i}.dat
+	    mv edh6ih.dat events_3_ih_${i}.dat
+	
+	    Eres=1.5
+	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	    mv edh6nh.dat events_1.5_nh_${i}.dat
+	    mv edh6ih.dat events_1.5_ih_${i}.dat
+	    i=`expr $i + 10`
+	done
+    fi
 
 fi
 
+if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
+    switch1=1  # Fig.4 & 5
+    switch2=1  # Fig.6
+    switch3=1  # Fig.7
+    switch4=1  # Fig.2 & 3 
 
-if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Plotting Delta-Chi2 vs. L
+# chi2 fitting
     mode=0
-#     Eres=6
-#     source dchi2_fitting.sh
-#     Eres=5
-#     source dchi2_fitting.sh
-#     Eres=4
-#     source dchi2_fitting.sh
-#     Eres=3
-#     source dchi2_fitting.sh
-#     Eres=2
-#     source dchi2_fitting.sh
 
-    Eres=2
-    Eres_nl=0
-    source dchi2_fitting_Eresnl.sh  # changing Eres_nl
-    Eres_nl=0.25
-    source dchi2_fitting_Eresnl.sh
-    Eres_nl=0.5
-    source dchi2_fitting_Eresnl.sh
-    Eres_nl=0.75
-    source dchi2_fitting_Eresnl.sh
-    Eres_nl=1
-    source dchi2_fitting_Eresnl.sh
+    if [ ${switch1} -eq 1 ]; then 
+	Eres=0
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres=6
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres=5
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres=4
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres=3
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres=2
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+    fi
 
-#################  Best Fit Plots and Data #####################
-#    mode=2
-#    Lmaxp10=`expr ${Lmax} + 10`
-    
-#     Eres=6
-#     source dchi2_bestfit.sh
-#     Eres=5
-#     source dchi2_bestfit.sh
-#     Eres=4
-#     source dchi2_bestfit.sh
-#     Eres=3
-#     source dchi2_bestfit.sh
-#     Eres=2
-#     source dchi2_bestfit.sh
+    if [ ${switch2} -eq 1 ]; then 
+	Eres=2
+	Eres_nl=0.5
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=0.75
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=1
+	source dchi2_fitting_Eresnl.sh
+    fi
 
+    if [ ${switch3} -eq 1 ]; then 
+	Eres=3
+	Eres_nl=0.5
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=0.75
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=1
+	source dchi2_fitting_Eresnl.sh
+    fi
 
+#  Best Fit distributions and Data
+    mode=2
+    Lmaxp10=`expr ${Lmax} + 10`
+
+    if [ ${switch4} -eq 1 ]; then 
+	Eres=0
+	Eres_nl=0
+	source dchi2_bestfit_Eresnl.sh
+	Eres=6
+	Eres_nl=0
+	source dchi2_bestfit_Eresnl.sh
+    fi
+###############################################
     echo "" >> ${defout}
     cat dchi2_result.txt >> ${defout}
 fi    
 
+if [ ${run_mode} -eq 4 ]; then  # Free analysis
+# chi2 fitting
+    mode=0
+    Eres=0
+    Eres_nl=0
+    source dchi2_fitting_Eresnl.sh
+    
+    mode=2
+    Lmaxp10=`expr ${Lmax} + 10`
+    Eres=0
+    Eres_nl=0
+    source dchi2_bestfit_Eresnl.sh
+    
+    if [ 1 -eq 0 ]; then
+	Eres=2
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=1
+	source dchi2_fitting_Eresnl.sh
+	Eres=3
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_fitting_Eresnl.sh
+	Eres_nl=1
+	source dchi2_fitting_Eresnl.sh
+	
+#  Best Fit distributions and Data
+	mode=2
+	Lmaxp10=`expr ${Lmax} + 10`
+	
+	Eres=2
+	Eres_nl=0
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=1
+	source dchi2_bestfit_Eresnl.sh
+	
+	
+	Eres=3
+	Eres_nl=0
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=0.5
+	source dchi2_bestfit_Eresnl.sh
+	Eres_nl=1
+	source dchi2_bestfit_Eresnl.sh
+    fi 
+
+fi
+
 mv *.dat data/.
 cp -rf data ${run_dir}/.
 
-./plots.sh ${run} ${Eres_nl} 10 100 ${run_mode}
+./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${run_mode}
 
 ### end program ###
     

@@ -1,11 +1,13 @@
 C -*- fortran -*-
-      z_dat(10) = 20
+      z_dat(15) = 20
 c      include 'bining_value.inc' ! bining by value
       include 'bining_dx.inc'
       hmode = 1
       evform_dat = 2
 
-      z_min(6) = 1
+      z_min(11) = 1
+c      z_dat(11) = 1
+c      call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x 
       call MakeHisto1D(nout,hfunc1D,z_min,nevent,nbins,x
      &     ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &     ,nevent_dat,ierr)

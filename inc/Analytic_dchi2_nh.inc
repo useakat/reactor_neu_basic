@@ -1,9 +1,9 @@
 C -*- fortran -*-
-         z_dat(10) = 22
+         z_dat(15) = 22
          include 'bining_value.inc'
 
-         z_dat(6) = 1
-         z_min(6) = -1
+         z_dat(11) = 1
+         z_min(11) = -1
          open(1,file="adchi2_fit2nh.dat",status="replace")
          rint_adchi2 = 0d0
          do i = 0,nbins-1

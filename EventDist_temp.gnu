@@ -12,8 +12,8 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/EventDist.eps"
-set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}"
+set output "plots/EventDist_ERES_ERESNL.eps"
+set title "P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years, NH, {/Symbol=\144}E_{vis}/E_{vis} = ERES%/{/Symbol=\326}E_{vis} +ERESNL%"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 set logscale y
@@ -26,26 +26,26 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'DATADIR/events_nh_10.dat' u ($1**2+0.8):($2/(2*$1)) t '10km' w l lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/events_nh_20.dat' u ($1**2+0.8):($2/(2*$1)) t '20km' w l lt 1 lc rgb 'green' lw 3 ,\
-'DATADIR/events_nh_30.dat' u ($1**2+0.8):($2/(2*$1)) t '30km' w l lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/events_nh_40.dat' u ($1**2+0.8):($2/(2*$1)) t '40km' w l lt 1 lc rgb 'purple' lw 3 ,\
-'DATADIR/events_nh_50.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'cyan' lw 3 ,\
-'DATADIR/events_nh_60.dat' u ($1**2+0.8):($2/(2*$1)) t '60km' w l lt 1 lc rgb 'black' lw 3 ,\
-'DATADIR/events_nh_70.dat' u ($1**2+0.8):($2/(2*$1)) t '70km' w l lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/events_nh_80.dat' u ($1**2+0.8):($2/(2*$1)) t '80km' w l lt 1 lc rgb 'gray' lw 3 ,\
-'DATADIR/events_nh_90.dat' u ($1**2+0.8):($2/(2*$1)) t '90km' w l lt 1 lc rgb 'orange' lw 3 ,\
-'DATADIR/events_nh_100.dat' u ($1**2+0.8):($2/(2*$1)) t '100km' w l lt 1 lc rgb 'green' lw 3 ,\
-'DATADIR/events_ih_10.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'DATADIR/events_ih_20.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3 ,\
-'DATADIR/events_ih_30.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'DATADIR/events_ih_40.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'purple' lw 3 ,\
-'DATADIR/events_ih_50.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'cyan' lw 3 ,\
-'DATADIR/events_ih_60.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'black' lw 3 ,\
-'DATADIR/events_ih_70.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'DATADIR/events_ih_80.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'gray' lw 3 ,\
-'DATADIR/events_ih_90.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'orange' lw 3 ,\
-'DATADIR/events_ih_100.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3
+'DATADIR/events_nh_10_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '10km' w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/events_nh_20_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '20km' w l lt 1 lc rgb 'green' lw 3 ,\
+'DATADIR/events_nh_30_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '30km' w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/events_nh_40_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '40km' w l lt 1 lc rgb 'purple' lw 3 ,\
+'DATADIR/events_nh_50_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'cyan' lw 3 ,\
+'DATADIR/events_nh_60_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '60km' w l lt 1 lc rgb 'black' lw 3 ,\
+'DATADIR/events_nh_70_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '70km' w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/events_nh_80_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '80km' w l lt 1 lc rgb 'gray' lw 3 ,\
+'DATADIR/events_nh_90_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '90km' w l lt 1 lc rgb 'orange' lw 3 ,\
+'DATADIR/events_nh_100_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) t '100km' w l lt 1 lc rgb 'green' lw 3 ,\
+'DATADIR/events_ih_10_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'DATADIR/events_ih_20_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3 ,\
+'DATADIR/events_ih_30_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/events_ih_40_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'purple' lw 3 ,\
+'DATADIR/events_ih_50_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'cyan' lw 3 ,\
+'DATADIR/events_ih_60_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'black' lw 3 ,\
+'DATADIR/events_ih_70_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'DATADIR/events_ih_80_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'gray' lw 3 ,\
+'DATADIR/events_ih_90_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'orange' lw 3 ,\
+'DATADIR/events_ih_100_ERES_ERESNL.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'green' lw 3
 set nomultiplot
 
 reset

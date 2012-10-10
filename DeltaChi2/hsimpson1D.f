@@ -9,7 +9,7 @@ c        IMPLICIT REAL*8 (A-H,O-Z)
       implicit none
 
       integer nmax,nflag
-      real*8 x0,x1,z(20),ans,error
+      real*8 x0,x1,z(40),ans,error
 
       integer i
       integer n,l

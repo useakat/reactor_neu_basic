@@ -1,5 +1,5 @@
 C -*- fortran -*-
-         z_dat(10) = 20 ! N vs. sqrt(E)
+         z_dat(15) = 20 ! N vs. sqrt(E)
          hmode = 1 ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 2
          evform_th = 2

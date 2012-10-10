@@ -24,10 +24,10 @@ set label '{/=25 sin^22{/Symbol=\161}_{12}}' at 12,0.45
 set ytics (-0.25,0,0.25,0.5)
 set yrange[-0.5:0.75]
 plot \
-'DATADIR/dchi2min_nh_2.dat' u 1:7 t '2% NH'  w l lt 1 lc rgb 'purple' lw 3 ,\
-'DATADIR/dchi2min_ih_2.dat' u 1:7 t '     IH'  w l lt 2 lc rgb 'purple' lw 3 ,\
-'DATADIR/dchi2min_nh_3.dat' u 1:7 t '3% NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
-'DATADIR/dchi2min_ih_3.dat' u 1:7 t '   IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
+'DATADIR/dchi2min_nh_2_0.dat' u 1:7 t '2% NH'  w l lt 1 lc rgb 'purple' lw 3 ,\
+'DATADIR/dchi2min_ih_2_0.dat' u 1:7 t '     IH'  w l lt 2 lc rgb 'purple' lw 3 ,\
+'DATADIR/dchi2min_nh_3_0.dat' u 1:7 t '3% NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
+'DATADIR/dchi2min_ih_3_0.dat' u 1:7 t '   IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
 'DATADIR/dchi2min_nh_4.dat' u 1:7 t '4% NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
 'DATADIR/dchi2min_ih_4.dat' u 1:7 t '   IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
 'DATADIR/dchi2min_nh_5.dat' u 1:7 t '5% NH'  w l lt 1 lc rgb 'blue' lw 3 ,\

@@ -14,8 +14,8 @@ C     GLOBAL VARIABLES
       real*8 zz(40)
       common /zz/ zz
 C     LOCAL VARIABLES 
-      integer i
-      integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode
+      integer i,j
+      integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
       integer maxnbin,imode,minflag,ierr,ierr1,ierr2,iswitch_smear,nnbins
       parameter (nout=6, maxnbin=20000)
       real*8 x(0:maxnbin),z_dat(40),event_th(maxnbin),z(40)
@@ -24,7 +24,7 @@ C     LOCAL VARIABLES
       real*8 hevent_th(maxnbin),hevent_dat(maxnbin),xmin,xmax
       real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
-      real*8 Eres_nl
+      real*8 Eres_nl,rdbin
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,dchi2_2
       external hfunc1D,dchi2,futil,adchi2,dchi2_2
@@ -34,42 +34,48 @@ C     ----------
       minflag = 0
       imode = int(zz(8))
 
-      z_dat(1) = zz(9)
-      z_dat(2) = zz(11)
-      z_dat(3) = zz(13)
-      z_dat(4) = zz(15)
-      z_dat(5) = zz(17)
-      error(1) = zz(10)
-      error(2) = zz(12)
-      error(3) = zz(14)
-      error(4) = zz(16)
-      error(5) = zz(18)
+      z_dat(1) = zz(10)
+      z_dat(2) = zz(12)
+      z_dat(3) = zz(14)
+      z_dat(4) = zz(16)
+      z_dat(5) = zz(18)
+      z_dat(6) = zz(20)
+      z_dat(7) = zz(22)
+      error(1) = zz(11)
+      error(2) = zz(13)
+      error(3) = zz(15)
+      error(4) = zz(17)
+      error(5) = zz(19)
+      error(6) = zz(21)
+      error(7) = zz(23)
 
-      z_dat(6) = zz(2)                  ! NH/IH
-      z_dat(7) = zz(4)*zz(5)*1d9*avog   ! N_target
-      z_dat(8) = zz(3)                  ! Power [GW]
-      z_dat(9) = zz(6)*y2s              ! Exposure time [s]
-      z_dat(10) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
-      z_dat(11) = zz(1)                  ! L [km]
-      z(6) = -1*z_dat(6)
-c      z(6) = z_dat(6)
-      z(7) = z_dat(7)
-      z(8) = z_dat(8)
-      z(9) = z_dat(9)
-      z(10) = z_dat(10)
-      z(11) = z_dat(11)
+      z_dat(11) = zz(2)                  ! NH/IH
+      z_dat(12) = zz(4)*zz(5)*1d9*avog   ! N_target
+      z_dat(13) = zz(3)                  ! Power [GW]
+      z_dat(14) = zz(6)*y2s              ! Exposure time [s]
+      z_dat(15) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
+      z_dat(16) = zz(1)                  ! L [km]
+      z(11) = -1*z_dat(11)
+c      z(11) = z_dat(11)
+      z(12) = z_dat(12)
+      z(13) = z_dat(13)
+      z(14) = z_dat(14)
+      z(15) = z_dat(15)
+      z(16) = z_dat(16)
 
-      serror = zz(21)
-      snmax = zz(22)
-      Emin = zz(19)  ! Emin > 1.80473
-      Emax = zz(20)
+      serror = zz(32)
+      snmax = zz(33)
+      Emin = zz(30)  ! Emin > 1.80473
+      Emax = zz(31)
       Eres = zz(7)
-      Eres_nl = zz(23)
+      Eres_nl = zz(34)
+      ndiv = zz(35)
 
       nevent = 0
-c      rdx = 0.005
+c      rdx = 0.01
+      rdx = 0.005
 c      rdx = 0.0025
-      rdx = 0.00125
+c      rdx = 0.00125
       nnbins = 1000
 
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -78,8 +84,8 @@ CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCC
       if (imode.eq.0) then 
          include 'inc/dchi2.inc'
 
-CCCCCCCCCCCCCCCCCCCCC  F vs. sqrt(E) distributions   CCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCC                  CCCCCCCCCCCCCCCCCC
       elseif (imode.eq.1) then
          include 'inc/FluxXsec_sqrtE.inc'
 
@@ -89,55 +95,61 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          include 'inc/EventDist.inc'
 
          open(2,file='dchi2min_bestfit2nh.dat',status='old',err=200)
-         do 
-            read(2,*,end=100) z_min(11),z_min(1),z_min(2),z_min(3)
-     &           ,z_min(4),z_min(5)
-            if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+0.9d0))
+         do
+            read(2,*,end=100) z_min(16),z_min(1),z_min(2),z_min(3)
+     &           ,z_min(4),z_min(5),z_min(6),z_min(7)
+            if ((z_min(16).ge.z_dat(16)).and.(z_min(16).lt.z_dat(16)+0.9d0))
      &           then
                minflag = 1
-               do i = 6,11
-                  z_min(i) = z(i)
+               do i = 8,16
+                  z_min(i) = z_dat(i)
                enddo
                goto 100
             endif
          enddo
  100     close(2)
+c         write(6,*) "z_min"
+c         write(6,*) z_min(1),z_min(2),z_min(3),z_min(4),z_min(5)
+c     &        ,z_min(6),z_min(7)
+c         write(6,*) "z_dat"
+c         write(6,*) z_dat(1),z_dat(2),z_dat(3),z_dat(4),z_dat(5)
+c     &        ,z_dat(6),z_dat(7)
          include 'inc/EventDist_BestFitPlot_nh.inc'
-         include 'inc/Analytic_dchi2_nh.inc'
+c         include 'inc/Analytic_dchi2_nh.inc'
 c         include 'inc/BestFitData_nh.inc'
- 200  continue
+ 200     continue
 
          open(2,file='dchi2min_bestfit2ih.dat',status='old',err=400)
          do 
-            read(2,*,end=300) z_min(11),z_min(1),z_min(2),z_min(3)
-     &           ,z_min(4),z_min(5)
-            if ((z_min(11).ge.z_dat(11)).and.(z_min(11).lt.z_dat(11)+0.9d0))
+            read(2,*,end=300) z_min(16),z_min(1),z_min(2),z_min(3)
+     &           ,z_min(4),z_min(5),z_min(6),z_min(7)
+            if ((z_min(16).ge.z_dat(16)).and.(z_min(16).lt.z_dat(16)+0.9d0))
      &           then
                minflag = 1
-               do i = 6,11
-                  z_min(i) = z(i)
+               do i = 8,16
+                  z_min(i) = z_dat(i)
                enddo
                goto 300
             endif
          enddo
  300     close(2)
          include 'inc/EventDist_BestFitPlot_ih.inc'
-         include 'inc/Analytic_dchi2_ih.inc'
+c         include 'inc/Analytic_dchi2_ih.inc'
 c         include 'inc/BestFitData_ih.inc'
  400  continue
 
 CCCCCCCCCCCCCCCCCCCCCC  F vs. L/E distributions  CCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCC                           CCCCCCCCCCCCCCCCCCCCCC
       elseif (imode.eq.3) then
-         xmax = z_dat(11)/Emin
-         xmin = z_dat(11)/Emax
+         xmax = z_dat(16)/Emin
+         xmin = z_dat(16)/Emax
          nbins = 10000 ! nbins should be less than 100000
          do i = 0,nbins
             x(i) = xmin +(xmax-xmin)/dble(nbins)*i
          enddo
 
 CCCCCCCCCCCCCCCCCCCCCC  Flux*Xsec*Pee vs. L/E  CCCCCCCCCCCCCCCCCCCCCCCC
-         z_dat(10) = 12   ! Flux*Xsec vs. L/E    
+         z_dat(15) = 12   ! Flux*Xsec vs. L/E    
          evform_dat = 2   ! 1:integer 2:real*8
          hmode = 0        ! 0:continuous 1:simpson 2:center-value 
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
@@ -149,8 +161,8 @@ CCCCCCCCCCCCCCCCCCCCCC  Flux*Xsec*Pee vs. L/E  CCCCCCCCCCCCCCCCCCCCCCCC
          enddo
          close(1)
 
-         z_dat(10) = 13 
-         z_dat(6) = 1
+         z_dat(15) = 13 
+         z_dat(11) = 1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)
@@ -160,8 +172,8 @@ CCCCCCCCCCCCCCCCCCCCCC  Flux*Xsec*Pee vs. L/E  CCCCCCCCCCCCCCCCCCCCCCCC
          enddo
          close(1)
 
-         z_dat(10) = 13 
-         z_dat(6) = -1
+         z_dat(15) = 13 
+         z_dat(11) = -1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)
@@ -173,10 +185,10 @@ CCCCCCCCCCCCCCCCCCCCCC  Flux*Xsec*Pee vs. L/E  CCCCCCCCCCCCCCCCCCCCCCCC
 
 CCCCCCCCCCCCCCCCCCCCCCCCCC  dPee/d(L/E)  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
-         z_dat(10) = 14    ! Pee vs. L/E
+         z_dat(15) = 14    ! Pee vs. L/E
          evform_dat = 2   ! 1:integer 2:real*8
          hmode = 0        ! 0:continuous 1:simpson 2:center-value 
-         z_dat(6) = 1
+         z_dat(11) = 1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)
@@ -186,7 +198,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC  dPee/d(L/E)  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          enddo
          close(1)
 
-         z_dat(6) = -1
+         z_dat(11) = -1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr)
@@ -196,40 +208,11 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC  dPee/d(L/E)  CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          enddo
          close(1)
 
-
-CCCCCCCCCCCCCCCCCCCCCC  F vs. E distributions CCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCCCCCCCCCCCCCCCCCCC                        CCCCCCCCCCCCCCCCCCCCCCCCC
-
-      elseif (imode.eq.4) then
-         xmax = Emax
-         xmin = Emin
-         nbins = 10000 ! nbins should be less than 100000
-         do i = 0,nbins
-            x(i) = xmin +(xmax-xmin)/dble(nbins)*i   
-         enddo
-
-         z_dat(10) = 4    ! Pee vs. E
-         evform_dat = 2   ! 1:integer 2:real*8
-         hmode = 0        ! 0:continuous 1:simpson 2:center-value 
-         z_dat(6) = 1
-         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
-     &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
-     &        ,nevent_dat,ierr)
-         open(1,file="PeeNH.dat",status="replace")
-         do i = 1,nbins
-            write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
-         enddo
-         close(1)
-
-         z_dat(6) = -1
-         call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
-     &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
-     &        ,nevent_dat,ierr)
-         open(1,file="PeeIH.dat",status="replace")
-         do i = 1,nbins
-            write(1,*) x(i),hevent_dat(i),event_dat(i),nevent_dat
-         enddo
-         close(1)
+CCCCCCCCCCCCCCCCCCCCCC  distributions with various L CCCCCCCCCCCCCCCCCCCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCC                              CCCCCCCCCCCCCCCCCCCCCCCCC
+      elseif (imode.eq.5) then
+         include 'inc/Pee.inc'
+         include 'inc/N.inc'
 
       endif
 
