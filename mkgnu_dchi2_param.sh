@@ -20,16 +20,3 @@ sed -e "s/PPP/${P}/" \
     -e "s/YYY/${Y}/" ${output}_temp.gnu > temp.gnu
 mv temp.gnu ${output}.gnu
 gnuplot ${output}.gnu
-
-
-# output=dchi2_param_errors
-# sed -e "s/PPP/${P}/" \
-#     -e "s/VVV/${V}/" \
-#     -e "s/RRR/${RR}/" \
-#     -e "s*DATADIR*${data_dir}*" \
-#     -e "s/ERESNL/${Eres_nl}/" \
-#     -e "s/YYY/${Y}/" ${output}_temp.gnu > temp.gnu
-
-# mv temp.gnu ${output}.gnu
-
-# gnuplot ${output}.gnu

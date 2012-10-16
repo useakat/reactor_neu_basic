@@ -27,9 +27,9 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'rslt_zdat4/data/events_nh_100_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_zdat4/data/events_ih_100_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_zdat4/data/events_nhmin_100_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb 'red' lw 1
+'rslt_test/data/events_nh_100_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/events_ih_100_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_test/data/events_nhmin_100_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb 'red' lw 1
 set nomultiplot
 
 reset

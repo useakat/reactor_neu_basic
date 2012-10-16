@@ -40,12 +40,12 @@ set yrange[0:3E-2]
 set format y '%1.1l'
 set label '{/=15 {/Symbol=\264}10^{-2}' at -5, graph 0.9
 plot \
-'rslt_Eres65432/data/dchi2min_nh_1.5.dat' u 1:5 t '1.5%: NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_1.5.dat' u 1:5 t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_3.dat' u 1:5 t '3%: NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_3.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_6.dat' u 1:5 t '6%: NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_6.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'red' lw 3
+'rslt_run0.5err/data/dchi2min_nh_2_0.dat' u 1:5 t '2%: NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_2_0.dat' u 1:5 t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_3_0.dat' u 1:5 t '3%: NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_3_0.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_6_0.dat' u 1:5 t '6%: NH'  w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_6_0.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'red' lw 3
 
 unset title
 unset label
@@ -56,12 +56,12 @@ set label '{/=25 sin^22{/Symbol=\161}_{13}}' at graph 0.03, graph 0.75
 set format y '%1.0l'
 set label '{/=15 {/Symbol=\264}10^{-3}' at -5, graph 0.9
 plot \
-'rslt_Eres65432/data/dchi2min_nh_1.5.dat' u 1:9 notitle  w l lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_1.5.dat' u 1:9 notitle  w l lt 2 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_3.dat' u 1:9 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_3.dat' u 1:9 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_6.dat' u 1:9 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_6.dat' u 1:9 notitle  w l lt 2 lc rgb 'red' lw 3
+'rslt_run0.5err/data/dchi2min_nh_2_0.dat' u 1:9 notitle  w l lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_2_0.dat' u 1:9 notitle  w l lt 2 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_3_0.dat' u 1:9 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_3_0.dat' u 1:9 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_6_0.dat' u 1:9 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_6_0.dat' u 1:9 notitle  w l lt 2 lc rgb 'red' lw 3
 
 unset label
 set ylabel '{/=25 Statistical Error}' offset -2,3
@@ -70,16 +70,16 @@ set yrange[0:2.5E-6]
 #set ytics (1E-6,1E-5)
 set ytics ("0.5" 5E-7,1E-6,1.5E-6,"" 2E-6)
 set format y '%1.1l'
-set label '{/=25 {/Symbol=\104}m^2_{12}}' at graph 0.05, graph 0.7
+set label '{/=25 {/Symbol=\104}m^2_{21}}' at graph 0.05, graph 0.7
 #set label '{/=20 {/Symbol=\163}_{input} = 0.2{/Symbol=\264}10^{-5}}' at 
 set label '{/=15 {/Symbol=\264}10^{-6}eV^2' at -9, graph 0.9
 plot \
-'rslt_Eres65432/data/dchi2min_nh_1.5.dat' u 1:13 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_1.5.dat' u 1:13 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_3.dat' u 1:13 notitle w l lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_3.dat' u 1:13 notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_6.dat' u 1:13 notitle w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_6.dat' u 1:13 notitle w l lt 2 lc rgb 'red' lw 3
+'rslt_run0.5err/data/dchi2min_nh_2_0.dat' u 1:13 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_2_0.dat' u 1:13 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_3_0.dat' u 1:13 notitle w l lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_3_0.dat' u 1:13 notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_6_0.dat' u 1:13 notitle w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_6_0.dat' u 1:13 notitle w l lt 2 lc rgb 'red' lw 3
 
 unset label
 unset ylabel
@@ -90,16 +90,16 @@ set format y '%1.0l'
 #set ytics (0,1E-5,3E-5,5E-5)
 #set ytics (1E-6,1E-5,1E-4)
 set ytics (0,2E-5,4E-5,6E-5,"" 8E-5)
-set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{13}{/Symbol=\174}}' at graph 0.05, graph 0.7
+set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{31}{/Symbol=\174}}' at graph 0.05, graph 0.7
 #set label '{/=20 {/Symbol=\163}_{input} = 0.1{/Symbol=\264}10^{-3}}' at 30,0.7
 set label '{/=15 {/Symbol=\264}10^{-5}eV^2' at -9, graph 0.9
 plot \
-'rslt_Eres65432/data/dchi2min_nh_1.5.dat' u 1:17 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_1.5.dat' u 1:17 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_3.dat' u 1:17 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_3.dat' u 1:17 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_nh_6.dat' u 1:17 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_Eres65432/data/dchi2min_ih_6.dat' u 1:17 notitle  w l lt 2 lc rgb 'red' lw 3
+'rslt_run0.5err/data/dchi2min_nh_2_0.dat' u 1:17 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_2_0.dat' u 1:17 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_3_0.dat' u 1:17 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_3_0.dat' u 1:17 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_nh_6_0.dat' u 1:17 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_run0.5err/data/dchi2min_ih_6_0.dat' u 1:17 notitle  w l lt 2 lc rgb 'red' lw 3
 
 set nomultiplot
 

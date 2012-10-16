@@ -83,6 +83,7 @@ elif [ ${mode} -eq 3 ]; then
     ./mkgnu_dchi2_Eresnl.sh $P $V $R $Y 2 ${run_dir}
     ./mkgnu_dchi2_Eresnl.sh $P $V $R $Y 3 ${run_dir}
     ./mkgnu_dchi2_param.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
+    ./mkgnu_dchi2_param_error.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
 
 # Best-Fit energy distributions
     Eres=6
