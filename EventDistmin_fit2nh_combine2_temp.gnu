@@ -30,10 +30,10 @@ unset xlabel
 set format x ""
 set ylabel '{/=23 dN / dE_{/Symbol=\156} [1/MeV]}' offset 1,-5
 set yrange [0:4E4]
-set label '{/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}' at graph 0.05, graph 0.5
+set label '{/Symbol=\144}E_{vis}/E_{vis} = 0' at graph 0.05, graph 0.5
 set ytics (10000,20000,30000,40000)
-set arrow from 1.82, 15000 to 1.82, 4000 lw 3  lc rgb 'red'
-set label '{/=30 L=30 km}' at graph 0.45, graph 0.9
+set arrow from 1.82, 12000 to 1.82, 4000 lw 3  lc rgb 'red'
+set label '{/=30 L=30 km}' at graph 0.41, graph 0.9
 plot \
 'DATADIR/events_nh_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
 'DATADIR/events_ih_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
@@ -54,7 +54,7 @@ plot \
 
 set nomultiplot
 
-rese
+reset
 set terminal postscript eps enhanced "Times-Roman" color 20
 set grid
 set key at graph 0.40, graph 0.9 samplen 2
@@ -87,7 +87,7 @@ unset xlabel
 set format x ""
 set ylabel '{/=23 dN / dE_{/Symbol=\156} [1/MeV]}' offset 1,-5
 set yrange [1.8E3:6.8E3]
-set label '{/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}' at graph 0.05, graph 0.5
+set label '{/Symbol=\144}E_{vis}/E_{vis} = 0' at graph 0.05, graph 0.5
 #set ytics (2000,3000,4000,5000,6000,7000)
 set arrow from 3.03, 4200 to 3.03, 3200 lw 3  lc rgb 'red'
 set label '{/=30 L=50 km}' at graph 0.45, graph 0.9

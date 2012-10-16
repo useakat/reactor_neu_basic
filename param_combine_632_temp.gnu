@@ -48,7 +48,7 @@ unset label
 set ylabel '{/=25 pull factor}' offset 1.5,0
 set yrange[-0.5:0.75]
 set ytics (-0.25,0,0.25,0.5)
-set label '{/=25 {/Symbol=\104}m^2_{12}}' at 12,0.4
+set label '{/=25 {/Symbol=\104}m^2_{21}}' at 12,0.4
 plot \
 'DATADIR/dchi2min_nh_2_0.dat' u 1:15 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
 'DATADIR/dchi2min_ih_2_0.dat' u 1:15 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
@@ -61,7 +61,7 @@ unset label
 unset ylabel
 set yrange[-0.5:0.75]
 set ytics (-0.25,0,0.25,0.5)
-set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{13}{/Symbol=\174}}' at 12,0.05
+set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{31}{/Symbol=\174}}' at 12,0.05
 plot \
 'DATADIR/dchi2min_nh_2_0.dat' u 1:19 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
 'DATADIR/dchi2min_ih_2_0.dat' u 1:19 notitle w l lt 2 lc rgb '#006400' lw 3 ,\

@@ -39,7 +39,7 @@ P=20
 V=5
 R=0.12
 Y=5
-Lmin=10
+Lmin=1
 Lmax=100
 ndiv=100
 
@@ -142,10 +142,11 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 fi
 
 if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
-    switch1=1  # Fig.4 & 5
-    switch2=1  # Fig.6
-    switch3=1  # Fig.7
-    switch4=1  # Fig.2 & 3 
+    switch1=0  # Fig.4 & 5
+    switch2=0  # Fig.6
+    switch3=0  # Fig.7
+    switch4=0  # Fig.2 & 3 
+    switch5=1  # parameter error
 
 # chi2 fitting
     mode=0
@@ -191,11 +192,10 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 	source dchi2_fitting_Eresnl.sh
     fi
 
-#  Best Fit distributions and Data
-    mode=2
-    Lmaxp10=`expr ${Lmax} + 10`
-
     if [ ${switch4} -eq 1 ]; then 
+#  Best Fit distributions and Data
+	mode=2
+	Lmaxp10=`expr ${Lmax} + 10`
 	Eres=0
 	Eres_nl=0
 	source dchi2_bestfit_Eresnl.sh
@@ -203,24 +203,44 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 	Eres_nl=0
 	source dchi2_bestfit_Eresnl.sh
     fi
+
+    if [ ${switch5} -eq 1 ]; then 
+	mode=0
+	Eres=2
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres=3
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	Eres=6
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+    fi
 ###############################################
     echo "" >> ${defout}
     cat dchi2_result.txt >> ${defout}
 fi    
 
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
-# chi2 fitting
     mode=0
-    Eres=0
+    Eres=2
     Eres_nl=0
-    source dchi2_fitting_Eresnl.sh
-    
-    mode=2
-    Lmaxp10=`expr ${Lmax} + 10`
-    Eres=0
-    Eres_nl=0
-    source dchi2_bestfit_Eresnl.sh
-    
+    source dchi2_vsparam.sh
+
+    if [ 1 -eq 0 ]; then
+# chi2 fitting
+	mode=0
+	Eres=2
+	Eres_nl=0
+	source dchi2_fitting_Eresnl.sh
+	
+#     mode=2
+#     Lmaxp10=`expr ${Lmax} + 10`
+#     Eres=0
+#     Eres_nl=0
+#     source dchi2_bestfit_Eresnl.sh
+    fi
+
     if [ 1 -eq 0 ]; then
 	Eres=2
 	Eres_nl=0

@@ -17,8 +17,8 @@ set xrange [10:100]
 set lmargin 8
 set output 'plots/dchi2_combine_Eresnl_ERES.eps'
 #set title 'P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years'
-set title 'PPPGW_{th}, VVVkton (RRR% proton), YYY years, {/Symbol=\144}E_{vis}/E_{vis} = ( a / {/Symbol=\326}E_{vis} + b )%'
-set ylabel '{/=25 {/Symbol=\104}{/Symbol=\143}^2_{min}}' offset 1,0
+#set title 'PPPGW_{th}, VVVkton (RRR% proton), YYY years, {/Symbol=\144}E_{vis}/E_{vis} = ( a / {/Symbol=\326}E_{vis} + b )%'
+set ylabel '{/=25 ({/Symbol=\104}{/Symbol=\143}^2)_{min}}' offset 1,0
 set xlabel '{/=25 L [km]}' offset -1,0
 #set label '1.5%' at 60,15
 #set label '3%' at 50,14
@@ -30,7 +30,7 @@ plot \
 'DATADIR/dchi2min_nh_ERES_0.dat' u 1:2 t '(a, b) = (ERES, 0) NH'  w l lt 1 lc rgb 'red' lw 3 ,\
 'DATADIR/dchi2min_ih_ERES_0.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'red' lw 3 ,\
 'DATADIR/dchi2min_nh_ERES_0.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2min_ih_ERES_0.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 3 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_ERES_0.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 4 lc rgb 'red' lw 3 ,\
 'DATADIR/dchi2min_nh_ERES_0.5.dat' u 1:2 t '(ERES, 0.5) NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
 'DATADIR/dchi2min_ih_ERES_0.5.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
 'DATADIR/dchi2min_nh_ERES_0.5.dat' every::45::45 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'blue' lw 3 ,\

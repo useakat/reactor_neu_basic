@@ -6,9 +6,9 @@
       real*8 arg(10),pval(10),perr(10),plo(10),phi(10),gint
       real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2),Eres_nl
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
-      real*8 ovnorm(2),fa(2),fb(2)
+      real*8 ovnorm(2),fa(2),fb(2),value
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
-      character*10 cEres,cmode,cEres_nl
+      character*10 cEres,cmode,cEres_nl,cvalue
       
       integer iflag
       real*8 z(20),dchisq,grad,futil
@@ -29,6 +29,7 @@
       call getarg(8,cEres)
       call getarg(9,cEres_nl)
       call getarg(10,cmode)
+      call getarg(11,cvalue)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -39,6 +40,7 @@
       read (cEres,*) Eres 
       read (cEres_nl,*) Eres_nl 
       read (cmode,*) mode
+      read (cvalue,*) value
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
       s213_2(1) = 0.098d0
@@ -53,16 +55,6 @@
       fa(2) = 0.1d0
       fb(1) = 1d0
       fb(2) = 0.1d0
-C$$$      s2sun_2(1) = 0.85d0
-C$$$      s2sun_2(2) = 0.025d0
-C$$$      s213_2(1) = 0.1d0
-C$$$      s213_2(2) = 0.005d0
-C$$$      dm21_2(1) = 7.5d-5
-C$$$      dm21_2(2) = 0.2d-5
-C$$$      dm31_2(1) = 2.4d-3
-C$$$      dm31_2(2) = 0.1d-3
-C$$$      ovnorm(1) = 1d0
-C$$$      ovnorm(2) = 0.03d0
 
       Emin = 1.81d0  
       Emax = 8d0
@@ -125,11 +117,13 @@ C$$$      ovnorm(2) = 0.03d0
                open(20,file='minorm_nh.dat',status='replace')
                open(21,file='dchi2min_nh.dat',status='replace')
                open(22,file='dchi2min_bestfit2nh.dat',status='replace')
+               open(23,file='dchi2_vsparam_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
                open(21,file='dchi2min_ih.dat',status='replace')
                open(22,file='dchi2min_bestfit2ih.dat',status='replace')
+               open(23,file='dchi2_vsparam_ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
@@ -145,6 +139,7 @@ C$$$      ovnorm(2) = 0.03d0
                call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
                call mnparm(6,'fa',fa(1),fa(2),0d0,0d0,ierr)
                call mnparm(7,'fb',fb(1),fb(2),0d0,0d0,ierr)
+c               call mncomd(minfunc,'FIX 4',iflag,0)
                call mncomd(minfunc,'FIX 6',iflag,0)
                call mncomd(minfunc,'FIX 7',iflag,0)
 
@@ -171,6 +166,9 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
      &              ,pval(7),perr(7),fb(2),(pval(7)-fb(1))/fb(2)
                write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
      &              ,pval(4),pval(5),pval(6),pval(7)
+               if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
+                  write(23,*) value, chisqmin
+               endif
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,chisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "

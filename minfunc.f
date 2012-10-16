@@ -25,6 +25,7 @@ C     LOCAL VARIABLES
       real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
       real*8 Eres_nl,rdbin
+      real*8 dmm13min,dmm13max,ndmm13
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,dchi2_2
       external hfunc1D,dchi2,futil,adchi2,dchi2_2
@@ -55,8 +56,8 @@ C     ----------
       z_dat(14) = zz(6)*y2s              ! Exposure time [s]
       z_dat(15) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
       z_dat(16) = zz(1)                  ! L [km]
-      z(11) = -1*z_dat(11)
-c      z(11) = z_dat(11)
+c      z(11) = -1*z_dat(11)
+      z(11) = z_dat(11)
       z(12) = z_dat(12)
       z(13) = z_dat(13)
       z(14) = z_dat(14)
@@ -214,6 +215,20 @@ CCCCCCCCCCCCCCCCCCCCCC                              CCCCCCCCCCCCCCCCCCCCCCCCC
          include 'inc/Pee.inc'
          include 'inc/N.inc'
 
+      elseif (imode.eq.6) then 
+         open(1,file="dchi2_dmm13.dat",status="replace")
+         do j = 1,16
+            z(j) = z_dat(j)
+         enddo
+         dmm13min = z_dat(4)*(1d0 -0.04d0)
+         dmm13max = z_dat(4)*(1d0 +0.04d0)
+         ndmm13 = 1000
+         do j = 1,ndmm13
+            z(4) = dmm13min +(dmm13max -dmm13min)/dble(ndmm13)*j
+            include 'inc/dchi2.inc'
+            write(1,*) z(4),dchisq
+         enddo
+         close(1)
       endif
 
       return
