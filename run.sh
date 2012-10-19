@@ -206,14 +206,14 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 
     if [ ${switch5} -eq 1 ]; then 
 	mode=0
-	Eres=2
-	Eres_nl=0
+	Eres=3
+	Eres_nl=0.5
 	source dchi2_fitting_Eresnl.sh
 	Eres=3
-	Eres_nl=0
+	Eres_nl=1
 	source dchi2_fitting_Eresnl.sh
 	Eres=6
-	Eres_nl=0
+	Eres_nl=1
 	source dchi2_fitting_Eresnl.sh
     fi
 ###############################################

@@ -3,7 +3,14 @@ set logscale x
 #set logscale y
 #set format x '%L'
 #set format y '10^%L'
-set xtics (2,3,4,5,6,7,8)
+set xtics (2,3,4,5,6,7,8)    
+set xtics add ("" 1.1 1, "" 1.2 1, "" 1.3 1, "" 1.4 1, "" 1.5 1, "" 1.6 1, "" 1.7 1, "" 1.8 1, "" 1.9 1, \
+"" 2.1 1, "" 2.2 1, "" 2.3 1, "" 2.4 1, "" 2.5 1, "" 2.6 1, "" 2.7 1, "" 2.8 1, "" 2.9 1, \
+"" 3.1 1, "" 3.2 1, "" 3.3 1, "" 3.4 1, "" 3.5 1, "" 3.6 1, "" 3.7 1, "" 3.8 1, "" 3.9 1, \
+"" 4.1 1, "" 4.2 1, "" 4.3 1, "" 4.4 1, "" 4.5 1, "" 4.6 1, "" 4.7 1, "" 4.8 1, "" 4.9 1, \
+"" 5.1 1, "" 5.2 1, "" 5.3 1, "" 5.4 1, "" 5.5 1, "" 5.6 1, "" 5.7 1, "" 5.8 1, "" 5.9 1, \
+"" 6.1 1, "" 6.2 1, "" 6.3 1, "" 6.4 1, "" 6.5 1, "" 6.6 1, "" 6.7 1, "" 6.8 1, "" 6.9 1, \
+"" 7.1 1, "" 7.2 1, "" 7.3 1, "" 7.4 1, "" 7.5 1, "" 7.6 1, "" 7.7 1, "" 7.8 1, "" 7.9 1)
 #set ytics (1E3,1E4,1E5)
 #set tics scale 2
 #set grid
@@ -18,7 +25,7 @@ set grid
 #set key samplen 2 at 
 set output 'plots/EventDist_combine_0.eps'
 unset title
-set title '{/=20 20GW_{th}, 5kton, 5 years, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}} +0%'
+#set title '{/=20 20GW_{th}, 5kton, 5 years, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}} +0%'
 set size 1,1.07
 set multiplot layout 5,1 scale 1,1 offset 0,-0.05
 set lmargin 9

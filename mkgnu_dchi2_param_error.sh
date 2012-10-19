@@ -11,12 +11,13 @@ run_dir=$7
 data_dir=${run_dir}/data
 RR=`echo "scale=1; ${R}*100" | bc`
 
-output=dchi2_param_errors
+#output=dchi2_param_errors
+output=dchi2_param_errors_2
 sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
     -e "s*DATADIR*${data_dir}*" \
-    -e "s/ERESNL/${Eres_nl}/" \
+    -e "s/ERESNL/${Eres_nl}/g" \
     -e "s/YYY/${Y}/" ${output}_temp.gnu > temp.gnu
 mv temp.gnu ${output}.gnu
 gnuplot ${output}.gnu
