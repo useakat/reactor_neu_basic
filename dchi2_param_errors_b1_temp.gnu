@@ -15,7 +15,7 @@ set xrange [1:100]
 #set yrange [1E-5:2E8]
 
 set grid
-set key samplen 2 horizontal at graph 0.95, graph 0.9 width -2
+set key samplen 2 horizontal at graph 0.95, graph 0.9
 set output 'plots/param_errors.eps'
 unset title
 #set title '{/=20 P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years}'
@@ -39,14 +39,13 @@ set ytics ("0.5"5E-3,1E-2,1.5E-2,2E-2,""2.5E-2)
 set yrange[0:3E-2]
 set format y '%1.1l'
 set label '{/=15 {/Symbol=\264}10^{-2}' at -5, graph 0.9
-set label '(a, b) =' at 20, graph 0.82
 plot \
-'DATADIR/dchi2min_nh_2_ERESNL.dat' u 1:5 t '(2, ERESNL) NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_ih_2_ERESNL.dat' u 1:5 t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_nh_3_ERESNL.dat' u 1:5 t '(3, ERESNL) NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_ih_3_ERESNL.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_nh_6_ERESNL.dat' u 1:5 t '(6, ERESNL) NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2min_ih_6_ERESNL.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_2_1.dat' u 1:5 t '2%: NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_2_1.dat' u 1:5 t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3_1.dat' u 1:5 t '3%: NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3_1.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6_1.dat' u 1:5 t '6%: NH'  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6_1.dat' u 1:5 t 'IH'  w l lt 2 lc rgb 'red' lw 3
 
 unset title
 unset label
@@ -57,12 +56,12 @@ set label '{/=25 sin^22{/Symbol=\161}_{13}}' at graph 0.03, graph 0.75
 set format y '%1.0l'
 set label '{/=15 {/Symbol=\264}10^{-3}' at -5, graph 0.9
 plot \
-'DATADIR/dchi2min_nh_2_ERESNL.dat' u 1:9 notitle  w l lt 1 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_ih_2_ERESNL.dat' u 1:9 notitle  w l lt 2 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_nh_3_ERESNL.dat' u 1:9 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_ih_3_ERESNL.dat' u 1:9 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_nh_6_ERESNL.dat' u 1:9 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2min_ih_6_ERESNL.dat' u 1:9 notitle  w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_2_1.dat' u 1:9 notitle  w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_2_1.dat' u 1:9 notitle  w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3_1.dat' u 1:9 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3_1.dat' u 1:9 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6_1.dat' u 1:9 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6_1.dat' u 1:9 notitle  w l lt 2 lc rgb 'red' lw 3
 
 unset label
 set ylabel '{/=25 Statistical Error}' offset -2,3
@@ -75,12 +74,12 @@ set label '{/=25 {/Symbol=\104}m^2_{21}}' at graph 0.05, graph 0.7
 #set label '{/=20 {/Symbol=\163}_{input} = 0.2{/Symbol=\264}10^{-5}}' at 
 set label '{/=15 {/Symbol=\264}10^{-6}eV^2' at -9, graph 0.9
 plot \
-'DATADIR/dchi2min_nh_2_ERESNL.dat' u 1:13 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_ih_2_ERESNL.dat' u 1:13 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_nh_3_ERESNL.dat' u 1:13 notitle w l lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_ih_3_ERESNL.dat' u 1:13 notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_nh_6_ERESNL.dat' u 1:13 notitle w l lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2min_ih_6_ERESNL.dat' u 1:13 notitle w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_2_1.dat' u 1:13 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_2_1.dat' u 1:13 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3_1.dat' u 1:13 notitle w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3_1.dat' u 1:13 notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6_1.dat' u 1:13 notitle w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6_1.dat' u 1:13 notitle w l lt 2 lc rgb 'red' lw 3
 
 unset label
 unset ylabel
@@ -95,12 +94,12 @@ set label '{/=25 {/Symbol=\174}{/Symbol=\104}m^2_{31}{/Symbol=\174}}' at graph 0
 #set label '{/=20 {/Symbol=\163}_{input} = 0.1{/Symbol=\264}10^{-3}}' at 30,0.7
 set label '{/=15 {/Symbol=\264}10^{-5}eV^2' at -9, graph 0.9
 plot \
-'DATADIR/dchi2min_nh_2_ERESNL.dat' u 1:17 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_ih_2_ERESNL.dat' u 1:17 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
-'DATADIR/dchi2min_nh_3_ERESNL.dat' u 1:17 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_ih_3_ERESNL.dat' u 1:17 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2min_nh_6_ERESNL.dat' u 1:17 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2min_ih_6_ERESNL.dat' u 1:17 notitle  w l lt 2 lc rgb 'red' lw 3
+'DATADIR/dchi2min_nh_2_1.dat' u 1:17 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_2_1.dat' u 1:17 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3_1.dat' u 1:17 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3_1.dat' u 1:17 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6_1.dat' u 1:17 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6_1.dat' u 1:17 notitle  w l lt 2 lc rgb 'red' lw 3
 
 set nomultiplot
 
