@@ -53,7 +53,7 @@ C     ****************************************************
 
 C     ARGUMENTS 
       integer nbins,nmin,nout,nparm,minevents
-      parameter (minevents=10)
+      parameter (minevents=0)
       real*8 dat(nbins),th(nbins),parm(nparm),parm0(nparm),error(nparm)
 C     LOCAL VARIABLES 
       integer i,nn,ipos

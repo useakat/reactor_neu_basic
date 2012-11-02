@@ -4,7 +4,8 @@
       integer i,j,k
       integer ierr,lencm,npari,nparx,istat,ndiv,mode
       real*8 arg(10),pval(10),perr(10),plo(10),phi(10),gint
-      real*8 chisqmin,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2),Eres_nl
+      real*8 chisqmin_true,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2),Eres_nl
+      real*8 chisqmin_wrong,dchisqmin
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2),fa(2),fb(2),value
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
@@ -150,17 +151,23 @@ c               call mncomd(minfunc,'FIX 4',iflag,0)
                arg(1) = 0d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
 c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
-c               arg(1) = 1d0
+
+c               zz(36) = 1
+c               call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
+c               call mnstat(chisqmin_true,fedm,errdef,npari,nparx,istat)
+               zz(36) = -1
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
-c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
-               
-               call mnstat(chisqmin,fedm,errdef,npari,nparx,istat)
+               call mnstat(chisqmin_wrong,fedm,errdef,npari,nparx,istat)
+
+c               dchisqmin = chisqmin_wrong -chisqmin_true
+               dchisqmin = chisqmin_wrong
+
                do i = 1,nparx
                   call mnpout(i,name(i),pval(i),perr(i),plo(i),phi(i)
      &                 ,ierr)
                enddo
 
-               write(21,'(e10.3,30e13.5)') zz(1),chisqmin,fedm
+               write(21,'(e10.3,30e13.5)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
      &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
@@ -171,10 +178,10 @@ c               call mnexcm(minfunc,'MINIMIZE',arg,0,ierr,0)
                write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
      &              ,pval(4),pval(5),pval(6),pval(7)
                if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
-                  write(23,*) value, chisqmin
+                  write(23,*) value, dchisqmin
                endif
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
-     &              ,chisqmin," +-",fedm
+     &              ,dchisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
      &              ,pval(1)," +-",perr(1)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*13)^2 = "

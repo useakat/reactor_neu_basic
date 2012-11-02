@@ -58,9 +58,10 @@ C     ----------
       z_dat(13) = zz(3)                  ! Power [GW]
       z_dat(14) = zz(6)*y2s              ! Exposure time [s]
       z_dat(15) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
-c      z_dat(15) = 100                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E]
+c      z_dat(15) = 100                   ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E]
       z_dat(16) = zz(1)                  ! L [km]
-      z(11) = -1*z_dat(11)
+      z(11) = zz(36)*z_dat(11)              
+c      z(11) = -1*z_dat(11)
 c      z(11) = z_dat(11)
       z(12) = z_dat(12)
       z(13) = z_dat(13)

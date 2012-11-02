@@ -7,8 +7,8 @@ c         z_dat(15) = 100 ! N vs. sqrt(E)
          include 'bining_dx.inc'
 
          if (ifirst.eq.0) then
-            call MakeHisto1D_stat(nout,hfunc1D,z_dat,nevent,nbins,x
-c            call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
+c            call MakeHisto1D_stat(nout,hfunc1D,z_dat,nevent,nbins,x
+            call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &           ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &           ,nevent_dat,ierr1) 
 c     call smearing(event_dat,nbins,rdx,Eres,event2_dat)         
@@ -22,9 +22,10 @@ c     call smearing(event_dat,nbins,rdx,Eres,event2_dat)
 c         call smearing(event_th,nbins,rdx,Eres,event2_th)
          call smearing_nl(event_th,x,nbins,rdx,Eres,Eres_nl,event2_th)         
 
-c            dchisq = chi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
+c            dchisq = chi2_2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
 c     &           ,error)  
-            chisq_wrong = chi2_2(nout,event2_dat,event2_th,nbins,npar,z
+         dchisq = chi2_2(nout,event2_dat,event2_th,nbins,npar,z
      &        ,z_dat,error)  
 
-            dchisq = chisq_wrong
+c            dchisq = chisq_wrong -chisq_true
+c            dchisq = chisq_wrong
