@@ -12,7 +12,7 @@ C     ARGUMENTS
       real*8 dat(nbins),th(nbins),parm(nparm),parm0(nparm),error(nparm)
 C     LOCAL VARIABLES 
       integer i
-      real*8 chi,sgm2,dchi22
+      real*8 chi,sgm2,chi22
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -57,7 +57,7 @@ C     ARGUMENTS
       real*8 dat(nbins),th(nbins),parm(nparm),parm0(nparm),error(nparm)
 C     LOCAL VARIABLES 
       integer i,nn,ipos
-      real*8 sgm2,dchi22,sumdat,sumth
+      real*8 sgm2,chi22,sumdat,sumth
 C     ----------
 C     BEGIN CODE
 C     ----------

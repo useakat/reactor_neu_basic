@@ -65,7 +65,7 @@ plot \
 'DATADIR/dchi2min_ih_6_1.dat' u 1:9 notitle  w l lt 2 lc rgb 'red' lw 3
 
 unset label
-set ylabel '{/=25 Statistical Error}' offset -2,3
+set ylabel '{/=25 Statistical Uncertainty}' offset -2,3
 set yrange[0:2.5E-6]
 #set ytics (5E-7,1E-6,1.5E-6,"" 2E-6)
 #set ytics (1E-6,1E-5)

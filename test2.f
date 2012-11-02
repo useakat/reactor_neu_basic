@@ -19,6 +19,9 @@
       integer lench
       external minfunc,lench
 
+      integer ifirst
+      common /first/ ifirst
+
       call getarg(1,cLmin)
       call getarg(2,cLmax)
       call getarg(3,cndiv)
@@ -127,6 +130,7 @@
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
+               ifirst = 0
                zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
                write(19,*) zz(1),"[km]"               
                call mninit(5,20,7)

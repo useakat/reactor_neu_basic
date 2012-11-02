@@ -93,17 +93,17 @@ elif [ ${mode} -eq 3 ]; then
 
 elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
     
-    Eres=0
-    Eres_nl=0
-    ./mkgnu_dchi2_combine.sh $P $V $R $Y ${Eres_nl} ${run_dir}
+    Eres=2
+    Eres_nl=0.5
+    ./mkgnu_dchi2_Eresnl.sh $P $V $R $Y ${Eres} ${run_dir}
 
-    Eres=0
-    Eres_nl=0
-    i=${Lmin}
-    while [ $i -lt ${Lmaxp10} ]; do
-	./mkgnu_EventDistmin.sh $P $V $R $Y $i ${Eres} ${Eres_nl} ${run_dir}			
-	i=`expr $i + 10`
-    done
+    # Eres=0
+    # Eres_nl=0
+    # i=${Lmin}
+    # while [ $i -lt ${Lmaxp10} ]; do
+    # 	./mkgnu_EventDistmin.sh $P $V $R $Y $i ${Eres} ${Eres_nl} ${run_dir}			
+    # 	i=`expr $i + 10`
+    # done
 fi
 
 cp -rf plots ${run_dir}/. 

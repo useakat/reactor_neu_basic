@@ -9,10 +9,12 @@ C     CONSTANTS
       include 'const.inc'
 C     ARGUMENTS 
       integer npar,iflag
-      real*8 grad,dchisq
+      real*8 grad,dchisq,chisq_true,chisq_wrong
 C     GLOBAL VARIABLES
       real*8 zz(40)
       common /zz/ zz
+      integer ifirst
+      common /first/ ifirst
 C     LOCAL VARIABLES 
       integer i,j
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
@@ -27,8 +29,9 @@ C     LOCAL VARIABLES
       real*8 Eres_nl,rdbin
       real*8 dmm13min,dmm13max,ndmm13
 C     EXTERNAL FUNCTIONS
-      real*8 hfunc1D,dchi2,futil,adchi2,dchi2_2
-      external hfunc1D,dchi2,futil,adchi2,dchi2_2
+      real*8 hfunc1D,dchi2,futil,adchi2,chi2_2
+      external hfunc1D,dchi2,futil,adchi2,chi2_2
+      save event2_dat
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -55,9 +58,10 @@ C     ----------
       z_dat(13) = zz(3)                  ! Power [GW]
       z_dat(14) = zz(6)*y2s              ! Exposure time [s]
       z_dat(15) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
+c      z_dat(15) = 100                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E]
       z_dat(16) = zz(1)                  ! L [km]
-c      z(11) = -1*z_dat(11)
-      z(11) = z_dat(11)
+      z(11) = -1*z_dat(11)
+c      z(11) = z_dat(11)
       z(12) = z_dat(12)
       z(13) = z_dat(13)
       z(14) = z_dat(14)
@@ -83,7 +87,8 @@ CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
 
       if (imode.eq.0) then 
-         include 'inc/dchi2.inc'
+c         include 'inc/dchi2.inc'
+         include 'inc/dchi2_stat.inc'
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCC                  CCCCCCCCCCCCCCCCCC

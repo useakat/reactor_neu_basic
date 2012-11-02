@@ -65,6 +65,8 @@
          hfunc1D = flux(E,P)
       elseif (mode.eq.24) then  ! Xsec vs sqrt{E_{vis}}
          hfunc1D = xsec(E)
+      elseif (mode.eq.100) then  ! Xsec vs sqrt{E_{vis}}
+         hfunc1D = 2000d0
       endif
 
       return

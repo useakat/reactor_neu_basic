@@ -26,26 +26,26 @@ set label 'b = 0' at 77.5,6.5
 #set yrange [0:210]
 set multiplot
 plot \
-'rslt_run0.5err2/data/dchi2min_nh_2_0.dat' u 1:2 t 'a = 2% NH'  w l lt 1 lc rgb 'purple' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_2_0.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'purple' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_2_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'purple' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_2_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'purple' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_3_0.dat' u 1:2 t '3% NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_3_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_3_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'orange' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_3_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'orange' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_4_0.dat' u 1:2 t '4% NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_4_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_4_0.dat' every::42::42 u 1:2 notitle w points pt 2 lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_4_0.dat' every::42::42 u 1:2 notitle w points pt 2 lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_5_0.dat' u 1:2 t '5% NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_5_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_5_0.dat' every::37::37 u 1:2 notitle w points pt 2 lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_5_0.dat' every::36::36 u 1:2 notitle w points pt 2 lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_6_0.dat' u 1:2 t '6% NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_6_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_nh_6_0.dat' every::24::24 u 1:2 notitle w points pt 2 lt 1 lc rgb 'red' lw 3 ,\
-'rslt_run0.5err2/data/dchi2min_ih_6_0.dat' every::19::19 u 1:2 notitle w points pt 2 lt 1 lc rgb 'red' lw 3
+'rslt_test/data/dchi2min_nh_2_0.dat' u 1:2 t 'a = 2% NH'  w l lt 1 lc rgb 'purple' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'purple' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'purple' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'purple' lw 3 ,\
+'rslt_test/data/dchi2min_nh_3_0.dat' u 1:2 t '3% NH'  w l lt 1 lc rgb 'orange' lw 3 ,\
+'rslt_test/data/dchi2min_ih_3_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'orange' lw 3 ,\
+'rslt_test/data/dchi2min_nh_3_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'orange' lw 3 ,\
+'rslt_test/data/dchi2min_ih_3_0.dat' every::46::46 u 1:2 notitle w points pt 2 lt 1 lc rgb 'orange' lw 3 ,\
+'rslt_test/data/dchi2min_nh_4_0.dat' u 1:2 t '4% NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_ih_4_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_nh_4_0.dat' every::42::42 u 1:2 notitle w points pt 2 lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_ih_4_0.dat' every::42::42 u 1:2 notitle w points pt 2 lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_nh_5_0.dat' u 1:2 t '5% NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_ih_5_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_nh_5_0.dat' every::37::37 u 1:2 notitle w points pt 2 lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_ih_5_0.dat' every::36::36 u 1:2 notitle w points pt 2 lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_nh_6_0.dat' u 1:2 t '6% NH'  w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2min_ih_6_0.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2min_nh_6_0.dat' every::24::24 u 1:2 notitle w points pt 2 lt 1 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2min_ih_6_0.dat' every::19::19 u 1:2 notitle w points pt 2 lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 reset
