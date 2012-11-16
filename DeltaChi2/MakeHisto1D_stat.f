@@ -72,6 +72,7 @@ c               event(i) = int(y(i))
       endif
 
       do i = 1,nbins
+c         event(i) = event(i)
          event(i) = event(i) +dsqrt(event(i))*gran()
          if (event(i).lt.0) event(i) = 0
       enddo

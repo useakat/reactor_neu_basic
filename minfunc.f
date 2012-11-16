@@ -14,7 +14,8 @@ C     GLOBAL VARIABLES
       real*8 zz(40)
       common /zz/ zz
       integer ifirst
-      common /first/ ifirst
+      real*8 final_bins
+      common /first/ ifirst,final_bins
 C     LOCAL VARIABLES 
       integer i,j
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
@@ -30,7 +31,8 @@ C     LOCAL VARIABLES
       real*8 dmm13min,dmm13max,ndmm13
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,chi2_2
-      external hfunc1D,dchi2,futil,adchi2,chi2_2
+      real gran
+      external hfunc1D,dchi2,futil,adchi2,chi2_2,gran
       save event2_dat
 C     ----------
 C     BEGIN CODE
@@ -79,8 +81,8 @@ c      z(11) = z_dat(11)
 
       nevent = 0
 c      rdx = 0.01
-      rdx = 0.005
-c      rdx = 0.0025
+c      rdx = 0.005
+      rdx = 0.0025
 c      rdx = 0.00125
       nnbins = 1000
 
@@ -88,8 +90,8 @@ CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
 
       if (imode.eq.0) then 
-c         include 'inc/dchi2.inc'
-         include 'inc/dchi2_stat.inc'
+         include 'inc/dchi2.inc'
+c         include 'inc/dchi2_stat.inc'
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCC                  CCCCCCCCCCCCCCCCCC

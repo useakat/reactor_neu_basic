@@ -61,7 +61,7 @@ C     LOCAL VARIABLES
 C     ----------
 C     BEGIN CODE
 C     ----------
-      nn = 1
+      nn = 5
 
       chi2_2 = 0d0
       ipos = 0

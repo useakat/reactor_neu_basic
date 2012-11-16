@@ -13,6 +13,10 @@ c            call MakeHisto1D_stat(nout,hfunc1D,z_dat,nevent,nbins,x
      &           ,nevent_dat,ierr1) 
 c     call smearing(event_dat,nbins,rdx,Eres,event2_dat)         
             call smearing_nl(event_dat,x,nbins,rdx,Eres,Eres_nl,event2_dat)         
+            do i = 1,nbins
+               event2_dat(i) = event2_dat(i) +dsqrt(event2_dat(i))*gran()
+               if (event2_dat(i).lt.0) event2_dat(i) = 0
+            enddo
             ifirst = 1
          endif
 

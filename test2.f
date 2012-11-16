@@ -21,7 +21,8 @@
       external minfunc,lench
 
       integer ifirst
-      common /first/ ifirst
+      real*8 final_bins
+      common /first/ ifirst, final_bins
 
       call getarg(1,cLmin)
       call getarg(2,cLmax)
@@ -54,7 +55,7 @@
       dm31_2(1) = 2.32d-3
       dm31_2(2) = 0.1d-3
       ovnorm(1) = 1d0
-      ovnorm(2) = 0.03d0
+      ovnorm(2) = 0.1d0
       fa(1) = 1d0
       fa(2) = 0.1d0
       fb(1) = 1d0
@@ -63,7 +64,7 @@
       Emin = 1.81d0  
       Emax = 8d0
       serror = 1d-2
-      snmax = 4
+      snmax = 10
 
       zz(10) = s2sun_2(1)
       zz(11) = s2sun_2(2)
@@ -152,29 +153,29 @@ c               call mncomd(minfunc,'FIX 4',iflag,0)
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
 c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
 
-c               zz(36) = 1
-c               call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
-c               call mnstat(chisqmin_true,fedm,errdef,npari,nparx,istat)
+               zz(36) = 1
+               call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
+               call mnstat(chisqmin_true,fedm,errdef,npari,nparx,istat)
                zz(36) = -1
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
                call mnstat(chisqmin_wrong,fedm,errdef,npari,nparx,istat)
 
-c               dchisqmin = chisqmin_wrong -chisqmin_true
-               dchisqmin = chisqmin_wrong
+               dchisqmin = chisqmin_wrong -chisqmin_true
+c               dchisqmin = chisqmin_true
 
                do i = 1,nparx
                   call mnpout(i,name(i),pval(i),perr(i),plo(i),phi(i)
      &                 ,ierr)
                enddo
 
-               write(21,'(e10.3,30e13.5)') zz(1),dchisqmin,fedm
+               write(21,'(e10.3,30e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
      &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
      &              ,pval(4),perr(4),dm31_2(2),(pval(4)-dm31_2(1))/dm31_2(2)
      &              ,pval(5),perr(5),ovnorm(2),(pval(5)-ovnorm(1))/ovnorm(2)
      &              ,pval(6),perr(6),fa(2),(pval(6)-fa(1))/fa(2)
-     &              ,pval(7),perr(7),fb(2),(pval(7)-fb(1))/fb(2)
+     &              ,pval(7),perr(7),fb(2),(pval(7)-fb(1))/fb(2),final_bins
                write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
      &              ,pval(4),pval(5),pval(6),pval(7)
                if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then

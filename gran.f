@@ -14,8 +14,8 @@ c     save:
 c     begin:
       odd=1-odd
       if (odd.ne.0) then
-         x1=rand()
-         x2=rand()
+         x1=rand(0)
+         x2=rand(0)
          fac=sqrt(-2.0*log(x1))
          gran=fac*cos(2.0*pi*x2)
       else 

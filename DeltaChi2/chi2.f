@@ -53,16 +53,20 @@ C     ****************************************************
 
 C     ARGUMENTS 
       integer nbins,nmin,nout,nparm,minevents
-      parameter (minevents=0)
+      parameter (minevents=10)
       real*8 dat(nbins),th(nbins),parm(nparm),parm0(nparm),error(nparm)
 C     LOCAL VARIABLES 
       integer i,nn,ipos
       real*8 sgm2,chi22,sumdat,sumth
+      integer ifirst
+      real*8 final_bins
+      common /first/ ifirst, final_bins
 C     ----------
 C     BEGIN CODE
 C     ----------
       nn = 1
 
+      final_bins = 0
       chi2_2 = 0d0
       ipos = 0
       sumdat = 0d0
@@ -75,6 +79,7 @@ C     ----------
          if (ipos.eq.nn) then
             if (sumdat.ge.minevents) then
                write(41,*) i,sumdat
+               final_bins = final_bins + 1
                sgm2 = sumdat
                chi2_2 = chi2_2 + ( sumdat -sumth )**2 / sgm2
                ipos = 0
