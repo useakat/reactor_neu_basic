@@ -27,7 +27,7 @@ C     LOCAL VARIABLES
       real*8 hevent_th(maxnbin),hevent_dat(maxnbin),xmin,xmax
       real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
-      real*8 Eres_nl,rdbin
+      real*8 Eres_nl,rdbin,EEres,EEres_nl
       real*8 dmm13min,dmm13max,ndmm13
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,chi2_2
@@ -63,7 +63,6 @@ C     ----------
 c      z_dat(15) = 100                   ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E]
       z_dat(16) = zz(1)                  ! L [km]
       z(11) = zz(36)*z_dat(11)              
-c      z(11) = -1*z_dat(11)
 c      z(11) = z_dat(11)
       z(12) = z_dat(12)
       z(13) = z_dat(13)
@@ -81,8 +80,8 @@ c      z(11) = z_dat(11)
 
       nevent = 0
 c      rdx = 0.01
-c      rdx = 0.005
-      rdx = 0.0025
+      rdx = 0.005
+c      rdx = 0.0025
 c      rdx = 0.00125
       nnbins = 1000
 

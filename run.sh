@@ -226,20 +226,6 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
     Eres=2
     Eres_nl=0
     source dchi2_fitting_Eresnl.sh
-    Eres=6
-    Eres_nl=0
-    source dchi2_fitting_Eresnl.sh
-#    source dchi2_vsparam.sh
-
-    mode=2
-    Lmaxp10=`expr ${Lmax} + 10`
-    Eres=0
-    Eres_nl=0
-    source dchi2_bestfit_Eresnl.sh
-    Eres=6
-    Eres_nl=0
-    source dchi2_bestfit_Eresnl.sh
-
 fi
 
 mv *.dat data/.

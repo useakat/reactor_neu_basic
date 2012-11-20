@@ -94,7 +94,7 @@ elif [ ${mode} -eq 3 ]; then
 elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
     
     Eres=2
-    Eres_nl=0.5
+    Eres_nl=0
     ./mkgnu_dchi2_Eresnl.sh $P $V $R $Y ${Eres} ${run_dir}
 
     # Eres=0
