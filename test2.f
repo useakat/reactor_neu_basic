@@ -7,7 +7,7 @@
       real*8 chisqmin_true,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2),Eres_nl
       real*8 chisqmin_wrong,dchisqmin
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
-      real*8 ovnorm(2),fa(2),fb(2),value
+      real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
       character*10 cEres,cmode,cEres_nl,cvalue
       
@@ -60,11 +60,13 @@
       fa(2) = 0.1d0
       fb(1) = 1d0
       fb(2) = 0.1d0
+      fscale(1) = 0d0
+      fscale(2) = 0.02d0
 
       Emin = 1.81d0  
       Emax = 8d0
       serror = 1d-2
-      snmax = 10
+      snmax = 50
 
       zz(10) = s2sun_2(1)
       zz(11) = s2sun_2(2)
@@ -76,10 +78,12 @@
       zz(17) = dm31_2(2)
       zz(18) = ovnorm(1)
       zz(19) = ovnorm(2)
-      zz(20) = fa(1)
-      zz(21) = fa(2)
-      zz(22) = fb(1)
-      zz(23) = fb(2)
+      zz(20) = fscale(1)
+      zz(21) = fscale(2)
+      zz(22) = fa(1)
+      zz(23) = fa(2)
+      zz(24) = fb(1)
+      zz(25) = fb(2)
 
       zz(7) = Eres/100d0
       zz(8) = mode
@@ -101,10 +105,12 @@
      &     ,dm31_2(2)
       write(19,'(a11,e12.5,a3,e9.2)') "ovnorm = ",ovnorm(1)," +-"
      &     ,ovnorm(2)
-      write(19,'(a11,e12.5,a3,e9.2)') "fa = ",fa(1)," +-"
-     &     ,fa(2)
-      write(19,'(a11,e12.5,a3,e9.2)') "fb = ",fb(1)," +-"
-     &     ,fb(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "fscale = ",fscale(1)," +-"
+     &     ,fscale(2)
+c      write(19,'(a11,e12.5,a3,e9.2)') "fa = ",fa(1)," +-"
+c     &     ,fa(2)
+c      write(19,'(a11,e12.5,a3,e9.2)') "fb = ",fb(1)," +-"
+c     &     ,fb(2)
       write(19,*) ""
       write(19,*) "Ev Range:",Emin," -",Emax," [MeV]"
       write(19,*) ""
@@ -143,11 +149,12 @@
                call mnparm(3,'dm21_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
                call mnparm(4,'dm31_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
                call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
-               call mnparm(6,'fa',fa(1),fa(2),0d0,0d0,ierr)
-               call mnparm(7,'fb',fb(1),fb(2),0d0,0d0,ierr)
+               call mnparm(6,'fscale',fscale(1),fscale(2),0d0,0d0,ierr)
+c               call mnparm(6,'fa',fa(1),fa(2),0d0,0d0,ierr)
+c               call mnparm(7,'fb',fb(1),fb(2),0d0,0d0,ierr)
 c               call mncomd(minfunc,'FIX 4',iflag,0)
-               call mncomd(minfunc,'FIX 6',iflag,0)
-               call mncomd(minfunc,'FIX 7',iflag,0)
+c               call mncomd(minfunc,'FIX 6',iflag,0)
+c               call mncomd(minfunc,'FIX 7',iflag,0)
 
                arg(1) = 0d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
@@ -174,10 +181,12 @@ c               dchisqmin = chisqmin_true
      &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
      &              ,pval(4),perr(4),dm31_2(2),(pval(4)-dm31_2(1))/dm31_2(2)
      &              ,pval(5),perr(5),ovnorm(2),(pval(5)-ovnorm(1))/ovnorm(2)
-     &              ,pval(6),perr(6),fa(2),(pval(6)-fa(1))/fa(2)
-     &              ,pval(7),perr(7),fb(2),(pval(7)-fb(1))/fb(2),final_bins
+     &              ,pval(6),perr(6),fscale(2),(pval(6)-fscale(1))/fscale(2)
+c     &              ,pval(6),perr(6),fa(2),(pval(6)-fa(1))/fa(2)
+c     &              ,pval(7),perr(7),fb(2),(pval(7)-fb(1))/fb(2),final_bins
                write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
-     &              ,pval(4),pval(5),pval(6),pval(7)
+     &              ,pval(4),pval(5),pval(6)
+c     &              ,pval(4),pval(5),pval(6),pval(7)
                if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
                   write(23,*) value, dchisqmin
                endif
@@ -195,8 +204,8 @@ c               dchisqmin = chisqmin_true
      &              ,pval(5)," +-",perr(5)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
      &              ,pval(6)," +-",perr(6)
-               write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
-     &              ,pval(7)," +-",perr(7)
+c               write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
+c     &              ,pval(7)," +-",perr(7)
                write(19,*) ""
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)

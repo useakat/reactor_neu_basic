@@ -46,14 +46,14 @@ C     ----------
       z_dat(4) = zz(16)
       z_dat(5) = zz(18)
       z_dat(6) = zz(20)
-      z_dat(7) = zz(22)
+c      z_dat(7) = zz(22)
       error(1) = zz(11)
       error(2) = zz(13)
       error(3) = zz(15)
       error(4) = zz(17)
       error(5) = zz(19)
       error(6) = zz(21)
-      error(7) = zz(23)
+c      error(7) = zz(23)
 
       z_dat(11) = zz(2)                  ! NH/IH
       z_dat(12) = zz(4)*zz(5)*1d9*avog   ! N_target

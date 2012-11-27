@@ -15,8 +15,8 @@ c         call smearing(event_dat,nbins,rdx,Eres,event2_dat)
      &        ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &        ,nevent_th,ierr2)
 c         call smearing(event_th,nbins,rdx,Eres,event2_th)
-         EEres = Eres*z(6)
-         EEres_nl = Eres_nl*z(7)
+         EEres = Eres
+         EEres_nl = Eres_nl
          call smearing_nl(event_th,x,nbins,rdx,EEres,EEres_nl,event2_th)         
 
 c            dchisq = dchi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat

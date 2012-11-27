@@ -18,7 +18,7 @@ set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN_{RCT} / dE_{/Symbol=\156} [1/s/MeV^2]' offset 1,0
 set multiplot
 plot \
-'rslt_dist/data/Flux.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
+'rslt_test/data/Flux.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 reset

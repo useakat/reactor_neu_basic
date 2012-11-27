@@ -6,7 +6,7 @@
 
       integer sign,mode
       real*8 x,z(40),error(10),L,E,loe,Np,P,YY,ovnorm
-      real*8 flux,xsec,prob_ee,Lfact,fa,fb,Evis_corr,fscale
+      real*8 flux,xsec,prob_ee,Lfact,fa,fb,Evis,fscale
       external flux,xsec,prob_ee      
 
       error(1) = 0.025d0
@@ -14,13 +14,13 @@
       error(3) = 0.2d-5
       error(4) = 0.1d-3
       error(5) = 0.03d0
-      error(6) = 0.1d0
-      error(7) = 0.1d0
+      error(6) = 0.2d0
+c      error(7) = 0.1d0
 
       ovnorm = z(5)
-      fa = z(6)
-      fb = z(7)
-      fscale = 0.00d0
+c      fa = z(6)
+c      fb = z(7)
+      fscale = z(6)
       L = z(16)
       sign = int(z(11))
       Np = z(12)
@@ -34,9 +34,10 @@
       elseif (mode.lt.20) then
          E = L/x   ! x = L/E{\nu}
       elseif (mode.lt.30) then
-         Evis_corr = x**2*( 1d0 +fscale*(1.07346d0 -0.0302668*x**2 
-     &        +0.00424563*x**4 -0.000201452*x**6 -1d0) )
-         E = Evis_corr +0.8d0  ! x = sqrt{E_{vis}}
+         Evis = x**2*( 1d0 +fscale/0.02d0*(1.07346d0 -0.0302668d0*x**2 
+     &        +0.00424563d0*x**4 -0.000201452d0*x**6 -1d0) )
+c         Evis = ( 1d0 +fscale )*x**2
+         E = Evis +0.8d0  ! x = sqrt{E_{vis}}
       endif
 
       if (mode.eq.0) then   ! dN/dE_{\nu}
