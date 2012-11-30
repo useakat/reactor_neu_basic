@@ -22,7 +22,7 @@
 
       integer ifirst
       real*8 final_bins
-      common /first/ ifirst, final_bins
+      common /first/ final_bins,ifirst
 
       call getarg(1,cLmin)
       call getarg(2,cLmax)
@@ -66,7 +66,7 @@
       Emin = 1.81d0  
       Emax = 8d0
       serror = 1d-2
-      snmax = 50
+      snmax = 10
 
       zz(10) = s2sun_2(1)
       zz(11) = s2sun_2(2)
@@ -107,10 +107,10 @@
      &     ,ovnorm(2)
       write(19,'(a11,e12.5,a3,e9.2)') "fscale = ",fscale(1)," +-"
      &     ,fscale(2)
-c      write(19,'(a11,e12.5,a3,e9.2)') "fa = ",fa(1)," +-"
-c     &     ,fa(2)
-c      write(19,'(a11,e12.5,a3,e9.2)') "fb = ",fb(1)," +-"
-c     &     ,fb(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "fa = ",fa(1)," +-"
+     &     ,fa(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "fb = ",fb(1)," +-"
+     &     ,fb(2)
       write(19,*) ""
       write(19,*) "Ev Range:",Emin," -",Emax," [MeV]"
       write(19,*) ""
@@ -150,11 +150,11 @@ c     &     ,fb(2)
                call mnparm(4,'dm31_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
                call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
                call mnparm(6,'fscale',fscale(1),fscale(2),0d0,0d0,ierr)
-c               call mnparm(6,'fa',fa(1),fa(2),0d0,0d0,ierr)
-c               call mnparm(7,'fb',fb(1),fb(2),0d0,0d0,ierr)
-c               call mncomd(minfunc,'FIX 4',iflag,0)
+               call mnparm(7,'fa',fa(1),fa(2),0d0,0d0,ierr)
+               call mnparm(8,'fb',fb(1),fb(2),0d0,0d0,ierr)
 c               call mncomd(minfunc,'FIX 6',iflag,0)
-c               call mncomd(minfunc,'FIX 7',iflag,0)
+               call mncomd(minfunc,'FIX 7',iflag,0)
+               call mncomd(minfunc,'FIX 8',iflag,0)
 
                arg(1) = 0d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
@@ -182,11 +182,11 @@ c               dchisqmin = chisqmin_true
      &              ,pval(4),perr(4),dm31_2(2),(pval(4)-dm31_2(1))/dm31_2(2)
      &              ,pval(5),perr(5),ovnorm(2),(pval(5)-ovnorm(1))/ovnorm(2)
      &              ,pval(6),perr(6),fscale(2),(pval(6)-fscale(1))/fscale(2)
-c     &              ,pval(6),perr(6),fa(2),(pval(6)-fa(1))/fa(2)
-c     &              ,pval(7),perr(7),fb(2),(pval(7)-fb(1))/fb(2),final_bins
+     &              ,pval(7),perr(7),fa(2),(pval(7)-fa(1))/fa(2)
+     &              ,pval(8),perr(8),fb(2),(pval(8)-fb(1))/fb(2)
+     &              ,final_bins
                write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
-     &              ,pval(4),pval(5),pval(6)
-c     &              ,pval(4),pval(5),pval(6),pval(7)
+     &              ,pval(4),pval(5),pval(6),pval(7),pval(8)
                if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
                   write(23,*) value, dchisqmin
                endif
@@ -202,10 +202,12 @@ c     &              ,pval(4),pval(5),pval(6),pval(7)
      &              ,pval(4)," +-",perr(4)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
      &              ,pval(5)," +-",perr(5)
-               write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "fscale = "
      &              ,pval(6)," +-",perr(6)
-c               write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
-c     &              ,pval(7)," +-",perr(7)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "fa = "
+     &              ,pval(7)," +-",perr(7)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "fb = "
+     &              ,pval(8)," +-",perr(8)
                write(19,*) ""
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
@@ -222,14 +224,14 @@ c     &              ,pval(7)," +-",perr(7)
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
 c         zz(1) = Lmin
-         npari = 7
+         npari = 10
          do i = 1,npari
             z(i) = 1d0
          enddo
          call minfunc(npari,grad,dchisq,z,iflag,0)
 
       elseif (mode.eq.2) then ! For dN/dE plots
-         npari = 7
+         npari = 10
          do i = 1,npari
             z(i) = 1d0
          enddo
@@ -238,7 +240,7 @@ c         zz(1) = Lmin
 
       elseif (mode.eq.3) then ! For F vs. L/E distribution
          zz(1) = Lmin
-         npari = 7
+         npari = 10
          do i = 1,npari
             z(i) = 1d0
          enddo
@@ -246,7 +248,7 @@ c         zz(1) = Lmin
 
       elseif (mode.eq.4) then ! For F vs. E distribution
          zz(1) = Lmin
-         npari = 7
+         npari = 10
          do i = 1,npari
             z(i) = 1d0
          enddo
@@ -254,7 +256,7 @@ c         zz(1) = Lmin
 
       elseif (mode.eq.5) then ! For dN/dE distribution
          zz(1) = Lmin
-         npari = 7
+         npari = 10
          do i = 1,npari
             z(i) = 1d0
          enddo

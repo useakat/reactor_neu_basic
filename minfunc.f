@@ -15,7 +15,7 @@ C     GLOBAL VARIABLES
       common /zz/ zz
       integer ifirst
       real*8 final_bins
-      common /first/ ifirst,final_bins
+      common /first/ final_bins,ifirst
 C     LOCAL VARIABLES 
       integer i,j
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
@@ -46,14 +46,16 @@ C     ----------
       z_dat(4) = zz(16)
       z_dat(5) = zz(18)
       z_dat(6) = zz(20)
-c      z_dat(7) = zz(22)
+      z_dat(7) = zz(22)
+      z_dat(8) = zz(24)
       error(1) = zz(11)
       error(2) = zz(13)
       error(3) = zz(15)
       error(4) = zz(17)
       error(5) = zz(19)
       error(6) = zz(21)
-c      error(7) = zz(23)
+      error(7) = zz(23)
+      error(8) = zz(25)
 
       z_dat(11) = zz(2)                  ! NH/IH
       z_dat(12) = zz(4)*zz(5)*1d9*avog   ! N_target
@@ -105,11 +107,11 @@ CCCCCCCCCCCCCCCCCCCCCCCCCC               CCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          open(2,file='dchi2min_bestfit2nh.dat',status='old',err=200)
          do
             read(2,*,end=100) z_min(16),z_min(1),z_min(2),z_min(3)
-     &           ,z_min(4),z_min(5),z_min(6),z_min(7)
+     &           ,z_min(4),z_min(5),z_min(6),z_min(7),z_min(8)
             if ((z_min(16).ge.z_dat(16)).and.(z_min(16).lt.z_dat(16)+0.9d0))
      &           then
                minflag = 1
-               do i = 8,16
+               do i = 11,16
                   z_min(i) = z_dat(i)
                enddo
                goto 100
@@ -130,11 +132,11 @@ c         include 'inc/BestFitData_nh.inc'
          open(2,file='dchi2min_bestfit2ih.dat',status='old',err=400)
          do 
             read(2,*,end=300) z_min(16),z_min(1),z_min(2),z_min(3)
-     &           ,z_min(4),z_min(5),z_min(6),z_min(7)
+     &           ,z_min(4),z_min(5),z_min(6),z_min(7),z_min(8)
             if ((z_min(16).ge.z_dat(16)).and.(z_min(16).lt.z_dat(16)+0.9d0))
      &           then
                minflag = 1
-               do i = 8,16
+               do i = 11,16
                   z_min(i) = z_dat(i)
                enddo
                goto 300

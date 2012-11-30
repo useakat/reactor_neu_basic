@@ -27,22 +27,22 @@ set xlabel '{/=25 L [km]}' offset -1,0
 set pointsize 1
 set multiplot
 plot \
-'rslt_test2/data/dchi2min_nh_2_0.dat' u 1:2 t '(a, b) = (2, 0) NH'  w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_0.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_test2/data/dchi2min_nh_2_0.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'red' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_0.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 4 lc rgb 'red' lw 3 ,\
-'rslt_test2/data/dchi2min_nh_2_0.5.dat' u 1:2 t '(2, 0.5) NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_0.5.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_test2/data/dchi2min_nh_2_0.5.dat' every::45::45 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_0.5.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 3 lc rgb 'blue' lw 3 ,\
-'rslt_test2/data/dchi2min_nh_2_0.75.dat' u 1:2 t '(2, 0.75) NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_0.75.dat' u 1:2 t '   IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
-'rslt_test2/data/dchi2min_nh_2_0.75.dat' every::43::43 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb '#006400' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_0.75.dat' every::44::44 u 1:2 t ''  w points pointtype 2 lt 3 lc rgb '#006400' lw 3 ,\
-'rslt_test2/data/dchi2min_nh_2_1.dat' u 1:2 t '(2, 1) NH'  w l lt 1 lc rgb 'brown' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_1.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'brown' lw 3 ,\
-'rslt_test2/data/dchi2min_nh_2_1.dat' every::42::42 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'brown' lw 3 ,\
-'rslt_test2/data/dchi2min_ih_2_1.dat' every::42::42 u 1:2 t ''  w points pointtype 2 lt 3 lc rgb 'brown' lw 3
+'rslt_test/data/dchi2min_nh_2_0.dat' u 1:2 t '(a, b) = (2, 0) NH'  w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.dat' u 1:2 t '     IH'  w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_0.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 4 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_0.5.dat' u 1:2 t '(2, 0.5) NH'  w l lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.5.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_0.5.dat' every::45::45 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.5.dat' every::46::46 u 1:2 t ''  w points pointtype 2 lt 3 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_0.75.dat' u 1:2 t '(2, 0.75) NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.75.dat' u 1:2 t '   IH'  w l lt 2 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_0.75.dat' every::43::43 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_0.75.dat' every::44::44 u 1:2 t ''  w points pointtype 2 lt 3 lc rgb '#006400' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_1.dat' u 1:2 t '(2, 1) NH'  w l lt 1 lc rgb 'brown' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_1.dat' u 1:2 t '   IH'  w l lt 2 lc rgb 'brown' lw 3 ,\
+'rslt_test/data/dchi2min_nh_2_1.dat' every::42::42 u 1:2 t ''  w points pointtype 2 lt 1 lc rgb 'brown' lw 3 ,\
+'rslt_test/data/dchi2min_ih_2_1.dat' every::42::42 u 1:2 t ''  w points pointtype 2 lt 3 lc rgb 'brown' lw 3
 set nomultiplot
 
 reset

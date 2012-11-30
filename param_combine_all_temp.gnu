@@ -93,6 +93,21 @@ plot \
 'DATADIR/dchi2min_nh_6_0.dat' u 1:27 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
 'DATADIR/dchi2min_ih_6_0.dat' u 1:27 notitle  w l lt 2 lc rgb 'red' lw 3
 
+unset label
+unset ylabel
+set yrange[-0.5:0.75]
+set ytics (-0.25,0,0.25,0.5)
+set label '{/=25 fa}' at 12,0.05
+plot \
+'DATADIR/dchi2min_nh_0_0.dat' u 1:31 notitle w l lt 1 lc rgb 'orange' lw 3 ,\
+'DATADIR/dchi2min_ih_0_0.dat' u 1:31 notitle w l lt 2 lc rgb 'orange' lw 3 ,\
+'DATADIR/dchi2min_nh_2_0.dat' u 1:31 notitle w l lt 1 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_ih_2_0.dat' u 1:31 notitle w l lt 2 lc rgb '#006400' lw 3 ,\
+'DATADIR/dchi2min_nh_3_0.dat' u 1:31 notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_ih_3_0.dat' u 1:31 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2min_nh_6_0.dat' u 1:31 notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2min_ih_6_0.dat' u 1:31 notitle  w l lt 2 lc rgb 'red' lw 3
+
 set xlabel '{/=25 L [km]}' offset 0,0
 set format x
 unset label

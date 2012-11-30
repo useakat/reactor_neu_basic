@@ -223,7 +223,7 @@ fi
 
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
-    Eres=0
+    Eres=2
     Eres_nl=0
     source dchi2_fitting_Eresnl.sh
 #    mode=2
