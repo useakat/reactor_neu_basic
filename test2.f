@@ -9,9 +9,9 @@
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
-      character*10 cEres,cmode,cEres_nl,cvalue,cfixL
+      character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc
       
-      integer iflag,ifixL
+      integer iflag,ifixL,ifluc
       real*8 z(20),dchisq,grad,futil
       real*8 mean_nh,error_nh,mean_ih,error_ih
 
@@ -37,6 +37,7 @@
       call getarg(10,cmode)
       call getarg(11,cvalue)
       call getarg(12,cfixL)
+      call getarg(13,cfluc)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -49,6 +50,7 @@
       read (cmode,*) mode
       read (cvalue,*) value
       read (cfixL,*) ifixL
+      read (cfluc,*) ifluc
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
       s213_2(1) = 0.098d0
@@ -69,7 +71,7 @@
       Emin = 1.81d0  
       Emax = 8d0
       serror = 1d-2
-      snmax = 20
+      snmax = 10
 
       zz(10) = s2sun_2(1)
       zz(11) = s2sun_2(2)
@@ -96,6 +98,7 @@
       zz(33) = snmax
       zz(34) = Eres_nl
       zz(35) = ndiv
+      zz(37) = ifluc
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"
@@ -184,7 +187,7 @@ c               dchisqmin = chisqmin_true
      &                 ,ierr)
                enddo
 
-               write(25,*) dchisqmin
+               if (ifixL.eq.1) write(25,*) dchisqmin
                write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
@@ -234,18 +237,20 @@ c               dchisqmin = chisqmin_true
          close(23)
          close(25)
 
-         open(1,file="dchi2_dist_nh.dat",status="old")
-         call get_mean_error(1,99,mean_nh,error_nh)
-         close(1)
-         open(1,file="dchi2_dist_ih.dat",status="old")
-         call get_mean_error(1,99,mean_ih,error_ih)
-         close(1)
-         open(1,file="dchi2_error_nh.dat",status="replace")
-         write(1,*) Lmin,mean_nh,error_nh
-         close(1)
-         open(1,file="dchi2_error_ih.dat",status="replace")
-         write(1,*) Lmin,mean_ih,error_ih
-         close(1)
+         if (ifixL.eq.1) then
+            open(1,file="dchi2_dist_nh.dat",status="old")
+            call get_mean_error(1,99,mean_nh,error_nh)
+            close(1)
+            open(1,file="dchi2_dist_ih.dat",status="old")
+            call get_mean_error(1,99,mean_ih,error_ih)
+            close(1)
+            open(1,file="dchi2_error_nh.dat",status="replace")
+            write(1,*) Lmin,mean_nh,error_nh
+            close(1)
+            open(1,file="dchi2_error_ih.dat",status="replace")
+            write(1,*) Lmin,mean_ih,error_ih
+            close(1)
+         endif
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
 c         zz(1) = Lmin

@@ -21,6 +21,7 @@ C     LOCAL VARIABLES
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
       integer maxnbin,imode,minflag,ierr,ierr1,ierr2,iswitch_smear,nnbins
       parameter (nout=6, maxnbin=20000)
+      integer ifluc
       real*8 x(0:maxnbin),z_dat(40),event_th(maxnbin),z(40)
       real*8 nevent_th,ans,erro,event_dat(maxnbin),nevent_dat,error(10)
       real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror,rdx
@@ -79,6 +80,7 @@ c      z(11) = z_dat(11)
       Eres = zz(7)
       Eres_nl = zz(34)
       ndiv = zz(35)
+      ifluc = zz(37)
 
       nevent = 0
 c      rdx = 0.01
@@ -91,8 +93,11 @@ CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
 
       if (imode.eq.0) then 
-c         include 'inc/dchi2.inc'
-         include 'inc/dchi2_stat.inc'
+         if (ifluc.eq.0) then
+            include 'inc/dchi2.inc'
+         elseif (ifluc.eq.1) then
+            include 'inc/dchi2_stat.inc'
+         endif
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCC                  CCCCCCCCCCCCCCCCCC

@@ -34,6 +34,7 @@ else
     Eres=$2
     Eres_nl=$3
     run_mode=$4
+    plot_run_mode=$5
 fi    
 P=20
 V=5
@@ -42,6 +43,11 @@ Y=5
 Lmin=10
 Lmax=100
 ndiv=100
+
+if [ ${run_mode} -eq 10 ]; then
+    ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
+    exit
+fi
 
 make clean >/dev/null 2>&1
 rm -rf plots/*
@@ -224,12 +230,20 @@ fi
 
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
-    ifixL=1
-    Lmin=51
-    ndiv=100
+    
     Eres=2
     Eres_nl=0
+    ifixL=0
+    ifluc=0
+    Lmin=10
+    ndiv=100
     source dchi2_fitting_Eresnl.sh
+    ifixL=1
+    ifluc=1
+    Lmin=51
+    ndiv=100
+    source dchi2_fitting_Eresnl.sh
+
 #    mode=2
 #    Lmaxp10=`expr ${Lmax} + 10`
 #    Eres=0
@@ -241,6 +255,7 @@ mv *.dat data/.
 cp -rf data ${run_dir}/.
 
 ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${run_mode}
+
 
 ### end program ###
     
