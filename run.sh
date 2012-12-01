@@ -81,12 +81,12 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
 
     mode=1
     Lmin=1
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
 
     mode=5
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
 	mv PeeNH.dat PeeNH_${i}.dat
 	mv PeeIH.dat PeeIH_${i}.dat
 	mv N_nh.dat N_nh_${i}.dat
@@ -97,7 +97,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     mode=3
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
 	mv FluxXsec_loe.dat FluxXsec_loe_${i}.dat
 	mv FluxXsecPeeNH_loe.dat FluxXsecPeeNH_loe_${i}.dat
 	mv FluxXsecPeeIH_loe.dat FluxXsecPeeIH_loe_${i}.dat
@@ -113,7 +113,7 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 # Energy distributions
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode}
+	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
 	mv evdinh.dat events_nh_${i}_${Eres}_${Eres_nl}.dat
 	mv evdiih.dat events_ih_${i}_${Eres}_${Eres_nl}.dat
 	i=`expr $i + 10`
@@ -127,12 +127,12 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 	i=10
 	while [ $i -lt 110 ]; do
 	    Eres=3
-	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
 	    mv edh6nh.dat events_3_nh_${i}.dat
 	    mv edh6ih.dat events_3_ih_${i}.dat
 	
 	    Eres=1.5
-	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode}
+	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
 	    mv edh6nh.dat events_1.5_nh_${i}.dat
 	    mv edh6ih.dat events_1.5_ih_${i}.dat
 	    i=`expr $i + 10`
@@ -150,6 +150,7 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 
 # chi2 fitting
     mode=0
+    ifixL=0
 
     if [ ${switch1} -eq 1 ]; then 
 	Eres=0
@@ -223,6 +224,9 @@ fi
 
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
+    ifixL=1
+    Lmin=51
+    ndiv=100
     Eres=2
     Eres_nl=0
     source dchi2_fitting_Eresnl.sh

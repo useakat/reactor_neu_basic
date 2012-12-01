@@ -91,8 +91,8 @@ CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
 
       if (imode.eq.0) then 
-         include 'inc/dchi2.inc'
-c         include 'inc/dchi2_stat.inc'
+c         include 'inc/dchi2.inc'
+         include 'inc/dchi2_stat.inc'
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCC                  CCCCCCCCCCCCCCCCCC

@@ -60,7 +60,7 @@ C     LOCAL VARIABLES
       real*8 sgm2,chi22,sumdat,sumth
       integer ifirst
       real*8 final_bins
-      common /first/ ifirst, final_bins
+      common /first/ final_bins,ifirst
 C     ----------
 C     BEGIN CODE
 C     ----------

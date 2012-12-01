@@ -9,10 +9,11 @@
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
-      character*10 cEres,cmode,cEres_nl,cvalue
+      character*10 cEres,cmode,cEres_nl,cvalue,cfixL
       
-      integer iflag
+      integer iflag,ifixL
       real*8 z(20),dchisq,grad,futil
+      real*8 mean_nh,error_nh,mean_ih,error_ih
 
       real*8 zz(40)
       common /zz/ zz
@@ -35,6 +36,7 @@
       call getarg(9,cEres_nl)
       call getarg(10,cmode)
       call getarg(11,cvalue)
+      call getarg(12,cfixL)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -46,6 +48,7 @@
       read (cEres_nl,*) Eres_nl 
       read (cmode,*) mode
       read (cvalue,*) value
+      read (cfixL,*) ifixL
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
       s213_2(1) = 0.098d0
@@ -66,7 +69,7 @@
       Emin = 1.81d0  
       Emax = 8d0
       serror = 1d-2
-      snmax = 10
+      snmax = 20
 
       zz(10) = s2sun_2(1)
       zz(11) = s2sun_2(2)
@@ -129,17 +132,23 @@
                open(21,file='dchi2min_nh.dat',status='replace')
                open(22,file='dchi2min_bestfit2nh.dat',status='replace')
                open(23,file='dchi2_vsparam_nh.dat',status='replace')
+               open(25,file='dchi2_dist_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
                open(21,file='dchi2min_ih.dat',status='replace')
                open(22,file='dchi2min_bestfit2ih.dat',status='replace')
                open(23,file='dchi2_vsparam_ih.dat',status='replace')
+               open(25,file='dchi2_dist_ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
                ifirst = 0
-               zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
+               if (ifixL.eq.0) then
+                  zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
+               elseif (ifixL.eq.1) then
+                  zz(1) = Lmin
+               endif
                write(19,*) zz(1),"[km]"               
                call mninit(5,20,7)
                
@@ -175,7 +184,8 @@ c               dchisqmin = chisqmin_true
      &                 ,ierr)
                enddo
 
-               write(21,'(e10.3,30e13.5,e10.3)') zz(1),dchisqmin,fedm
+               write(25,*) dchisqmin
+               write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
      &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
@@ -185,7 +195,7 @@ c               dchisqmin = chisqmin_true
      &              ,pval(7),perr(7),fa(2),(pval(7)-fa(1))/fa(2)
      &              ,pval(8),perr(8),fb(2),(pval(8)-fb(1))/fb(2)
      &              ,final_bins
-               write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
+               write(22,'(e10.3,8e13.5)') zz(1),pval(1),pval(2),pval(3)
      &              ,pval(4),pval(5),pval(6),pval(7),pval(8)
                if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
                   write(23,*) value, dchisqmin
@@ -221,6 +231,21 @@ c               dchisqmin = chisqmin_true
          close(20)
          close(21)
          close(22)
+         close(23)
+         close(25)
+
+         open(1,file="dchi2_dist_nh.dat",status="old")
+         call get_mean_error(1,99,mean_nh,error_nh)
+         close(1)
+         open(1,file="dchi2_dist_ih.dat",status="old")
+         call get_mean_error(1,99,mean_ih,error_ih)
+         close(1)
+         open(1,file="dchi2_error_nh.dat",status="replace")
+         write(1,*) Lmin,mean_nh,error_nh
+         close(1)
+         open(1,file="dchi2_error_ih.dat",status="replace")
+         write(1,*) Lmin,mean_ih,error_ih
+         close(1)
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
 c         zz(1) = Lmin
