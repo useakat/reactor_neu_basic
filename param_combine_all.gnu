@@ -3,8 +3,8 @@ set grid
 set key samplen 2 horizontal at graph 0.95, 0.9
 set output 'plots/params_all.eps'
 unset title
-#set title '{/=20 P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years}'
-#set title '{/=20 20GW_{th}, 5kton, 5 years}'
+#set title '{/=20 P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 10 years}'
+#set title '{/=20 20GW_{th}, 5kton, 10 years}'
 #set xlabel 'L [km]' offset -1,0
 #set label '1.5%' at 60,15
 #set label '3%' at 50,14

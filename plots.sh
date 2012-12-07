@@ -40,7 +40,7 @@ fi
 P=20
 V=5
 R=0.12
-Y=5
+Y=10
 
 rm -rf plots/*
 
@@ -93,10 +93,9 @@ elif [ ${mode} -eq 3 ]; then
 
 elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
     
-    Eres=2
-    Eres_nl=0
-    ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y ${Eres} ${run_dir}
-#    ./mkgnu_dchi2_Eresnl.sh $P $V $R $Y ${Eres} ${run_dir}
+    ./mkgnu_dchi2_combine_error.sh $P $V $R $Y ${Eres_nl} ${run_dir}
+    ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 2 ${run_dir}
+    ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 3 ${run_dir}
     ./mkgnu_dchi2_param_all.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
 
     # Eres=0

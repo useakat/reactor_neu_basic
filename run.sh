@@ -233,19 +233,31 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
     
     Eres=2
     Eres_nl=0
-    ifixL=0
-    ifluc=0
-    Lmin=10
-    ndiv=100
-    source dchi2_fitting_Eresnl.sh
-    source get_dchi2max.sh
-    echo $maxline_nh $maxL_nh $dchi2max_nh > dchi2max_nh_${Eres}_${Eres_nl}.dat
-    echo $maxline_ih $maxL_ih $dchi2max_ih > dchi2max_ih_${Eres}_${Eres_nl}.dat
-    ifixL=1
-    ifluc=1
-    Lmin=${maxL_nh}
-    ndiv=100
-    source dchi2_fitting_Eresnl.sh
+    source dchi2_dist_error.sh
+    Eres_nl=0.5
+    source dchi2_dist_error.sh
+    Eres_nl=0.75
+    source dchi2_dist_error.sh
+    Eres_nl=1
+    source dchi2_dist_error.sh
+    Eres=3
+    Eres_nl=0
+    source dchi2_dist_error.sh
+    Eres_nl=0.5
+    source dchi2_dist_error.sh
+    Eres_nl=0.75
+    source dchi2_dist_error.sh
+    Eres_nl=1
+    source dchi2_dist_error.sh
+    Eres=4
+    Eres_nl=0
+    source dchi2_dist_error.sh
+    Eres=5
+    Eres_nl=0
+    source dchi2_dist_error.sh
+    Eres=6
+    Eres_nl=0
+    source dchi2_dist_error.sh
 
 #    mode=2
 #    Lmaxp10=`expr ${Lmax} + 10`
