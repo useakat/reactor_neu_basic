@@ -13,3 +13,5 @@
     Lmin=${maxL_nh}
     ndiv=100
     source dchi2_fitting_Eresnl.sh
+    source get_cl.sh
+    echo cl.dat > cl_${Eres}_${Eres_nl}.dat

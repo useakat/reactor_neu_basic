@@ -159,7 +159,7 @@
      &              ,ierr)
                call mnparm(2,'s213_2',s213_2(1),s213_2(2),0d0,0d0,ierr)
                call mnparm(3,'dm21_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
-               call mnparm(1,'dm31_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
+               call mnparm(4,'dm31_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
                call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
                call mnparm(6,'fscale',fscale(1),fscale(2),0d0,0d0,ierr)
                call mnparm(7,'fa',fa(1),fa(2),0d0,0d0,ierr)
