@@ -61,7 +61,8 @@ run_dir=rslt_${run}
 defout=${run_dir}/summary.txt
 
 if [ -e ${run_dir} ]; then
-    rm -rf ${run_dir}/*
+#    rm -rf ${run_dir}/*
+    echo "run directory exists."
 else
     mkdir ${run_dir}
 fi
@@ -231,39 +232,67 @@ fi
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
     
-    Eres=2
-    Eres_nl=0
-    source dchi2_dist_error.sh
-    Eres_nl=0.5
-    source dchi2_dist_error.sh
-    Eres_nl=0.75
-    source dchi2_dist_error.sh
-    Eres_nl=1
-    source dchi2_dist_error.sh
+    # Eres=3
+    # Eres_nl=0.75
+    # touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
+    # touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+    # Y=2.5
+    # source dchi2_dist_error.sh
+    # Y=5
+    # source dchi2_dist_error.sh
+    # Y=10
+    # source dchi2_dist_error.sh
+    # Y=15
+    # source dchi2_dist_error.sh
+    # Y=20
+    # source dchi2_dist_error.sh
+    # Y=25
+    # source dchi2_dist_error.sh
+
     Eres=3
-    Eres_nl=0
-    source dchi2_dist_error.sh
-    Eres_nl=0.5
-    source dchi2_dist_error.sh
     Eres_nl=0.75
+    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
+    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+    Y=30
     source dchi2_dist_error.sh
-    Eres_nl=1
+    Y=35
     source dchi2_dist_error.sh
-    Eres=4
-    Eres_nl=0
+    Y=40
     source dchi2_dist_error.sh
-    Eres=5
-    Eres_nl=0
+    Y=45
     source dchi2_dist_error.sh
-    Eres=6
-    Eres_nl=0
+    Y=50
+    source dchi2_dist_error.sh
+    Y=55
     source dchi2_dist_error.sh
 
-#    mode=2
-#    Lmaxp10=`expr ${Lmax} + 10`
-#    Eres=0
-#    Eres_nl=0
-#    source dchi2_bestfit_Eresnl.sh
+    # Eres=2
+    # Eres_nl=0
+    # source dchi2_dist_error.sh
+    # Eres_nl=0.5
+    # source dchi2_dist_error.sh
+    # Eres_nl=0.75
+    # source dchi2_dist_error.sh
+    # Eres_nl=1
+    # source dchi2_dist_error.sh
+    # Eres=3
+    # Eres_nl=0
+    # source dchi2_dist_error.sh
+    # Eres_nl=0.5
+    # source dchi2_dist_error.sh
+    # Eres_nl=0.75
+    # source dchi2_dist_error.sh
+    # Eres_nl=1
+    # source dchi2_dist_error.sh
+    # Eres=4
+    # Eres_nl=0
+    # source dchi2_dist_error.sh
+    # Eres=5
+    # Eres_nl=0
+    # source dchi2_dist_error.sh
+    # Eres=6
+    # Eres_nl=0
+    # source dchi2_dist_error.sh
 fi
 
 mv *.dat data/.

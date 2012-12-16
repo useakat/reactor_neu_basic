@@ -93,10 +93,12 @@ elif [ ${mode} -eq 3 ]; then
 
 elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
     
-    ./mkgnu_dchi2_combine_error.sh $P $V $R $Y ${Eres_nl} ${run_dir}
-    ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 2 ${run_dir}
-    ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 3 ${run_dir}
-    ./mkgnu_dchi2_param_all.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
+    ./mkgnu_dchi2_cl.sh $P $V $R $Y 2 0.5 ${run_dir}
+
+    # ./mkgnu_dchi2_combine_error.sh $P $V $R $Y ${Eres_nl} ${run_dir}
+    # ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 2 ${run_dir}
+    # ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 3 ${run_dir}
+    # ./mkgnu_dchi2_param_all.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
 
     # Eres=0
     # Eres_nl=0
