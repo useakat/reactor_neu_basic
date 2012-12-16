@@ -12,6 +12,7 @@ data_dir=${run_dir}/data
 RR=`echo "scale=1; ${R}*100" | bc`
 
 output=dchi2_cl
+#output=dchi2_sigma
 sed -e "s/PPP/${P}/" \
     -e "s/VVV/${V}/" \
     -e "s/RRR/${RR}/" \
