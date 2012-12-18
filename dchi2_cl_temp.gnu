@@ -19,7 +19,7 @@ set mytics 5
 set lmargin 8
 set output 'plots/dchi2_cl.eps'
 #set title 'P_{reactor} = PPPGW_{th}, V = VVVkton (RRR% free proton), YYY years'
-set title '({/Symbol=\144}E_{vis}/E_{vis})^2 = (a %/ {/Symbol=\326}E_{vis})^2 + (b %)^2'
+#set title '({/Symbol=\144}E_{vis}/E_{vis})^2 = (a %/ {/Symbol=\326}E_{vis})^2 + (b %)^2'
 set ylabel '{/=25 C. L.}' offset 1,0
 set xlabel '{/=25 ({/Symbol=\104}{/Symbol=\143}^2)_{min}}' offset -1,0
 #set xlabel '{/=25 Years}' offset -1,0
@@ -40,7 +40,7 @@ set label '{/Symbol=\264}6' at 18,1 tc rgb 'blue'
 set label '{/Symbol=\264}8' at 25,1.014 tc rgb 'blue'
 #set label '{/Symbol=\264}9' at 29,1.015 tc rgb 'blue'
 set label '{/Symbol=\264}10' at 32,1.015 tc rgb 'blue'
-#set label '3%' at 50,14
+set label 'L = 50 km' at 40,0.87
 #set label '6%' at 50,9
 #set yrange [0:210]
 set pointsize 1.2
@@ -48,8 +48,9 @@ set multiplot
 plot \
 'DATADIR/dchi2_cl_nh_2_0.5.dat' every::1::4 u 1:3 t '(a, b) = (2, 0.5): NH'  w lp pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
 'DATADIR/dchi2_cl_ih_2_0.5.dat' every::1::4 u 1:3 t '                   IH'  w lp pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2_cl_nh_3_0.75.dat' every::1::10 u 1:3 t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2_cl_ih_3_0.75.dat' every::1::10 u 1:3 t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3
+'DATADIR/dchi2_cl_nh_3_0.75.dat' every::0::10 u 1:3 t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2_cl_ih_3_0.75.dat' every::0::10 u 1:3 t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2_cl_nostat.dat' u 1:2 t 'No Fluctuation'  w l lt 1 lc rgb 'black' lw 5
 set nomultiplot
 
 reset

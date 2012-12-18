@@ -231,40 +231,54 @@ fi
 
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
-    
-    # Eres=2
-    # Eres_nl=0.5
-    # touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
-    # touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
-    # Y=2.5
-    # source dchi2_dist_error.sh
-    # Y=5
-    # source dchi2_dist_error.sh
-    # Y=10
-    # source dchi2_dist_error.sh
-    # Y=15
-    # source dchi2_dist_error.sh
-    # Y=20
-    # source dchi2_dist_error.sh
-    # Y=25
-    # source dchi2_dist_error.sh
 
+if [ 1 -eq 1 ];then    
+    Eres=2
+    Eres_nl=0.5
+    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
+    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+    Y=0.3125
+    source dchi2_dist_error.sh
+#    source dchi2_dist_error_nostat.sh
+    Y=0.555
+    source dchi2_dist_error.sh
+#    source dchi2_dist_error_nostat.sh
+    Y=1.25
+    source dchi2_dist_error.sh
+#    source dchi2_dist_error_nostat.sh
+    Y=5
+    source dchi2_dist_error.sh
+#    source dchi2_dist_error_nostat.sh
+    Y=20
+    source dchi2_dist_error.sh
+#    source dchi2_dist_error_nostat.sh
+    Y=45
+    source dchi2_dist_error.sh
+#    source dchi2_dist_error_nostat.sh
+    Y=80
+    source dchi2_dist_error.sh
+fi
+
+if [ 1 -eq 1 ];then
    Eres=3
-   Eres_nl=0.5
+   Eres_nl=0.75
    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
-   Y=5
-   source dchi2_dist_error.sh
-   Y=35
-   source dchi2_dist_error.sh
-   Y=40
-   source dchi2_dist_error.sh
-   Y=45
-   source dchi2_dist_error.sh
-   Y=50
-   source dchi2_dist_error.sh
-   Y=55
-   source dchi2_dist_error.sh
+    Y=0.3125
+    source dchi2_dist_error.sh
+    Y=0.555
+    source dchi2_dist_error.sh
+    Y=1.25
+    source dchi2_dist_error.sh
+    Y=5
+    source dchi2_dist_error.sh
+    Y=20
+    source dchi2_dist_error.sh
+    Y=45
+    source dchi2_dist_error.sh
+    Y=80
+    source dchi2_dist_error.sh
+fi
 
     # Eres=2
     # Eres_nl=0

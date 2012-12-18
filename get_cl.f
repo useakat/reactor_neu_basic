@@ -5,15 +5,15 @@ C     ****************************************************
       implicitnone
 C     CONSTANTS     
 C     ARGUMENTS
-      character*10 cmean,csigma
+      character*20 cmean,csigma
       real*8 rmean,rsigma
 C     GLOBAL VARIABLES
 C     LOCAL VARIABLES 
       real*8 z(2),error,xmin,xmax,cl,clsigma
       integer nmax,iflag
 C     EXTERNAL FUNCTIONS
-      real*8 DeltaChi2CL,DeltaChi2Sigma
-      external DeltaChi2CL,DeltaChi2Sigma
+      real*8 DeltaChi2CL,DeltaChi2Sigma,SigmaProb
+      external DeltaChi2CL,DeltaChi2Sigma,SigmaProb
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -24,13 +24,20 @@ C     ----------
 
       z(1) = rmean
       z(2) = rsigma
-      error = 1d-3
-      nmax = 10
+      error = 1d-5
+      nmax = 13
 
       xmin = max(rmean-5*rsigma,0d0)
       xmax = rmean+5*rsigma
-      call simp3d(DeltaChi2CL,xmin,xmax,z,cl,error,nmax,iflag)
-c      call simp3d(DeltaChi2Sigma,xmin,xmax,z,clsigma,error,nmax,iflag)
+
+      if ( (z(2).lt.1d-8).or.((xmax-xmin).lt.1d-8) ) then
+c      if (z(2).eq.0d0) then
+         cl = SigmaProb(dsqrt(z(1)))
+      else
+         call simp3d(DeltaChi2CL,xmin,xmax,z,cl,error,nmax,iflag)
+c     call simp3d(DeltaChi2Sigma,xmin,xmax,z,clsigma,error,nmax,iflag)
+      endif
+
       if (iflag.eq.1) then
          write(6,*) "ERROR:get_cl: simp3d does not converge. ",
      &        "Stop get_cl..."
@@ -38,7 +45,6 @@ c      call simp3d(DeltaChi2Sigma,xmin,xmax,z,clsigma,error,nmax,iflag)
       endif
 
       open(1,file="cl.dat",status="replace")
-c      write(1,*) rmean,rsigma,cl,clsigma
       write(1,*) rmean,rsigma,cl
       close(1)
 
