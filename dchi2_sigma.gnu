@@ -11,7 +11,7 @@ set key at graph 0.9,0.4
 #set key spacing 1.5
 #set xlabel 'cost' offset -1,0
 #set ylabel 'log_{/=10 10} L (Mpc)' offset 1,0
-set xrange [0:14]
+set xrange [0:5]
 #set yrange [0.6:1.03]
 set mxtics 10
 set mytics 5
@@ -29,10 +29,10 @@ set label '1s' at 13,0.3173 offset 1,0
 set pointsize 1.2
 set multiplot
 plot \
-'rslt_clv2/data/dchi2_cl_nh_2_0.5.dat' u (sqrt($1)):(1-$3) t '(a, b) = (2, 0.5): NH'  w lp pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
-'rslt_clv2/data/dchi2_cl_ih_2_0.5.dat' u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
-'rslt_clv2/data/dchi2_cl_nh_3_0.75.dat'  u (sqrt($1)):(1-$3) t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_clv2/data/dchi2_cl_ih_3_0.75.dat'  u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2_cl_nh_2_0.5.dat' u (sqrt($1)):(1-$3) t '(a, b) = (2, 0.5): NH'  w lp pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2_cl_ih_2_0.5.dat' u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
+'rslt_test/data/dchi2_cl_nh_3_0.75.dat'  u (sqrt($1)):(1-$3) t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/dchi2_cl_ih_3_0.75.dat'  u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
 0.3173 notitle w l lt 2 lc rgb 'black' lw 3 ,\
 0.0455 notitle w l lt 2 lc rgb 'black' lw 3 ,\
 0.0027 notitle w l lt 2 lc rgb 'black' lw 3 ,\

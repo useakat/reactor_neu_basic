@@ -70,7 +70,7 @@
 
       Emin = 1.81d0  
       Emax = 8d0
-      serror = 1d-2
+      serror = 1d-4
       snmax = 10
 
       zz(10) = s2sun_2(1)
@@ -150,7 +150,8 @@
                if (ifixL.eq.0) then
                   zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
                elseif (ifixL.eq.1) then
-                  zz(1) = Lmin
+                  if (zz(2).eq.1) zz(1) = Lmin
+                  if (zz(2).eq.-1) zz(1) = Lmax
                endif
                write(19,*) zz(1),"[km]"               
                call mninit(5,20,7)
@@ -226,6 +227,9 @@ c               dchisqmin = chisqmin_true
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
                write(19,*) ""
                write(19,*) ""
+c               if ( (ZZ(1).gt.49d0).and.(zz(1).lt.51d0)) then
+c                  write(6,*) zz(2),zz(1),dchisqmin
+c               endif
             enddo
             write(19,*) ""
             write(19,*) ""
@@ -250,6 +254,9 @@ c               dchisqmin = chisqmin_true
             open(1,file="dchi2_error_ih.dat",status="replace")
             write(1,*) Lmin,mean_ih,error_ih
             close(1)
+c            write(6,*) "stat"
+c            write(6,*) "nh", mean_nh,error_nh
+c            write(6,*) "ih", mean_ih,error_ih
          endif
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution

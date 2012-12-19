@@ -18,8 +18,8 @@ C     BEGIN CODE
 C     ----------
       z(1) = 0d0
       z(2) = 1d0
-      error = 1d-8
-      nmax = 10
+      error = 1d-10
+      nmax = 15
       
       call simp3d(rNormalDist,-x,x,z,ans,error,nmax,nflag)
       SigmaProb = ans
