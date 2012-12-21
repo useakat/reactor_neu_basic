@@ -5,30 +5,17 @@
       integer i
       integer iflag,nmax
 
+      integer time
+      real*8 gran
+      external gran
       real*8 rNormalDist,esbeta,testfunc,SigmaProb
-      external rNormalDist,esbeta,testfunc,SigmaProb
+      external rNormalDist,esbeta,testfunc,SigmaProb,time
 
-      z(1) = 0d0
-      z(2) = 1d0
-
-      error = 1d-8
-      nmax = 20
-
-c      call simp3d(rNormalDist,0d0,2d0,z,ans,error,nmax,iflag)
-c      write(6,*) ans,iflag
-c      write(6,*) rNormalDist(0d0,z(1),z(2))
-
-c      call simp1d(testfunc,0d0,0.3d0,ans,error,nmax,iflag)
-c      write(6,*) ans,iflag
-
-      open(1,file="dchi2_cl_nostat.dat",status="replace")
-      do i = 0,200
-         write(1,*) i/10d0,SigmaProb(dsqrt(dble(i)/dble(10)))
+      call gran_init(time())
+      do i = 1,10
+         z(1) = gran()
+         write(6,*) z(1)
       enddo
-      do i = 31,50
-         write(1,*) i,1d0
-      enddo
-      close(1)
 
       end
 

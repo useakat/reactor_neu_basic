@@ -237,26 +237,23 @@ if [ 1 -eq 1 ];then
     Eres_nl=0.5
     touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
     touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
-#     Y=0.3125
-#     source dchi2_dist_error.sh
-# #    source dchi2_dist_error_nostat.sh
-#     Y=0.555
-#     source dchi2_dist_error.sh
-# #    source dchi2_dist_error_nostat.sh
-#     Y=1.25
-#     source dchi2_dist_error.sh
-# #    source dchi2_dist_error_nostat.sh
-#     Y=5
-#     source dchi2_dist_error.sh
-# #    source dchi2_dist_error_nostat.sh
-#     Y=20
-#     source dchi2_dist_error.sh
-# #    source dchi2_dist_error_nostat.sh
-#     Y=45
-#     source dchi2_dist_error.sh
+    maxL_nh=50
+    maxL_ih=50
+    # Y=0.3125
+    # source dchi2_dist_error.sh
+    Y=0.555
+#    source dchi2_dist_error.sh
+    Y=1.25
+#    source dchi2_dist_error.sh
+    Y=5
+#    source dchi2_dist_error.sh
+    Y=20
+#    source dchi2_dist_error.sh
 #    source dchi2_dist_error_nostat.sh
+    Y=45
+    source dchi2_dist_error_only.sh
     Y=80
-    source dchi2_dist_error.sh
+#    source dchi2_dist_error.sh
 fi
 
 if [ 0 -eq 1 ];then
@@ -264,20 +261,20 @@ if [ 0 -eq 1 ];then
    Eres_nl=0.75
    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
-    Y=0.3125
-    source dchi2_dist_error.sh
-    Y=0.555
-    source dchi2_dist_error.sh
+   maxL_nh=50
+   maxL_ih=50
+    # Y=0.555
+    # source dchi2_dist_error.sh
     Y=1.25
-    source dchi2_dist_error.sh
+#    source dchi2_dist_error.sh
     Y=5
-    source dchi2_dist_error.sh
+#    source dchi2_dist_error.sh
     Y=20
-    source dchi2_dist_error.sh
+#    source dchi2_dist_error.sh
     Y=45
-    source dchi2_dist_error.sh
-    Y=80
-    source dchi2_dist_error.sh
+    source dchi2_dist_error_only.sh
+#    Y=80
+#    source dchi2_dist_error.sh
 fi
 
     # Eres=2

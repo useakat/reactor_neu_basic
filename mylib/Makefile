@@ -7,7 +7,7 @@ OBJS  = fact.o ipnext.o simpson.o ps2b.o etaorder.o \
 	order.o rsort.o write.o cut_chk2.o fvdot.o pkinvars.o ptorder_chk.o \
 	runge2.o rambo.o get_momenta.o switch_mom.o kin_func.o set_pdf.o get_std.o \
 	dacosh.o es4dot.o es4sq.o esbeta.o ordering.o gauss.o get_mean_error.o \
-	mysimpson.o SigmaProb.o
+	mysimpson.o SigmaProb.o srand.o
 
 install:	$(LIBRARY)
 	        @echo Installing $(LIBRARY) in $(DEST)

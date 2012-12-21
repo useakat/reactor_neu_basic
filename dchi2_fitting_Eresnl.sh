@@ -10,11 +10,11 @@
 	L=`echo $line | cut -d' ' -f 1`
 	dchi2=`echo $line | cut -d' ' -f 2`
 	error=`echo $line | cut -d' ' -f 3`
-	echo ${maxL_nh} ${dchi2max_nh} ${error} > dchi2_error_nh_${Eres}_${Eres_nl}.dat
+	echo ${maxL_nh} ${dchi2} ${error} > dchi2_error_nh_${Eres}_${Eres_nl}.dat
 
 	read line < dchi2_error_ih.dat
 	L=`echo $line | cut -d' ' -f 1`
 	dchi2=`echo $line | cut -d' ' -f 2`
 	error=`echo $line | cut -d' ' -f 3`
-	echo ${maxL_nh} ${dchi2max_nh} ${error} > dchi2_error_ih_${Eres}_${Eres_nl}.dat
+	echo ${maxL_nh} ${dchi2} ${error} > dchi2_error_ih_${Eres}_${Eres_nl}.dat
     fi

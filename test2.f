@@ -25,6 +25,10 @@
       real*8 final_bins
       common /first/ final_bins,ifirst
 
+      integer nbins,iev
+      real*8 event2_dat(20000),allevent
+      common /event_dat/ event2_dat,nbins
+
       call getarg(1,cLmin)
       call getarg(2,cLmax)
       call getarg(3,cndiv)
@@ -99,6 +103,8 @@
       zz(34) = Eres_nl
       zz(35) = ndiv
       zz(37) = ifluc
+
+c      call gran_init(time())
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"
@@ -201,9 +207,9 @@ c               dchisqmin = chisqmin_true
      &              ,final_bins
                write(22,'(e10.3,8e13.5)') zz(1),pval(1),pval(2),pval(3)
      &              ,pval(4),pval(5),pval(6),pval(7),pval(8)
-               if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
-                  write(23,*) value, dchisqmin
-               endif
+c               if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
+c                  write(23,*) value, dchisqmin
+c               endif
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,dchisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
@@ -227,12 +233,17 @@ c               dchisqmin = chisqmin_true
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
                write(19,*) ""
                write(19,*) ""
-c               if ( (ZZ(1).gt.49d0).and.(zz(1).lt.51d0)) then
+c               if ( (ZZ(1).gt.48d0).and.(zz(1).lt.50d0)) then
 c                  write(6,*) zz(2),zz(1),dchisqmin
+c                  allevent = 0d0
+c                  do iev = 1,nbins
+c                     allevent = allevent +event2_dat(iev)
+c                  enddo
+c                  write(6,*) allevent
 c               endif
             enddo
             write(19,*) ""
-            write(19,*) ""
+            write(19,*) ""           
          enddo
          close(19)
          close(20)

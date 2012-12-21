@@ -1,25 +1,32 @@
-      real function gran()
+      real*8 function gran_init(iseed)
+      implicitnone
+      integer iseed
+      call srand_init(iseed)
+      end
+
+      real*8 function gran()
       implicit none
 c     const:
-      real pi
-      parameter(pi=3.14159265)
+      real*8 pi
+      parameter(pi=3.14159265358979314)
 c     local:
-      integer  odd/0/
-      real     x1,x2,fac
+      integer  odd/0/,iseed,time
+      real*8     x1,x2,fac
 c     function:
-      real rand
-      external rand
+      real*8 srand
+      external srand,time
 c     save:
       save     odd,fac,x2
 c     begin:
+
       odd=1-odd
       if (odd.ne.0) then
-         x1=rand(0)
-         x2=rand(0)
-         fac=sqrt(-2.0*log(x1))
-         gran=fac*cos(2.0*pi*x2)
+         x1=srand()
+         x2=srand()
+         fac=dsqrt(-2.0*dlog(x1))
+         gran=fac*dcos(2.0*pi*x2)
       else 
-         gran=fac*sin(2.0*pi*x2)
+         gran=fac*dsin(2.0*pi*x2)
       endif
 
       return

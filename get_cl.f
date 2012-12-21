@@ -25,12 +25,12 @@ C     ----------
       z(1) = rmean
       z(2) = rsigma
       error = 1d-10
-      nmax = 13
+      nmax = 30
 
       xmin = max(rmean-5*rsigma,0d0)
       xmax = rmean+5*rsigma
 
-      if ( (z(2).lt.1d-8).or.((xmax-xmin).lt.1d-8) ) then
+      if ( (z(2).lt.1d-5).or.((xmax-xmin).lt.1d-5) ) then
 c      if (z(2).eq.0d0) then
          cl = SigmaProb(dsqrt(z(1)))
       else
