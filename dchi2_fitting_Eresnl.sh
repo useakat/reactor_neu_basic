@@ -7,14 +7,16 @@
 	mv dchi2min_bestfit2nh.dat dchi2min_bestfit2nh_${Eres}_${Eres_nl}.dat >/dev/null 2>&1
     else
 	read line < dchi2_error_nh.dat
-	L=`echo $line | cut -d' ' -f 1`
-	dchi2=`echo $line | cut -d' ' -f 2`
-	error=`echo $line | cut -d' ' -f 3`
-	echo ${L} ${dchi2} ${error} > dchi2_error_nh_${Eres}_${Eres_nl}.dat
+#	L=`echo $line | cut -d' ' -f 1`
+#	dchi2=`echo $line | cut -d' ' -f 2`
+#	error=`echo $line | cut -d' ' -f 3`
+#	echo ${L} ${dchi2} ${error} > dchi2_error_nh_${Eres}_${Eres_nl}.dat
+	mv dchi2_error_nh.dat dchi2_error_nh_${Eres}_${Eres_nl}.dat
 
 	read line < dchi2_error_ih.dat
-	L=`echo $line | cut -d' ' -f 1`
-	dchi2=`echo $line | cut -d' ' -f 2`
-	error=`echo $line | cut -d' ' -f 3`
-	echo ${L} ${dchi2} ${error} > dchi2_error_ih_${Eres}_${Eres_nl}.dat
+#	L=`echo $line | cut -d' ' -f 1`
+#	dchi2=`echo $line | cut -d' ' -f 2`
+#	error=`echo $line | cut -d' ' -f 3`
+#	echo ${L} ${dchi2} ${error} > dchi2_error_ih_${Eres}_${Eres_nl}.dat
+	mv dchi2_error_ih.dat dchi2_error_ih_${Eres}_${Eres_nl}.dat
     fi

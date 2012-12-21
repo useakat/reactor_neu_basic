@@ -13,7 +13,8 @@
       
       integer iflag,ifixL,ifluc
       real*8 z(20),dchisq,grad,futil
-      real*8 mean_nh,error_nh,mean_ih,error_ih
+      real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
+      real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
 
       real*8 zz(40)
       common /zz/ zz
@@ -255,16 +256,18 @@ c               endif
 
          if (ifixL.eq.1) then
             open(1,file="dchi2_dist_nh.dat",status="old")
-            call get_mean_error(1,99,mean_nh,error_nh)
+            call get_mean_error(1,99,mean_nh,error_nh,mean_error_nh
+     &           ,error_error_nh)
             close(1)
             open(1,file="dchi2_dist_ih.dat",status="old")
-            call get_mean_error(1,99,mean_ih,error_ih)
+            call get_mean_error(1,99,mean_ih,error_ih,mean_error_ih
+     &           ,error_error_ih)
             close(1)
             open(1,file="dchi2_error_nh.dat",status="replace")
-            write(1,*) Lmin,mean_nh,error_nh
+           write(1,*) Lmin,mean_nh,error_nh,mean_error_nh,error_error_nh
             close(1)
             open(1,file="dchi2_error_ih.dat",status="replace")
-            write(1,*) Lmin,mean_ih,error_ih
+           write(1,*) Lmin,mean_ih,error_ih,mean_error_ih,error_error_ih
             close(1)
 c            write(6,*) "stat"
 c            write(6,*) "nh", mean_nh,error_nh
