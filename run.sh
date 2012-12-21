@@ -246,14 +246,14 @@ if [ 1 -eq 1 ];then
     Y=1.25
 #    source dchi2_dist_error.sh
     Y=5
-#    source dchi2_dist_error.sh
-    Y=20
-#    source dchi2_dist_error.sh
-#    source dchi2_dist_error_nostat.sh
-    Y=45
     source dchi2_dist_error_only.sh
-    Y=80
-#    source dchi2_dist_error.sh
+    Y=20
+    source dchi2_dist_error_only.sh
+#    source dchi2_dist_error_nostat.sh
+#    Y=45
+#    source dchi2_dist_error_only.sh
+#    Y=80
+#    source dchi2_dist_error_only.sh
 fi
 
 if [ 0 -eq 1 ];then
@@ -273,8 +273,8 @@ if [ 0 -eq 1 ];then
 #    source dchi2_dist_error.sh
     Y=45
     source dchi2_dist_error_only.sh
-#    Y=80
-#    source dchi2_dist_error.sh
+    Y=80
+    source dchi2_dist_error_only.sh
 fi
 
     # Eres=2

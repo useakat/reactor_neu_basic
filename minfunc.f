@@ -33,7 +33,7 @@ C     LOCAL VARIABLES
       common /event_dat/ event2_dat,nbins
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,chi2_2
-      real gran
+      real*8 gran
       external hfunc1D,dchi2,futil,adchi2,chi2_2,gran
 c      save event2_dat
 C     ----------

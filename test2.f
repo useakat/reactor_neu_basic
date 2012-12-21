@@ -18,8 +18,8 @@
       real*8 zz(40)
       common /zz/ zz
 
-      integer lench
-      external minfunc,lench
+      integer lench,time
+      external minfunc,lench,time
 
       integer ifirst
       real*8 final_bins
@@ -104,7 +104,8 @@
       zz(35) = ndiv
       zz(37) = ifluc
 
-c      call gran_init(time())
+      call gran_init(time())
+c      call gran_init(200)
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"

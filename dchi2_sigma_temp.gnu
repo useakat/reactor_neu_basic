@@ -11,7 +11,7 @@ set key at graph 0.97,0.685
 #set key spacing 1.5
 #set xlabel 'cost' offset -1,0
 #set ylabel 'log_{/=10 10} L (Mpc)' offset 1,0
-#set xrange [0:10]
+set xrange [0:12]
 set yrange [1E-7:1]
 set mxtics 10
 set mytics 5
@@ -35,10 +35,10 @@ set label '6{/Symbol=\163}' at n,0.000000002 offset 0.5,0
 set pointsize 1.2
 set multiplot
 plot \
-'DATADIR/dchi2_cl_nh_2_0.5.dat' every::2::7 u (sqrt($1)):(1-$3) t '(a, b) = (2, 0.5): NH'  w lp pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2_cl_ih_2_0.5.dat' every::2::7 u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2_cl_nh_3_0.75.dat' every::2::7 u (sqrt($1)):(1-$3) t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
-'DATADIR/dchi2_cl_ih_3_0.75.dat' every::2::7  u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2_cl_nh_2_0.5.dat' every::0::7 u (sqrt($1)):(1-$3) t '(a, b) = (2, 0.5): NH'  w lp pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2_cl_ih_2_0.5.dat' every::0::7 u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
+'DATADIR/dchi2_cl_nh_3_0.75.dat' every::0::7 u (sqrt($1)):(1-$3) t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/dchi2_cl_ih_3_0.75.dat' every::0::7  u (sqrt($1)):(1-$3) t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
 'DATADIR/dchi2_cl_nostat.dat' u (sqrt($1)):(1-$2) t 'No Fluctuation'  w l lt 1 lc rgb 'black' lw 5 ,\
 0.3173 notitle w l lt 2 lc rgb 'black' lw 3 ,\
 0.0455 notitle w l lt 2 lc rgb 'black' lw 3 ,\
