@@ -24,8 +24,8 @@ C     ----------
 
       z(1) = rmean
       z(2) = rsigma
-      error = 1d-10
-      nmax = 30
+      error = 1d-8
+      nmax = 20
 
       xmin = max(rmean-5*rsigma,0d0)
       xmax = rmean+5*rsigma

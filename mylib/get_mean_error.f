@@ -26,6 +26,7 @@ C     ----------
       do
          read(lun,*,end=200) x
          sum_diff2 = sum_diff2 +(mean-x)**2 
+c         sum_diff4 = sum_diff4 +
       enddo
  200  if (nline.gt.1) then
          error2 = sum_diff2/dble(nline-1)
