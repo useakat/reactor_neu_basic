@@ -85,6 +85,7 @@ c      z(11) = z_dat(11)
 
       nevent = 0
 c      rdx = 0.01
+c      rdx = 0.0075
       rdx = 0.005
 c      rdx = 0.0025
 c      rdx = 0.00125

@@ -107,6 +107,10 @@ elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
     # 	./mkgnu_EventDistmin.sh $P $V $R $Y $i ${Eres} ${Eres_nl} ${run_dir}			
     # 	i=`expr $i + 10`
     # done
+
+elif [ ${mode} -eq 5 ]; then  # Free Analysis (parallel) Plots
+    
+    ./mkgnu_dchi2_cl.sh $P $V $R $Y 2 0.5 ${run_dir}
 fi
 
 cp -rf plots ${run_dir}/. 
