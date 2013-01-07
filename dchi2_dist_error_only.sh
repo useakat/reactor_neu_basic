@@ -15,6 +15,6 @@ ifixL=1
 ifluc=1
 Lmin=${maxL_nh}
 Lmax=${maxL_ih}
-ndiv=1000
+ndiv=10000
 source ${selfdir}/dchi2_fitting_Eresnl.sh
 source ${selfdir}/get_cl.sh
