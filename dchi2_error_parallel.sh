@@ -10,6 +10,8 @@
     Eres_nl=0.5
     touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
     touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+    touch sensitivity_nh_${Eres}_${Eres_nl}.dat
+    touch sensitivity_ih_${Eres}_${Eres_nl}.dat
 
     Y=0.3125
     jobname="job"$RANDOM
@@ -84,6 +86,8 @@
     Eres_nl=0.75
     touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
     touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+    touch sensitivity_nh_${Eres}_${Eres_nl}.dat
+    touch sensitivity_ih_${Eres}_${Eres_nl}.dat
 
 #    Y=1.887 $3.4
 #    Y=2.22 #4
@@ -177,6 +181,8 @@
     while [ $j -lt $n1 ]; do
 	cat par_${j}/dchi2_cl_nh_${Eres}_${Eres_nl}.dat >> dchi2_cl_nh_${Eres}_${Eres_nl}.dat
 	cat par_${j}/dchi2_cl_ih_${Eres}_${Eres_nl}.dat >> dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+	cat par_${j}/sensitivity_error_nh_${Eres}_${Eres_nl}.dat >> sensitivity_nh_${Eres}_${Eres_nl}.dat
+	cat par_${j}/sensitivity_error_ih_${Eres}_${Eres_nl}.dat >> sensitivity_ih_${Eres}_${Eres_nl}.dat
 	j=`expr $j + 1`
     done
     Eres=3
@@ -184,6 +190,8 @@
     while [ $j -lt $i ]; do
 	cat par_${j}/dchi2_cl_nh_${Eres}_${Eres_nl}.dat >> dchi2_cl_nh_${Eres}_${Eres_nl}.dat
 	cat par_${j}/dchi2_cl_ih_${Eres}_${Eres_nl}.dat >> dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+	cat par_${j}/sensitivity_error_nh_${Eres}_${Eres_nl}.dat >> sensitivity_nh_${Eres}_${Eres_nl}.dat
+	cat par_${j}/sensitivity_error_ih_${Eres}_${Eres_nl}.dat >> sensitivity_ih_${Eres}_${Eres_nl}.dat
 	j=`expr $j + 1`
     done
 

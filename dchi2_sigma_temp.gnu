@@ -67,8 +67,8 @@ set multiplot
 plot \
 'DATADIR/dchi2_cl_nostat.dat' u (sqrt($1)):(1-$2) t 'No Fluctuation'  w l lt 2 lc rgb 'black' lw 5 ,\
 'DATADIR/dchi2_cl_analytic_2_0.5.dat' every::0::20 u 1:3 t 'Fluctuation'  w l lt 1 lc rgb '#006400' lw 5 ,\
-'DATADIR/dchi2_cl_nh_2_0.5_2.dat' every::0::15 u (sqrt($1)):(1-$3):(1-($3+$4)):(1-($3-$4)) t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
-'DATADIR/dchi2_cl_nh_3_0.75_2.dat' every::0::15 u (sqrt($1)):(1-$3):(1-($3+$4)):(1-($3-$4)) t '        (3, 0.75)'  w yerrorbars pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
+'DATADIR/sensitivity_nh_2_0.5.dat' every::0::15 u (sqrt($1)):(1-$2):4 t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
+'DATADIR/sensitivity_nh_3_0.75.dat' every::0::15 u (sqrt($1)):(1-$2):4 t '        (3, 0.75)'  w yerrorbars pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
 0.3173 notitle w l lt 2 lc rgb 'black' lw 3 ,\
 0.0455 notitle w l lt 2 lc rgb 'black' lw 3 ,\
 0.0027 notitle w l lt 2 lc rgb 'black' lw 3 ,\

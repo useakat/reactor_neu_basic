@@ -12,15 +12,17 @@
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc
       
       integer iflag,ifixL,ifluc
-      real*8 z(20),dchisq,grad,futil
+      real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
+      real*8 mean_dchi2min_nh,mean_dchi2min_ih
 
       real*8 zz(40)
       common /zz/ zz
 
       integer lench,time
-      external minfunc,lench,time
+      real*8 SigmaProb
+      external minfunc,lench,time,SigmaProb
 
       integer ifirst
       real*8 final_bins
@@ -144,6 +146,7 @@ c      call gran_init(200)
                open(22,file='dchi2min_bestfit2nh.dat',status='replace')
                open(23,file='dchi2_vsparam_nh.dat',status='replace')
                open(25,file='dchi2_dist_nh.dat',status='replace')
+               open(26,file='sensitivity_dist_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
@@ -151,6 +154,7 @@ c      call gran_init(200)
                open(22,file='dchi2min_bestfit2ih.dat',status='replace')
                open(23,file='dchi2_vsparam_ih.dat',status='replace')
                open(25,file='dchi2_dist_ih.dat',status='replace')
+               open(26,file='sensitivity_dist_ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
@@ -190,6 +194,11 @@ c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
 
                dchisqmin = chisqmin_wrong -chisqmin_true
 c               dchisqmin = chisqmin_true
+               if (dchisqmin.gt.0d0) then
+                  sensitivity = SigmaProb(dsqrt(dchisqmin))
+               else
+                  sensitivity = 0d0
+               endif
 
                do i = 1,nparx
                   call mnpout(i,name(i),pval(i),perr(i),plo(i),phi(i)
@@ -197,6 +206,7 @@ c               dchisqmin = chisqmin_true
                enddo
 
                if (ifixL.eq.1) write(25,*) dchisqmin
+               if (ifixL.eq.1) write(26,'(e22.15,1x,e12.5)') sensitivity,dchisqmin
                write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
@@ -253,21 +263,37 @@ c               endif
          close(22)
          close(23)
          close(25)
+         close(26)
 
          if (ifixL.eq.1) then
             open(1,file="dchi2_dist_nh.dat",status="old")
+            call get_mean_error(1,99,mean_dchi2min_nh,error_nh
+     &           ,mean_error_nh,error_error_nh)
+            close(1)
+            open(1,file="dchi2_dist_ih.dat",status="old")
+            call get_mean_error(1,99,mean_dchi2min_ih,error_ih
+     &           ,mean_error_ih,error_error_ih)
+            close(1)
+            open(1,file="dchi2_error_nh.dat",status="replace")
+           write(1,*) Lmin,mean_dchi2min_nh,error_nh,mean_error_nh,error_error_nh
+            close(1)
+            open(1,file="dchi2_error_ih.dat",status="replace")
+           write(1,*) Lmin,mean_dchi2min_ih,error_ih,mean_error_ih,error_error_ih
+            close(1)
+
+            open(1,file="sensitivity_dist_nh.dat",status="old")
             call get_mean_error(1,99,mean_nh,error_nh,mean_error_nh
      &           ,error_error_nh)
             close(1)
-            open(1,file="dchi2_dist_ih.dat",status="old")
+            open(1,file="sensitivity_dist_ih.dat",status="old")
             call get_mean_error(1,99,mean_ih,error_ih,mean_error_ih
      &           ,error_error_ih)
             close(1)
-            open(1,file="dchi2_error_nh.dat",status="replace")
-           write(1,*) Lmin,mean_nh,error_nh,mean_error_nh,error_error_nh
+            open(1,file="sensitivity_error_nh.dat",status="replace")
+           write(1,*) mean_dchi2min_nh,mean_nh,error_nh,mean_error_nh,error_error_nh
             close(1)
-            open(1,file="dchi2_error_ih.dat",status="replace")
-           write(1,*) Lmin,mean_ih,error_ih,mean_error_ih,error_error_ih
+            open(1,file="sensitivity_error_ih.dat",status="replace")
+           write(1,*) mean_dchi2min_ih,mean_ih,error_ih,mean_error_ih,error_error_ih
             close(1)
 c            write(6,*) "stat"
 c            write(6,*) "nh", mean_nh,error_nh
