@@ -11,7 +11,7 @@ set key at graph 0.9,0.4
 #set key spacing 1.5
 #set xlabel 'cost' offset -1,0
 #set ylabel 'log_{/=10 10} L (Mpc)' offset 1,0
-#set xrange [-4:60]
+set xrange [-4:60]
 set yrange [0.7:1.03]
 set mxtics 10
 set mytics 5
@@ -46,11 +46,11 @@ set label 'L = 50 km' at 40,0.87
 set pointsize 1.2
 set multiplot
 plot \
-'rslt_clv2/data/dchi2_cl_nh_2_0.5.dat' every::1::4 u 1:3 t '(a, b) = (2, 0.5): NH'  w lp pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
-'rslt_clv2/data/dchi2_cl_ih_2_0.5.dat' every::1::4 u 1:3 t '                   IH'  w lp pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
-'rslt_clv2/data/dchi2_cl_nh_3_0.75.dat' every::0::10 u 1:3 t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_clv2/data/dchi2_cl_ih_3_0.75.dat' every::0::10 u 1:3 t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_clv2/data/dchi2_cl_nostat.dat' u 1:2 t 'No Fluctuation'  w l lt 1 lc rgb 'black' lw 5
+'rslt_1kbin0.25/data/dchi2_cl_nh_2_0.5.dat' every::1::4 u 1:3 t '(a, b) = (2, 0.5): NH'  w lp pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
+'rslt_1kbin0.25/data/dchi2_cl_ih_2_0.5.dat' every::1::4 u 1:3 t '                   IH'  w lp pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
+'rslt_1kbin0.25/data/dchi2_cl_nh_3_0.75.dat' every::0::10 u 1:3 t '        (3, 0.75): NH'  w lp pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_1kbin0.25/data/dchi2_cl_ih_3_0.75.dat' every::0::10 u 1:3 t '                   IH'  w lp pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_1kbin0.25/data/dchi2_cl_nostat.dat' u 1:2 t 'No Fluctuation'  w l lt 1 lc rgb 'black' lw 5
 set nomultiplot
 
 reset

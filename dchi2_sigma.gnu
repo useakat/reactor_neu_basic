@@ -65,10 +65,10 @@ set yrange [1E-7:2]
 set pointsize 1.3
 set multiplot
 plot \
-'rslt_sens1kbin0.5/data/dchi2_cl_nostat.dat' u (sqrt($1)):(1-$2) t 'No Fluctuation'  w l lt 2 lc rgb 'black' lw 5 ,\
-'rslt_sens1kbin0.5/data/dchi2_cl_analytic_2_0.5.dat' every::0::20 u 1:3 t 'Fluctuation'  w l lt 1 lc rgb '#006400' lw 5 ,\
-'rslt_sens1kbin0.5/data/sensitivity_nh_2_0.5.dat' every::0::15 u (sqrt($1)):(1-$2):4 t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
-'rslt_sens1kbin0.5/data/sensitivity_nh_3_0.75.dat' every::0::15 u (sqrt($1)):(1-$2):4 t '        (3, 0.75)'  w yerrorbars pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_1kbin0.25/data/dchi2_cl_nostat.dat' u (sqrt($1)):(1-$2) t 'No Fluctuation'  w l lt 2 lc rgb 'black' lw 5 ,\
+'rslt_1kbin0.25/data/dchi2_cl_analytic_2_0.5.dat' every::0::20 u 1:3 t 'Fluctuation'  w l lt 1 lc rgb '#006400' lw 5 ,\
+'rslt_1kbin0.25/data/sensitivity_nh_2_0.5.dat' every::0::15 u (sqrt($1)):(1-$2):4 t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 3 ,\
+'rslt_1kbin0.25/data/sensitivity_nh_3_0.75.dat' every::0::15 u (sqrt($1)):(1-$2):4 t '        (3, 0.75)'  w yerrorbars pointtype 5 lt 1 lc rgb 'blue' lw 3 ,\
 0.3173 notitle w l lt 2 lc rgb 'black' lw 3 ,\
 0.0455 notitle w l lt 2 lc rgb 'black' lw 3 ,\
 0.0027 notitle w l lt 2 lc rgb 'black' lw 3 ,\
@@ -77,12 +77,12 @@ plot \
 0.000000002 notitle w l lt 2 lc rgb 'black' lw 3
 set nomultiplot
 
-#'rslt_sens1kbin0.5/data/dchi2_cl_nh_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-#'rslt_sens1kbin0.5/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
-#'rslt_sens1kbin0.5/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'red' lw 3 ,\
-#'rslt_sens1kbin0.5/data/dchi2_cl_nh_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-#'rslt_sens1kbin0.5/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
-#'rslt_sens1kbin0.5/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-#'rslt_sens1kbin0.5/data/dchi2_cl_analytic_3_0.75.dat' every::0::0 u 1:3 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+#'rslt_1kbin0.25/data/dchi2_cl_nh_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+#'rslt_1kbin0.25/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
+#'rslt_1kbin0.25/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'red' lw 3 ,\
+#'rslt_1kbin0.25/data/dchi2_cl_nh_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+#'rslt_1kbin0.25/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
+#'rslt_1kbin0.25/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+#'rslt_1kbin0.25/data/dchi2_cl_analytic_3_0.75.dat' every::0::0 u 1:3 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
 
 reset
