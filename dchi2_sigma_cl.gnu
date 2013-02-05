@@ -60,15 +60,18 @@ set label '{/Symbol=\264}4' at 3.5,0.025 tc rgb 'blue'
 set label '{/Symbol=\264}9' at 5.3,0.0018 tc rgb 'blue'
 set label '{/Symbol=\264}16' at 6.7,0.00009 tc rgb 'blue'
 set label '{/Symbol=\264}25' at 8.5,0.0000015 tc rgb 'blue'
+#set label '{/=18 (2{/Symbol=\163})}' at 4, 4.1E-6
+#set label '{/=18 (2{/Symbol=\163})}' at 4, 1.5E-6
 set xrange [0:11]
 set yrange [1E-7:2]
 set pointsize 1
 set multiplot
+sigma=1
 plot \
 'rslt_1kbin0.25/data/dchi2_cl_nostat.dat' u (sqrt($1)):(1-$2) t 'No Fluctuation'  w l lt 2 lc rgb 'black' lw 4 ,\
 'rslt_1kbin0.25/data/dchi2_cl_analytic_2_0.5.dat' every::0::20 u 1:3 t 'Fluctuation'  w l lt 1 lc rgb '#006400' lw 4 ,\
-'rslt_1kbin0.25/data/dchi2_cl_nh_2_0.5.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-2*$4):(1-$3+2*$4) t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 2 ,\
-'rslt_1kbin0.25/data/dchi2_cl_nh_3_0.75.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-2*$4):(1-$3+2*$4) t '         (3, 0.75)'  w yerrorbars pointtype 9 lt 1 lc rgb 'blue' lw 2 ,\
+'rslt_1kbin0.25/data/dchi2_cl_nh_2_0.5.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-sigma*$4):(1-$3+sigma*$4) t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 2 ,\
+'rslt_1kbin0.25/data/dchi2_cl_nh_3_0.75.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-sigma*$4):(1-$3+sigma*$4) t '         (3, 0.75)'  w yerrorbars pointtype 5 lt 1 lc rgb 'blue' lw 2 ,\
 0.3173 notitle w l lt 2 lc rgb 'black' lw 2 ,\
 0.0455 notitle w l lt 2 lc rgb 'black' lw 2 ,\
 0.0027 notitle w l lt 2 lc rgb 'black' lw 2 ,\
@@ -77,6 +80,9 @@ plot \
 0.000000002 notitle w l lt 2 lc rgb 'black' lw 2
 set nomultiplot
 
+#'rslt_1kbin0.25/data/dchi2_cl_analytic_3_0.75.dat' every::0::20 u 1:2 t 'Fluctuation'  w l lt 2 lc rgb 'red' lw 1 ,\
+#'rslt_1kbin0.25/data/approx_sens.dat' u 1:2 t 'Approx Fluctuation'  w l lt 2 lc rgb '#006400' lw 3 ,\
+#'rslt_1kbin0.25/data/chance_to_success.dat' u 1:2 t 'Chance of success'  w l lt 3 lc rgb '#006400' lw 3 ,\
 #'rslt_1kbin0.25/data/dchi2_cl_nh_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
 #'rslt_1kbin0.25/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
 #'rslt_1kbin0.25/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'red' lw 3 ,\
