@@ -251,8 +251,8 @@ if [ 1 -eq 1 ];then
     Y=20
     source dchi2_dist_error_only.sh
 #    source dchi2_dist_error_nostat.sh
-    Y=45
-    source dchi2_dist_error_only.sh
+#    Y=45
+#    source dchi2_dist_error_only.sh
 #    Y=80
 #    source dchi2_dist_error_only.sh
 fi

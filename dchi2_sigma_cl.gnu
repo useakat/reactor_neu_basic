@@ -68,10 +68,10 @@ set pointsize 1
 set multiplot
 sigma=1
 plot \
-'rslt_1kbin0.25/data/dchi2_cl_nostat.dat' u (sqrt($1)):(1-$2) t 'No Fluctuation'  w l lt 2 lc rgb 'black' lw 4 ,\
-'rslt_1kbin0.25/data/dchi2_cl_analytic_2_0.5.dat' every::0::20 u 1:3 t 'Fluctuation'  w l lt 1 lc rgb '#006400' lw 4 ,\
-'rslt_1kbin0.25/data/dchi2_cl_nh_2_0.5.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-sigma*$4):(1-$3+sigma*$4) t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 2 ,\
-'rslt_1kbin0.25/data/dchi2_cl_nh_3_0.75.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-sigma*$4):(1-$3+sigma*$4) t '         (3, 0.75)'  w yerrorbars pointtype 5 lt 1 lc rgb 'blue' lw 2 ,\
+'rslt_test/data/dchi2_cl_nostat.dat' u (sqrt($1)):(1-$2) t 'No Fluctuation'  w l lt 2 lc rgb 'black' lw 4 ,\
+'rslt_test/data/dchi2_cl_analytic_2_0.5.dat' every::0::20 u 1:3 t 'Fluctuation'  w l lt 1 lc rgb '#006400' lw 4 ,\
+'rslt_test/data/dchi2_cl_nh_2_0.5.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-sigma*$4):(1-$3+sigma*$4) t '(a, b) = (2, 0.5)'  w yerrorbars pointtype 7 lt 1 lc rgb 'red' lw 2 ,\
+'rslt_test/data/dchi2_cl_nh_3_0.75.dat' every::0::15 u (sqrt($1)):(1-$3):(1-$3-sigma*$4):(1-$3+sigma*$4) t '         (3, 0.75)'  w yerrorbars pointtype 5 lt 1 lc rgb 'blue' lw 2 ,\
 0.3173 notitle w l lt 2 lc rgb 'black' lw 2 ,\
 0.0455 notitle w l lt 2 lc rgb 'black' lw 2 ,\
 0.0027 notitle w l lt 2 lc rgb 'black' lw 2 ,\
@@ -80,15 +80,15 @@ plot \
 0.000000002 notitle w l lt 2 lc rgb 'black' lw 2
 set nomultiplot
 
-#'rslt_1kbin0.25/data/dchi2_cl_analytic_3_0.75.dat' every::0::20 u 1:2 t 'Fluctuation'  w l lt 2 lc rgb 'red' lw 1 ,\
-#'rslt_1kbin0.25/data/approx_sens.dat' u 1:2 t 'Approx Fluctuation'  w l lt 2 lc rgb '#006400' lw 3 ,\
-#'rslt_1kbin0.25/data/chance_to_success.dat' u 1:2 t 'Chance of success'  w l lt 3 lc rgb '#006400' lw 3 ,\
-#'rslt_1kbin0.25/data/dchi2_cl_nh_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
-#'rslt_1kbin0.25/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
-#'rslt_1kbin0.25/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'red' lw 3 ,\
-#'rslt_1kbin0.25/data/dchi2_cl_nh_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
-#'rslt_1kbin0.25/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
-#'rslt_1kbin0.25/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
-#'rslt_1kbin0.25/data/dchi2_cl_analytic_3_0.75.dat' every::0::0 u 1:3 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+#'rslt_test/data/dchi2_cl_analytic_3_0.75.dat' every::0::20 u 1:2 t 'Fluctuation'  w l lt 2 lc rgb 'red' lw 1 ,\
+#'rslt_test/data/approx_sens.dat' u 1:2 t 'Approx Fluctuation'  w l lt 2 lc rgb '#006400' lw 3 ,\
+#'rslt_test/data/chance_to_success.dat' u 1:2 t 'Chance of success'  w l lt 3 lc rgb '#006400' lw 3 ,\
+#'rslt_test/data/dchi2_cl_nh_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'red' lw 3 ,\
+#'rslt_test/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 6 lt 2 lc rgb 'red' lw 3 ,\
+#'rslt_test/data/dchi2_cl_ih_2_0.5.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'red' lw 3 ,\
+#'rslt_test/data/dchi2_cl_nh_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 1 lc rgb 'blue' lw 3 ,\
+#'rslt_test/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3):(sqrt($1-$3)):(sqrt($1+$3)):(1-($3+$4)):(1-($3-$4)) t '                   IH'  w xyerrorbars pointtype 4 lt 2 lc rgb 'blue' lw 3 ,\
+#'rslt_test/data/dchi2_cl_ih_3_0.75.dat' every::0::0 u (sqrt($1)):(1-$3) notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
+#'rslt_test/data/dchi2_cl_analytic_3_0.75.dat' every::0::0 u 1:3 notitle  w l lt 2 lc rgb 'blue' lw 3 ,\
 
 reset
