@@ -38,3 +38,18 @@ sed -e "s/PPP/${P}/" \
 mv temp.gnu ${output}.gnu
 
 gnuplot ${output}.gnu
+
+
+output=EventDist_single
+#output=EventDist_combine_0_2
+sed -e "s/PPP/${P}/" \
+    -e "s/VVV/${V}/" \
+    -e "s/RRR/${RR}/" \
+    -e "s/ERESNL/${Eres_nl}/" \
+    -e "s/ERES/${Eres}/" \
+    -e "s*DATADIR*${data_dir}*" \
+    -e "s/YYY/${Y}/" ${output}_temp.gnu > temp.gnu
+
+mv temp.gnu ${output}.gnu
+
+gnuplot ${output}.gnu

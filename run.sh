@@ -234,7 +234,7 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
 
 if [ 1 -eq 1 ];then    
-    Eres=2
+    Eres=3
     Eres_nl=0.5
     touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
     touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
@@ -248,8 +248,9 @@ if [ 1 -eq 1 ];then
     # source dchi2_dist_error_only.sh
     # Y=5
     # source dchi2_dist_error_only.sh
-    Y=20
-    source dchi2_dist_error_only.sh
+#    Y=5
+#    source dchi2_dist_error_only.sh
+    source dchi2_dist_onepoint.sh
 #    source dchi2_dist_error_nostat.sh
 #    Y=45
 #    source dchi2_dist_error_only.sh
