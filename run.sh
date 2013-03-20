@@ -228,7 +228,18 @@ fi
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
 
-if [ 1 -eq 1 ];then    
+if [ 1 -eq 1 ];then # dchi2 evaluation for a parameter set
+    maxL_nh=60
+    maxL_ih=${maxL_nh}
+    Eres=2.6
+    Eres_nl=1
+    Y=38
+    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+    touch ${output}
+    source binsize_points.sh
+fi
+
+if [ 0 -eq 1 ];then    
 #    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
 #    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
     maxL_nh=50

@@ -8,7 +8,7 @@
       real*8 chisqmin_wrong,dchisqmin
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
-      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
+      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
       
       integer iflag,ifixL,ifluc
@@ -29,8 +29,8 @@
       common /first/ final_bins,ifirst
 
       integer nbins,iev
-      real*8 event2_dat(20000),allevent
-      common /event_dat/ event2_dat,nbins
+      real*8 event2_dat(20000),allevent,nevent_dat
+      common /event_dat/ event2_dat,nbins,nevent_dat
 
       call getarg(1,cLmin)
       call getarg(2,cLmax)
@@ -62,7 +62,7 @@
       read (cbinsize,*) binsize
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
-      s213_2(1) = 0.098d0
+      s213_2(1) = 0.089d0
       s213_2(2) = 0.005d0
       dm21_2(1) = 7.50d-5
       dm21_2(2) = 0.20d-5
@@ -244,6 +244,7 @@ c               endif
                write(19,'(4x,a14,e12.5,a3,e9.2)') "fb = "
      &              ,pval(8)," +-",perr(8)
                write(19,*) ""
+               write(19,*) "event # =",nevent_dat
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
                write(19,*) ""

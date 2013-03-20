@@ -30,7 +30,7 @@ C     LOCAL VARIABLES
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
       real*8 Eres_nl,rdbin,EEres,EEres_nl
       real*8 dmm13min,dmm13max,ndmm13
-      common /event_dat/ event2_dat,nbins
+      common /event_dat/ event2_dat,nbins,nevent_dat
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,chi2_2
       real*8 gran
