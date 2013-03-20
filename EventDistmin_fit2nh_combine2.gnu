@@ -16,7 +16,7 @@ set xtics add ("" 2.1 1, "" 2.2 1, "" 2.3 1, "" 2.4 1, "" 2.5 1, "" 2.6 1, "" 2.
 #set ytics (1,10,1E2,1E3,1E4,1E5,1E6,1E7,1E8,1E9,1E10)
 
 set output "plots/EventDistmin_fit2nh_combine_30_6_0.eps"
-#set title "20GW_{th}, 5kton, 5 years, 30 km"
+#set title "20GW_{th}, 5kton, 10 years, 30 km"
 
 set size 1,1
 
@@ -35,9 +35,9 @@ set ytics (10000,20000,30000,40000)
 set arrow from 1.82, 12000 to 1.82, 4000 lw 3  lc rgb 'red'
 set label '{/=30 L=30 km}' at graph 0.41, graph 0.9
 plot \
-'rslt_test/data/events_nh_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_test/data/events_ih_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_test/data/events_nhmin_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb '#006400' lw 2
+'rslt_optbin4/data/events_nh_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_optbin4/data/events_ih_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_optbin4/data/events_nhmin_30_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb '#006400' lw 2
 
 set tmargin 0
 set bmargin 2
@@ -48,9 +48,9 @@ set xlabel '{/=23 E_{/Symbol=\156} [MeV]}' offset -1,0
 set format x
 set label '{/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}' at graph 0.05, graph 0.5
 plot \
-'rslt_test/data/events_nh_30_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_test/data/events_ih_30_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_test/data/events_nhmin_30_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 1 lc rgb '#006400' lw 2
+'rslt_optbin4/data/events_nh_30_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_optbin4/data/events_ih_30_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_optbin4/data/events_nhmin_30_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 1 lc rgb '#006400' lw 2
 
 set nomultiplot
 
@@ -73,7 +73,7 @@ set xtics add ("" 2.1 1, "" 2.2 1, "" 2.3 1, "" 2.4 1, "" 2.5 1, "" 2.6 1, "" 2.
 #set ytics (1,10,1E2,1E3,1E4,1E5,1E6,1E7,1E8,1E9,1E10)
 
 set output "plots/EventDistmin_fit2nh_combine_50_6_0.eps"
-#set title "20GW_{th}, 5kton, 5 years, 30 km"
+#set title "20GW_{th}, 5kton, 10 years, 30 km"
 
 set size 1,1
 
@@ -92,9 +92,9 @@ set label '{/Symbol=\144}E_{vis}/E_{vis} = 0' at graph 0.05, graph 0.5
 set arrow from 3.03, 4200 to 3.03, 3200 lw 3  lc rgb 'red'
 set label '{/=30 L=50 km}' at graph 0.45, graph 0.9
 plot \
-'rslt_test/data/events_nh_50_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_test/data/events_ih_50_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_test/data/events_nhmin_50_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb '#006400' lw 2
+'rslt_optbin4/data/events_nh_50_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'NH' w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_optbin4/data/events_ih_50_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'IH' w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_optbin4/data/events_nhmin_50_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t 'Best Fit to NH data' w l lt 1 lc rgb '#006400' lw 2
 
 set tmargin 0
 set bmargin 2
@@ -105,8 +105,8 @@ set xlabel '{/=23 E_{/Symbol=\156} [MeV]}' offset -1,0
 set format x
 set label '{/Symbol=\144}E_{vis}/E_{vis} = 6%/{/Symbol=\326}E_{vis}' at graph 0.05, graph 0.5
 plot \
-'rslt_test/data/events_nh_50_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_test/data/events_ih_50_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_test/data/events_nhmin_50_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 1 lc rgb '#006400' lw 2
+'rslt_optbin4/data/events_nh_50_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_optbin4/data/events_ih_50_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_optbin4/data/events_nhmin_50_6_0.dat' u ($1**2+0.8):($2/(2*$1)) notitle w l lt 1 lc rgb '#006400' lw 2
 
 set nomultiplot

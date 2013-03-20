@@ -84,10 +84,11 @@ c      z(11) = z_dat(11)
       ifluc = zz(37)
 
       nevent = 0
+      rdx = zz(38)
 c      rdx = 0.01
 c      rdx = 0.0075
 c      rdx = 0.005
-      rdx = 0.0025
+c      rdx = 0.0025
 c      rdx = 0.00125
       nnbins = 1000
 
@@ -98,7 +99,7 @@ CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCC
          if (ifluc.eq.0) then
             include 'inc/dchi2.inc'
          elseif (ifluc.eq.1) then
-            include 'inc/dchi2_stat.inc'
+            include 'inc/dchi2.inc'
          endif
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC

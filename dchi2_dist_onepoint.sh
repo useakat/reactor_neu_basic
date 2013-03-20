@@ -5,6 +5,6 @@ ifixL=1  # do not change
 ifluc=0
 Lmin=${maxL_nh}
 Lmax=${maxL_ih}
-ndiv=1
+ndiv=0
 source ${selfdir}/dchi2_fitting_Eresnl.sh
-source ${selfdir}/get_cl.sh
+#source ${selfdir}/get_cl.sh

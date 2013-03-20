@@ -1,7 +1,7 @@
 #!/bin/bash
 if [[ "$1" == "-h" ]]; then
     echo ""
-    echo "Usage: run.sh [run_name] [Power] [Volume] [Proton Ratio] [Year] [run mode]"
+    echo "Usage: run.sh [run_name] [Eres] [Eres_nl] [run mode] (plot_run_mode)"
     echo ""
     exit
 fi
@@ -9,14 +9,6 @@ fi
 if [[ $1 = "" ]]; then
     echo "input run name"
     read run
-#    echo "input reactor Power [GW]"
-#     read P
-#     echo "input detector volume [kton]"
-#     read V
-#     echo "input free proton fraction in the detector"
-#     read R 
-#     echo "input exposure time [year]"
-#     read Y   
     echo "input energy resolution [%]"
     read Eres
     echo "input non-linear energy resolution [%]"
@@ -25,12 +17,6 @@ if [[ $1 = "" ]]; then
     read run_mode  
 else
     run=$1
-#     P=$2
-#     V=$3
-#     R=$4
-#     Y=$5
-#    Eres_nl=$6
-#    run_mode=$7
     Eres=$2
     Eres_nl=$3
     run_mode=$4
@@ -43,6 +29,9 @@ Y=5
 Lmin=10
 Lmax=100
 ndiv=100
+binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
+ifixL=0
+ifluc=0
 
 if [ ${run_mode} -eq 10 ]; then
     ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
@@ -153,36 +142,41 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
     switch1=1  # Fig.4 & 5
     switch2=1  # Fig.6
     switch3=1  # Fig.7
-    switch4=1  # Fig.2 & 3 
+    switch4=0  # Fig.2 & 3 
     switch5=0  # parameter error
 
 # chi2 fitting
     mode=0
+    ifluc=0
     ifixL=0
+    binsize=0.0025
 
     if [ ${switch1} -eq 1 ]; then 
-	Eres=0
-	Eres_nl=0
-	source dchi2_fitting_Eresnl.sh
 	Eres=6
 	Eres_nl=0
+#	binsize=0.06
 	source dchi2_fitting_Eresnl.sh
 	Eres=5
 	Eres_nl=0
+#	binsize=0.05
 	source dchi2_fitting_Eresnl.sh
 	Eres=4
 	Eres_nl=0
+#	binsize=0.04
 	source dchi2_fitting_Eresnl.sh
 	Eres=3
 	Eres_nl=0
+#	binsize=0.03
 	source dchi2_fitting_Eresnl.sh
 	Eres=2
 	Eres_nl=0
+#	binsize=0.03
 	source dchi2_fitting_Eresnl.sh
     fi
 
     if [ ${switch2} -eq 1 ]; then 
 	Eres=2
+#	binsize=0.03
 	Eres_nl=0.5
 	source dchi2_fitting_Eresnl.sh
 	Eres_nl=0.75
@@ -193,6 +187,7 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 
     if [ ${switch3} -eq 1 ]; then 
 	Eres=3
+#	binsize=0.03
 	Eres_nl=0.5
 	source dchi2_fitting_Eresnl.sh
 	Eres_nl=0.75
@@ -234,10 +229,8 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
 
 if [ 1 -eq 1 ];then    
-    Eres=3
-    Eres_nl=0.5
-    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
-    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+#    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
+#    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
     maxL_nh=50
     maxL_ih=50
     # Y=0.3125
@@ -250,7 +243,42 @@ if [ 1 -eq 1 ];then
     # source dchi2_dist_error_only.sh
 #    Y=5
 #    source dchi2_dist_error_only.sh
-    source dchi2_dist_onepoint.sh
+    Eres=6
+    Eres_nl=0
+    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+    touch ${output}
+    source binsize_points.sh
+
+    Eres=2
+    Eres_nl=0
+    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+    touch ${output}
+    source binsize_points.sh
+
+    Eres=3
+    Eres_nl=0
+    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+    touch ${output}
+    source binsize_points.sh
+
+    Eres=4
+    Eres_nl=0
+    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+    touch ${output}
+    source binsize_points.sh
+
+    Eres=5
+    Eres_nl=0
+    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+    touch ${output}
+    source binsize_points.sh
+
+    # binsize=0.00125
+    # source dchi2_dist_onepoint.sh
+    # cat dchi2_dist_nh.dat >> ${output}
+    # binsize=0.0006
+    # source dchi2_dist_onepoint.sh
+    # cat dchi2_dist_nh.dat >> ${output}
 #    source dchi2_dist_error_nostat.sh
 #    Y=45
 #    source dchi2_dist_error_only.sh
