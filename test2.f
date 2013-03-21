@@ -8,21 +8,29 @@
       real*8 chisqmin_wrong,dchisqmin
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
-      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
-      character*10 cEres,cmode,cEres_nl,cvalue
+      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY
+      character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
       
-      integer iflag
-      real*8 z(20),dchisq,grad,futil
+      integer iflag,ifixL,ifluc
+      real*8 z(20),dchisq,grad,futil,sensitivity
+      real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
+      real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
+      real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize
 
       real*8 zz(40)
       common /zz/ zz
 
-      integer lench
-      external minfunc,lench
+      integer lench,time
+      real*8 SigmaProb
+      external minfunc,lench,time,SigmaProb
 
       integer ifirst
       real*8 final_bins
       common /first/ final_bins,ifirst
+
+      integer nbins,iev
+      real*8 event2_dat(20000),allevent,nevent_dat
+      common /event_dat/ event2_dat,nbins,nevent_dat
 
       call getarg(1,cLmin)
       call getarg(2,cLmax)
@@ -35,6 +43,9 @@
       call getarg(9,cEres_nl)
       call getarg(10,cmode)
       call getarg(11,cvalue)
+      call getarg(12,cfixL)
+      call getarg(13,cfluc)
+      call getarg(14,cbinsize)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -46,9 +57,12 @@
       read (cEres_nl,*) Eres_nl 
       read (cmode,*) mode
       read (cvalue,*) value
+      read (cfixL,*) ifixL
+      read (cfluc,*) ifluc
+      read (cbinsize,*) binsize
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
-      s213_2(1) = 0.098d0
+      s213_2(1) = 0.089d0
       s213_2(2) = 0.005d0
       dm21_2(1) = 7.50d-5
       dm21_2(2) = 0.20d-5
@@ -65,7 +79,7 @@
 
       Emin = 1.81d0  
       Emax = 8d0
-      serror = 1d-2
+      serror = 1d-4
       snmax = 10
 
       zz(10) = s2sun_2(1)
@@ -93,6 +107,11 @@
       zz(33) = snmax
       zz(34) = Eres_nl
       zz(35) = ndiv
+      zz(37) = ifluc
+      zz(38) = binsize
+
+      call gran_init(time())
+c      call gran_init(200)
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"
@@ -129,17 +148,26 @@
                open(21,file='dchi2min_nh.dat',status='replace')
                open(22,file='dchi2min_bestfit2nh.dat',status='replace')
                open(23,file='dchi2_vsparam_nh.dat',status='replace')
+               open(25,file='dchi2_dist_nh.dat',status='replace')
+               open(26,file='sensitivity_dist_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
                open(21,file='dchi2min_ih.dat',status='replace')
                open(22,file='dchi2min_bestfit2ih.dat',status='replace')
                open(23,file='dchi2_vsparam_ih.dat',status='replace')
+               open(25,file='dchi2_dist_ih.dat',status='replace')
+               open(26,file='sensitivity_dist_ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
                ifirst = 0
-               zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
+               if (ifixL.eq.0) then
+                  zz(1) = Lmin +( Lmax -Lmin )/dble(ndiv)*j
+               elseif (ifixL.eq.1) then
+                  if (zz(2).eq.1) zz(1) = Lmin
+                  if (zz(2).eq.-1) zz(1) = Lmax
+               endif
                write(19,*) zz(1),"[km]"               
                call mninit(5,20,7)
                
@@ -152,7 +180,7 @@
                call mnparm(6,'fscale',fscale(1),fscale(2),0d0,0d0,ierr)
                call mnparm(7,'fa',fa(1),fa(2),0d0,0d0,ierr)
                call mnparm(8,'fb',fb(1),fb(2),0d0,0d0,ierr)
-c               call mncomd(minfunc,'FIX 6',iflag,0)
+               call mncomd(minfunc,'FIX 6',iflag,0)
                call mncomd(minfunc,'FIX 7',iflag,0)
                call mncomd(minfunc,'FIX 8',iflag,0)
 
@@ -169,13 +197,20 @@ c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
 
                dchisqmin = chisqmin_wrong -chisqmin_true
 c               dchisqmin = chisqmin_true
+               if (dchisqmin.gt.0d0) then
+                  sensitivity = SigmaProb(dsqrt(dchisqmin))
+               else
+                  sensitivity = 0d0
+               endif
 
                do i = 1,nparx
                   call mnpout(i,name(i),pval(i),perr(i),plo(i),phi(i)
      &                 ,ierr)
                enddo
 
-               write(21,'(e10.3,30e13.5,e10.3)') zz(1),dchisqmin,fedm
+               if (ifixL.eq.1) write(25,*) dchisqmin
+               if (ifixL.eq.1) write(26,'(e22.15,1x,e12.5)') sensitivity,dchisqmin
+               write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
      &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
@@ -185,11 +220,12 @@ c               dchisqmin = chisqmin_true
      &              ,pval(7),perr(7),fa(2),(pval(7)-fa(1))/fa(2)
      &              ,pval(8),perr(8),fb(2),(pval(8)-fb(1))/fb(2)
      &              ,final_bins
-               write(22,'(e10.3,7e13.5)') zz(1),pval(1),pval(2),pval(3)
+               write(22,'(e10.3,8e13.5)') zz(1),pval(1),pval(2),pval(3)
      &              ,pval(4),pval(5),pval(6),pval(7),pval(8)
-               if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
-                  write(23,*) value, dchisqmin
-               endif
+
+c               if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
+c                  write(23,*) value, dchisqmin
+c               endif
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Delta-Chi2  = "
      &              ,dchisqmin," +-",fedm
                write(19,'(4x,a14,e12.5,a3,e9.2)') "(sin2*12)^2 = "
@@ -209,18 +245,65 @@ c               dchisqmin = chisqmin_true
                write(19,'(4x,a14,e12.5,a3,e9.2)') "fb = "
      &              ,pval(8)," +-",perr(8)
                write(19,*) ""
+               write(19,*) "event # =",nevent_dat
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
                write(19,*) ""
                write(19,*) ""
+c               if ( (ZZ(1).gt.48d0).and.(zz(1).lt.50d0)) then
+c                  write(6,*) zz(2),zz(1),dchisqmin
+c                  allevent = 0d0
+c                  do iev = 1,nbins
+c                     allevent = allevent +event2_dat(iev)
+c                  enddo
+c                  write(6,*) allevent
+c               endif
             enddo
             write(19,*) ""
-            write(19,*) ""
+            write(19,*) ""           
          enddo
          close(19)
          close(20)
          close(21)
          close(22)
+         close(23)
+         close(25)
+         close(26)
+
+         if (ifixL.eq.1) then
+            open(1,file="dchi2_dist_nh.dat",status="old")
+            call get_mean_error(1,99,mean_dchi2min_nh,error_nh
+     &           ,mean_error_nh,error_error_nh)
+            close(1)
+            open(1,file="dchi2_dist_ih.dat",status="old")
+            call get_mean_error(1,99,mean_dchi2min_ih,error_ih
+     &           ,mean_error_ih,error_error_ih)
+            close(1)
+            open(1,file="dchi2_error_nh.dat",status="replace")
+           write(1,*) Lmin,mean_dchi2min_nh,error_nh,mean_error_nh,error_error_nh
+            close(1)
+            open(1,file="dchi2_error_ih.dat",status="replace")
+           write(1,*) Lmin,mean_dchi2min_ih,error_ih,mean_error_ih,error_error_ih
+            close(1)
+
+            open(1,file="sensitivity_dist_nh.dat",status="old")
+            call get_mean_error(1,99,mean_nh,error_nh,mean_error_nh
+     &           ,error_error_nh)
+            close(1)
+            open(1,file="sensitivity_dist_ih.dat",status="old")
+            call get_mean_error(1,99,mean_ih,error_ih,mean_error_ih
+     &           ,error_error_ih)
+            close(1)
+            open(1,file="sensitivity_error_nh.dat",status="replace")
+           write(1,*) mean_dchi2min_nh,mean_nh,error_nh,mean_error_nh,error_error_nh
+            close(1)
+            open(1,file="sensitivity_error_ih.dat",status="replace")
+           write(1,*) mean_dchi2min_ih,mean_ih,error_ih,mean_error_ih,error_error_ih
+            close(1)
+c            write(6,*) "stat"
+c            write(6,*) "nh", mean_nh,error_nh
+c            write(6,*) "ih", mean_ih,error_ih
+         endif
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
 c         zz(1) = Lmin

@@ -18,7 +18,7 @@ set grid
 #set key samplen 2 at 
 set output 'plots/N_combine.eps'
 unset title
-set title '{/=20 20GW_{th}, 5kton (12.00% proton), 5 years, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}}'
+set title '{/=20 20GW_{th}, 5kton (12.00% proton), 10 years, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}}'
 set size 1,1.07
 set multiplot layout 5,1 scale 1,1 offset 0,-0.05
 set lmargin 9
