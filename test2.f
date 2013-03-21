@@ -8,14 +8,14 @@
       real*8 chisqmin_wrong,dchisqmin
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
-      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,CR,CY
-      character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc
+      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY
+      character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
       
       integer iflag,ifixL,ifluc
       real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
-      real*8 mean_dchi2min_nh,mean_dchi2min_ih
+      real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize
 
       real*8 zz(40)
       common /zz/ zz
@@ -29,8 +29,8 @@
       common /first/ final_bins,ifirst
 
       integer nbins,iev
-      real*8 event2_dat(20000),allevent
-      common /event_dat/ event2_dat,nbins
+      real*8 event2_dat(20000),allevent,nevent_dat
+      common /event_dat/ event2_dat,nbins,nevent_dat
 
       call getarg(1,cLmin)
       call getarg(2,cLmax)
@@ -45,6 +45,7 @@
       call getarg(11,cvalue)
       call getarg(12,cfixL)
       call getarg(13,cfluc)
+      call getarg(14,cbinsize)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -58,9 +59,10 @@
       read (cvalue,*) value
       read (cfixL,*) ifixL
       read (cfluc,*) ifluc
+      read (cbinsize,*) binsize
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
-      s213_2(1) = 0.098d0
+      s213_2(1) = 0.089d0
       s213_2(2) = 0.005d0
       dm21_2(1) = 7.50d-5
       dm21_2(2) = 0.20d-5
@@ -106,6 +108,7 @@
       zz(34) = Eres_nl
       zz(35) = ndiv
       zz(37) = ifluc
+      zz(38) = binsize
 
       call gran_init(time())
 c      call gran_init(200)
@@ -241,6 +244,7 @@ c               endif
                write(19,'(4x,a14,e12.5,a3,e9.2)') "fb = "
      &              ,pval(8)," +-",perr(8)
                write(19,*) ""
+               write(19,*) "event # =",nevent_dat
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
                call mncomd(minfunc,'SHOW COVARIANCE',iflag,0)
                write(19,*) ""
