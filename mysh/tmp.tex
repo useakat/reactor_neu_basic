@@ -1,0 +1,523 @@
+\documentclass{book}
+\title{Generating multi-jet events with MadGraph}
+%LaTeX Header
+\usepackage{hyperref}                 % For creating hyperlinks in cross references
+\usepackage{graphics}                 % Packages to allow inclusion of graphics
+\usepackage{graphicx}
+\usepackage{color}                    % For creating coloured text and background
+\author{Your Name}
+\date{August 25, 2004}
+\makeindex
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{no}
+Abstruct
+
+In this thesis, I discuss a new method to generate hadronic collision events with more than 5 final state jets on MadGraph/MadEvent  platform. The obstacles for this goal are three-fold: rapid growth of the number of Feynman diagrams,  phase space integration channels and color configurations to be summed. Firstly, I introduce Off-shell recursive relations in color flow basis into amplitude generation and calculation by MadGraph to deal with the factorial growth of the number of Feynman diagrams. Secondly,  efficient construction of phase space channels for recursively generated scattering amplitudes is discussed in analogy with the single diagram enhanced method. Finally, I deal with summation of huge number of color configurations by means of Monte Carlo over Color Flows with a feasible approximation in the $1/N_c$ expansion of color factors. As a sample results of the whole method, I show some distributions of observables in hadron colliders  such as LHC and discuss the efficiency and validity of this strategy.
+
+\chapter{Introduction}
+no
+
+In this thesis we would like to propose a method to generate QCD processes with more than 4 jets efficiently in the MadGraph platform.
+
+\section{P: The LHC experiments is currently undertaken to discover Higgs boson and new physics beyond the Standard Model (SM)}
+The LHC experiments is currently undertaken to discover Higgs boson and new physics beyond the Standard Model (SM). Large Hadron Collider (LHC) is a proton-proton or lead-lead collider installed at CERN, European Organization for Nuclear Research, in Geneva, Switzerland. There are four major detectors at the LHC, ATLAS, CMS, ALICE and LHCb. Among them, ATLAS and CMS is general-purpose detectors designed to study high-energy proton-proton collisions, covering the entire collision point. The center of mass energy of two colliding protons are currently 7 TeV, and this is the most highest energy ever reached in collider experiments, allowing us to study physics of totally new scale. will be upgraded up to 14 TeV after the first run until 2012.  After the first run until 2012, this energy will be upgraded even more up to 14 TeV. The total integrated luminosity is also increasing rapidly during the stable run from March in 2010 and have already reached 5 $ fb^-1$ in October / 2011. Main motivations for ATLAS and CMS experiments is to search the Higgs boson and evidences of physics beyond the Standard Model. Thanks to the high energy and large integrated luminosity of the LHC, reproduction of the Standard Model physics observed at LEP and Tevatron has been done and unexplored parameter regions of many new physics models such as Minimal Supersymmetric Standard Model (MSSM) or Universal Extra Dimensional Model (UED) have been searched and excluded.
+
+\section{P: Many new physics models predicts high-multiplicity-jet events at the LHC}
+Jets come from two sources. One source is the produced unknown colored particles. For example, in Minimul Supersymmetric Standard Moel (MSSM) spin-1/2 super partner of gluon, gluino, can be produced, and it decays into a quark and a squark, the super partner of the quark. This squarks also can decay into another quark and a neutralino, a mixed state of neutral super partners of U(1) gauge boson, SU(2) neutral gauge boson and higgs doublets. Thus two partons comes from the decay of a gluino. Another source is initial state radiations (ISRs). Initial state radiation is QCD radiations which comes from incoming patrons into a collision point, and the transverse momentum and the multiplicity of them grows as the masss of the produced unknown particles becomes heavy. All in all, if gluinos are produced in pair, at least 4 jet events are observed, and the jet multiplicity could be 5 or 6 if there are ISRs at the same time. I call those events with more than 4 jets multi-jet events, and this multi-jet feature is true for many other new models
+
+\section{New physics searches at the LHC requires the estimation of QCD multi-jet backgrounds}
+Since data observed in experiments is the sum of signals and backgrounds, unless we estimate background, we do not know whether there is a signal from new physics or not.
+
+Multi-jet events can be produced by pure QCD processes and some of them could be as energetic as those from new physics
+
+Those QCD multi-jet events become backgrounds for new physics search, thus the estimation of those events is crucial at LHC experiments
+
+\section{Simulation of event productions at the LHC is the essential way of background estimations}
+The number of background events or the shape of observable distributions such as missing transverse momentum after imposing experimental cuts changes drastically by varying those cuts, and it is  impossible to estimate without generating pseudo-events and applying the same cuts to them
+
+These pseudo-events should be generated according to the fundamental theory such as QCD and thus mimic the actual experimental events produced by the same physics
+
+Produced colored particles are eventually decay into lighter unknown particles and partons, gluons and quarks, producing many hard jets.
+
+This multi-jet feature is a typical signature of some new physics models and used for new physics search at the LHC.
+
+However, such multi-jet events are also produced by QCD processes
+
+Since LHC is a hadron-hadron collider with large amount of energy, those multi-jet QCD events produced at high rate and could become major backgrounds for new physics signals
+
+
+
+We should generate unweighted events to fully simulate collider experiments
+
+\section{MadGraph is the most powerful platform to simulate new physics models and the Standard Model in the same foot}
+P: It is useful to simulate new physics models in the same ground as the Standard Model
+
+However, MadGraph cannot generate QCD events with more than 5 jets
+
+We propose an efficient method to generate QCD multi-jet events in the MadGraph platform
+
+\section{The new and important point of our method is to sample color flows directly in order to perform color summations}
+All the general purpose event generators currently available employ exact summation using color matrix or sampling over color configurations of external particles
+
+Sampling color flows is naturally fits into 1/Nc expansion approximation
+
+Sampling color flows makes phase space integration mapping much simpler
+
+Sampling color flows passes color flow information to parton shower generator for free
+
+\section{Issues to be discussed in this thesis is as follows}
+Generation of  semi-recursive HELAS amplitudes for all the color flows with MadGraph
+
+Generation of  phase space channels for the color-ordered amplitudes
+
+Identification of  all the color flows for the subprocess
+
+Generation of  unweighted events in leading order in 1/Nc expansion
+
+Higher order corrections for LO unweighted events 
+
+Outline
+
+\chapter{Generation of multi-jet QCD amplitudes in color flow basis with MadGraph}
+\section{Introduction}
+\subsection{no}
+In this chapter we implement the off-shell recursive relation in color flow basis in MadGraph to generate color-ordered helicity amplitudes of multi-jet processes
+
+First of all, there are two motivations for us to generate color-ordered amplitudes of multi-jet processes
+
+One reason is that our new method proposed in this thesis requires to evaluate each color-ordered amplitude separately as explained briefly in Introduction
+
+The other reason is that MadGraph indeed cannot generate executable helicity amplitude function for multi-jet QCD processes
+
+To evaluate color-summed amplitude squared of a process, the current version of MadGraph generates all the diagrams and helicity amplitudes and perform the color decomposition of the process
+
+This method breaks down when a given process involves more than five external particles
+
+Therefore, we separate the whole scattering amplitude
+
+In related to the second motivation we also employ off-shell recursive relation to generate amplitudes with more than 5 jets
+
+Therefore, here we implement off-shell recursive relations in color flow basis in MadGraph and generate color-ordered multi-jet amplitudes
+
+Outline
+
+\section{The color flow basis and off-shell recursive relations}
+In this section we review the color-flow decomposition of QCD scattering amplitudes and the off-shell recursive relation of gluonic currents in the color flow basis
+
+\subsection{The color flow decomposition}
+First, we briefly review the color-flow decomposition 
+
+Color flow basis and the QCD Lagrangian
+
+First, we briefly review the color-flow decomposition
+
+Feynman Rules
+
+Color flow decomposition of $n$-gluon scattering amplitudes
+
+Color flow decomposition of scattering amplitudes with one quark line
+
+Color flow decomposition of scattering amplitudes with two or more quark lines
+
+\subsection{Recursive relations of off-shell gluon currents}
+TS: Next, we mention the off-shell recursive relations in the color-flow basis
+
+P: Recursive formulae for $n$-point off-shell currents
+
+P: Recursive formulae for $n$-point helicity amplitudes
+
+\section{Implementation in MadGraph}
+In this section, we discuss how we implement off-shell recursive relations in MadGraph in the color-flow basis and how we generate helicity amplitudes of QCD processes
+
+\subsection{Subroutines for off-shell recursive formulae}
+TP: First,  we introduce new HELAS subroutines in MadGraph which make $n$ point gluon off-shell currents and $n$-gluon amplitudes in the color flow basis, according to eq.(16) and eq. (20), respectively
+
+P: The number of new subroutines we add to MadGraph
+
+P: Subroutine "gluon n"
+
+P: Subroutine "jgluo"
+
+P: The number of new subroutines
+
+P: The list of the new HELAS subroutines
+
+P: Three other subroutines we add, "ggggcf", "jgggcf" and "jioaxx"
+
+\subsection{Introduction of a new Model: CFQCD}
+Next, we define a new Model with which MadGraph generates HELAS amplitudes in the color-flow basis since the present MadGraph computes them in the color-ordered basis
+
+How to generate a color-ordered amplitudes of $n$ gluon processes in CFQCD Model
+
+How to generate a color-ordered amplitudes of processes with one quark line in CFQCD Model
+
+Abelian-gluon contributions in processes with one quark line
+
+How to generate a color-ordered amplitudes of processes with two or more quark lines in CFQCD Model
+
+Abelian-gluon contributions in processes with two or more quark lines
+
+Conclusion
+
+\subsection{New particles and their interactions in the CFQCD Model}
+Finally, we explain new particles and their interactions we introduce in the CFQCD Model
+
+Particles
+
+First, we list all the new particles in the CFQCD model
+
+How to avoid double counting in generating recursive amplitudes in CFQCD Model
+
+The list of quark contents in CFQCD Model
+
+General expression of the number of new particles we should add for n-particle scattering processes
+
+Interactions
+
+Next, we list all the interactions among CFQCD particles
+
+7-point gluonic interactions
+
+6-point gluonic interactions
+
+5-point gluonic interactions
+
+4-point gluonic interactions
+
+New type of  interactions in processes with two or more quark lines
+
+3-point  gluonic interactions
+
+3-point quark-gluon interactions
+
+Difference between U(3) gluon and Abelian gluon-quark interactions with quarks
+
+Undesired interactions
+
+Conclusion
+
+\section{Total amplitudes and the color summation}
+\subsection{In this section, we discuss how we evaluate the total amplitudes with the CFQCD model and how we perform the color summation of the total amplitude squared}
+Note that we use this scheme only to produce cross section results to demonstrate the validity of our color-ordered amplitudes and, we will not use it in the following chapters 3,4 and 5
+
+We consider three types of processes: $gg¥rightarrow ng$, $q¥overline{q}¥rightarrow ng$ and $qq¥rightarrow qq (n-2) g$
+
+\subsection{$gg¥rightarrow ng$ processes}
+We consider pure gluon processes first
+
+The general strategy to evaluate color summed amplitude squared
+
+An example: 5 gluons case
+
+Symmetry between color-ordered amplitudes
+
+\subsection{$q¥overline{q}¥rightarrow ng$ processes}
+Next, we discuss the processes with one quark line, $qq¥overline{q}¥rightarrow ng$
+
+An example: uu~ to 4g case
+
+\subsection{$qq¥rightarrow qq n(n-2) g$ processes}
+Finally, let us discuss the processes with two quark lines
+
+An example: ud to ud 3g case
+
+\section{Sample results}
+In this section, we present numerical results for several multi-jet production processes as a demonstration of our CFQCD model on MadGraph
+
+\subsection{Fig: Total cross sections}
+Total cross sections of $gg¥rightqrrow ng$ (upper), $uu¥rightarrow uu + (n-2) g$ (middle), $u¥overline{u}¥rightarrow ng$ (lower) in {¥rm fb} scale for pp collisions at $¥sqrt{s} = 14$ TeV as given in Table 8
+
+Results shown by dashed lines and dotted lines for $uu$ and $u¥overline{u}$ subprocesses are obtained when Abelian gluon contributions are ignored and one Abelian gluon contributions are included, respectively
+
+\subsection{Table 8: Total cross sections}
+Total cross sections of $gg¥rightarrow ng$, $u¥overline{u}¥rughtarrow ng$ and $uu¥rightarrow uu +(n-2) g (n¥le 5)$ in {¥rm fb} scale for pp collisions at $¥sqrt{s} = 14$ TeV, when jets satisfy $|¥eta_j| < 2.5, p_T(j) > 20$ GeV and $p_{T_{jk}} > 20$ GeV for the smaller of the relative transverse momentum between tow jets
+
+Results in the second row and the third row of each $n$-jet cross section are obtained when we ignore Abelian gluon contributions and include one Abelian gluon contributions, respectively
+
+Abelian gluons do not contribute to purely gluonic processes
+
+Current limitation of MadGraph and prospects in the new version of MadGraph
+
+\section{Conclusion}
+\subsection{no}
+ In this paper, we have implemented off-shell recursive formulae for gluon currents in the color-flow basis in MadGraph and have shown that it is possible to generate QCD amplitudes in the color-flow basis by introducing a new model, CFQCD, in which quarks and gluons are labeled by color-flow numbers
+
+We have
+
+introduced new subroutines for off-shell recursive formulae for gluon currents, the contact 3- and 4-point gluons vertices in the color flow basis and the off-shell Abelian gluon current
+
+defined new MadGraph model: the CFQCD Model
+
+generated HELAS amplitudes for given color flows and calculated the color-summed total amplitude squared
+
+showed the numerical results for $n$-jet production cross sections $(n¥le 5)$
+
+Although we have studied only up to 5-jet production processes in this section, it is straightforward to extend the method to higher $n$-jet production processes
+
+\chapter{Phase space mappings of color-ordered amplitudes}
+\section{Introduction}
+\subsection{no}
+In this chapter we discuss a method for efficient phase space integrations of color-ordered recursive amplitudes
+
+In the previous chapter we show that MadGraph can generate color-ordered helicity amplitudes semi-recessively by introducing the new model
+
+In this chapter we discuss a method for the efficient phase space integration of color-ordered recursive amplitudes
+
+MadGraph employs Single-Diagram-Enhanced multi-channel integration for phase space integration
+
+multi-channel integration have been used for phase space integration of multi-particle scattering amplitudes 
+
+Monte Carlo integration
+
+
+
+grid optimization
+
+General property of peak structure in phase space integration of multi-particle processes
+
+relative weights in channels
+
+formalism
+
+drawbacks
+
+dfsfds
+
+This forms a complete basis
+
+the peak structure of these basis are the same as that of $A_i$ and are mapped by the propagator structures of the corresponding Feynman diagram
+
+The sample points among each channel can be optimized such that $N_i = I_i / I $
+
+We do not need evaluate weights for each channel. They are automatically included in each channel. The complexity of the computation does not increase with the number of channels.
+
+This integration can be palarellized straight forwardly
+
+We need to modify the Single-Diagram-Enhanced method for recursively generated amplitudes
+
+The strategy consists of two steps: how we specify singularities in a color-ordered amplitudes and how we map specified singularities in the phase space
+
+For the first step, we propose the Peripheral-Propagator-Enhanced method
+
+For the second step, we employ modified recursive phase space generation method
+
+We show that this technique works well, comparing with other phase space integrator such as RAMBO and HAAG
+
+Outline
+
+\section{Peaking behavior of color-ordered amplitudes}
+Here we discuss how we identify peaking patterns of a color-ordered recursive amplitudes 
+
+\subsection{Peaking behaviors and peripheral propagators}
+The singularities of color-ordered amplitudes can be represented by peripheral propagators
+
+Peripheral propagators
+
+\subsection{Algorithm of identifying all possible peak patterns}
+We propose an algorithm to identify all possible peak patterns in a color-ordered recursive amplitude as follows
+
+All possible combinations of those peripheral propagators enumerate major peaking patterns in an color-ordered recursive amplitudes
+
+Systematic identification of peak patterns can be done for color-ordered recursive amplitudes
+
+Possible peak patterns in phase space of a color-ordered amplitude are identified systematically by classifying combinations of peripheral propagators 
+
+\section{Generation of phase space mappings }
+In this section, we discuss generation of phase space mappings for each peak patterns
+
+\subsection{Decomposition of phase space}
+$n$-body phase spaces are decomposed into building-block phase spaces in general
+
+\subsection{Optimization of phase space mappings for specified peak patterns}
+General phase space mappings are optimized analytically according to each peak patterns 
+
+\subsection{The algorithm of generating phase space mappings}
+Here we discuss the algorithm of generating phase space mappings for each peak patterns
+
+An example
+
+\subsection{Phase space mappings for each peak patterns are generated automatically}
+We showed that appropriate phase space mappings are generated automatically for identified peaking behavior
+
+\section{Phase space integration}
+\subsection{no}
+This section provides how we perform phase space integrations in practice
+
+\subsection{Preparing channels}
+Integration channels are prepared for a color-ordered amplitude
+
+\subsection{Optimizations}
+Warm up running is performed for grid optimization 
+
+\subsection{Practical running and accumulating results}
+After channel and grid optimization, we perform practical running for statistical accumulation of integration results
+
+\subsection{Parallelization}
+Thanks to the independence of integration channels, we can improve integration time by parallelizing each channel integrations
+
+\subsection{no}
+Employing algorithms discussed in the previous chapters, phase space integrals are performed with multi-channel integration method
+
+\section{Results}
+\subsection{no}
+In this section we provide results to demonstrate the performance of our phase space integration method
+
+We compare cross sections with corresponding MadEvent, RAMBO and HAAG results
+
+We compare convergence behavior with corresponding MadEvent, RAMBO, HAAG results
+
+We compare the efficiency of phase space integration with RAMBO and HAAG results
+
+\section{Discussions and Conclusion}
+\subsection{no}
+We have discussed the phase space integration method for color-ordered recursive amplitudes and shown the performance of this method
+
+The Peripheral-Propagator-Enhanced method gives consistent results with MadEvent, RAMBO and HAAG with reasonable errors
+
+The efficiency of phase space integration is also reasonable
+
+It is straightforward to implement this method in MadEvent
+
+PPE method is based on the Single-Diagram-Enhanced method of MadEvent as discussed in Introduction
+
+The main difference is the way of defining integration channels of amplitudes
+
+This modification will be done without changing the main structure of MadEvent
+
+Once this modification is done, the phase space generation is achieved automatically in MadEvent
+
+We conclude that the phase space integration of color-ordered recursive amplitudes can be performed efficiently in MadGraph platform
+
+\chapter{Event generation in $1/N_c$ expansion}
+\section{Introduction }
+In this chapter we discuss the way of efficient multi-jet event generation
+
+As a well known fact, exact color summation becomes unreasonable when the number of external particles is large
+
+1/Nc expansion is a way to organize and approximate the color summation
+
+Leading 1/Nc approximation is a feasible approximation in LHC physics
+
+Moreover, phase space mapping is much simpler in leading 1/Nc color summation
+
+Therefore, we would like to generate events in leading 1/Nc accuracy and improve them with higher order corrections
+
+Outline
+
+\section{Leading order event generations in 1/Nc expansion}
+In this section we discuss event generations in Leading order accuracy in 1/Nc expansion
+
+\subsection{Color summation and 1/Nc expansion}
+Color summation in leading Nc accuracy is performed by sampling color flows and multiplying the leading Nc color factor
+
+1/Nc expansion in color flow basis
+
+Sampling color flows leads to leading Nc order results.
+
+However, as we discussed in previous chapter, the peaking behavior in phase space is clear when we sample and fix color flows
+
+We will discuss how we take into account the higher order contributions in the 1/Nc expansion in next chapter
+
+\subsection{Algorithm of evaluating LO cross sections}
+Given a subprocess, identify all the color flows for the subprocess
+
+prepare semi-recursive HELAS amplitudes for all the color flows with MadGraph
+
+select a color flow randomly
+
+identify integration channels for the color flow and select one of them randomly
+
+generate phase space mapping for the channel and obtain a four-momenta
+
+evaluate the semi-recursive HELAS amplitude for the color flow and obtain the weight
+
+repeat this procedure until we obtain the cross section with desired accuracy
+
+Identification of color flows
+
+\subsection{Color flow sampling and phase space integration}
+Phase space integrations of a color-flow-fixed amplitude are performed with PPE method and sampling integration channels
+
+\subsection{Helicity summation}
+helicity summation is performed by sampling or summing helicities
+
+\subsection{Unweighting}
+Unweighting is performed by traditional hit and miss method
+
+\section{Higher order event generations in 1/Nc expansion}
+Unweighted events in leading 1/Nc order are re-weighted with higher order corrections and re-unweighted
+
+\subsection{Color summation revisited}
+Exact color summation is decomposed effectively into each contributions of color flows
+
+\subsection{Evaluation of higher order corrections}
+We shows systematic way of evaluation of higher 1/Nc order corrections 
+
+\subsection{Re-weighting and re-unweighting}
+Unweighted events with arbitrary accuracy is obtained by re-wieghting and re-unweighting method
+
+\section{Results}
+In this section we present selected results for discussion of reliability and efficiency of our method
+
+\subsection{We compare cross sections and errors with MadEvent, COMIX and Alpgen ( LNc, Exact)}
+up to 7 jets
+
+\subsection{We compare some distributions ( Maximum pT, deltaR ) with MadEvent, COMIX and Alpgen (LNc, exact)}
+parton level
+
+PS level
+
+We compare convergence behavior vs. integration time, comparing with MadEvent, COMIX and Alpgen (LNc, exact)
+
+\subsection{We compare event generation time with MadEvent, COMIX and  Alpgen (LNc, exact)}
+up to 7 jets
+
+\subsection{We show efficiency of generating unweighted event (LNc, exact)}
+LO unweighted events
+
+Corrected unweighted events
+
+We show the weight distribution of LO weighted events and re-weighted events, comparing with the distribution by COMIX and Alpgen
+
+\section{Discussions and conclusion}
+Unweighted events are generated with arbitral accuracies in 1/Nc expansion
+
+We have discussed how we generate multi-jet events with arbitrary accuracy in 1/Nc expansion
+
+We find following observations from presented results in previous section
+
+Sampling color flows and re-weighting method gives consistent cross sections and distributions with other generators with reasonable errors
+
+This method generate unweighted events efficiently
+
+Re-weighting method correctly account for the higher order corrections
+
+It can therefore be concluded that our method efficiently generate unweighted events beyond leading 1/Nc accuracy
+
+\chapter{Conclusion}
+In this thesis we proposed a method to generate multi-jet QCD events efficiently in the MadGraph platform
+
+Generating multi-jet QCD events is important in new physics search at the LHC, but none of the simulation tools can simulate both of new physics signals and multi-jet backgrounds enough.
+
+MadGraph is one of the simulation platform which is suit to this task
+
+We implemented off-shell recursive relations in color flow basis in MadGraph to generate color-flow-fixed helicity amplitudes for QCD processes
+
+We have proposed a way to identity and generate phase space mapping for color-flow-fixed recursive amplitudes systematically in a suitable way for MadEvent
+
+We have shown that unweighted events for multi-jet processes are generated efficiently with arbitrary accuracy in 1/Nc expansion by sampling color flows
+
+This method is applicable to NLO calculations
+
+We conclude that the proposed method in this thesis will open the way for generation of multi-jet events in MadGraph platform in the Leading or even in the Next-to-Leading order
+
+\chapter{References}
+¥bibitem{LHC} a
+
+¥bibitem{LHCstatus} v
+
+%LaTeX Footer
+\end{document}

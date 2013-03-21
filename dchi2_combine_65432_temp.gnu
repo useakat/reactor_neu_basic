@@ -21,7 +21,7 @@ set output 'plots/dchi2_combine.eps'
 set ylabel '{/=25 ({/Symbol=\104}{/Symbol=\143}^2)_{min}}' offset 1,0
 set xlabel '{/=25 L [km]}' offset -1,0
 #set label '1.5%' at 60,15
-set label 'b = 0' at 77.5,6.5
+set label 'b = 0' at 77.5,5.5
 #set label '6%' at 50,9
 #set yrange [0:210]
 set multiplot

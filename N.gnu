@@ -13,7 +13,7 @@ set grid
 #set yrange [1E-5:2E8]
 
 set output "plots/N.eps"
-set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 5 years, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}"
+set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 10 years, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 set logscale y
@@ -26,26 +26,26 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'rslt_dist/data/N_nh_10.dat' u 1:2 t '10km' w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_dist/data/N_nh_20.dat' u 1:2 t '20km' w l lt 1 lc rgb 'green' lw 3 ,\
-'rslt_dist/data/N_nh_30.dat' u 1:2 t '30km' w l lt 1 lc rgb 'blue' lw 3 ,\
-'rslt_dist/data/N_nh_40.dat' u 1:2 t '40km' w l lt 1 lc rgb 'purple' lw 3 ,\
-'rslt_dist/data/N_nh_50.dat' u 1:2 t '50km' w l lt 1 lc rgb 'cyan' lw 3 ,\
-'rslt_dist/data/N_nh_60.dat' u 1:2 t '60km' w l lt 1 lc rgb 'black' lw 3 ,\
-'rslt_dist/data/N_nh_70.dat' u 1:2 t '70km' w l lt 1 lc rgb 'red' lw 3 ,\
-'rslt_dist/data/N_nh_80.dat' u 1:2 t '80km' w l lt 1 lc rgb 'gray' lw 3 ,\
-'rslt_dist/data/N_nh_90.dat' u 1:2 t '90km' w l lt 1 lc rgb 'orange' lw 3 ,\
-'rslt_dist/data/N_nh_100.dat' u 1:2 t '100km' w l lt 1 lc rgb 'green' lw 3 ,\
-'rslt_dist/data/N_ih_10.dat' u 1:2 notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_dist/data/N_ih_20.dat' u 1:2 notitle w l lt 2 lc rgb 'green' lw 3 ,\
-'rslt_dist/data/N_ih_30.dat' u 1:2 notitle w l lt 2 lc rgb 'blue' lw 3 ,\
-'rslt_dist/data/N_ih_40.dat' u 1:2 notitle w l lt 2 lc rgb 'purple' lw 3 ,\
-'rslt_dist/data/N_ih_50.dat' u 1:2 notitle w l lt 2 lc rgb 'cyan' lw 3 ,\
-'rslt_dist/data/N_ih_60.dat' u 1:2 notitle w l lt 2 lc rgb 'black' lw 3 ,\
-'rslt_dist/data/N_ih_70.dat' u 1:2 notitle w l lt 2 lc rgb 'red' lw 3 ,\
-'rslt_dist/data/N_ih_80.dat' u 1:2 notitle w l lt 2 lc rgb 'gray' lw 3 ,\
-'rslt_dist/data/N_ih_90.dat' u 1:2 notitle w l lt 2 lc rgb 'orange' lw 3 ,\
-'rslt_dist/data/N_ih_100.dat' u 1:2 notitle w l lt 2 lc rgb 'green' lw 3
+'rslt_test/data/N_nh_10.dat' u 1:2 t '10km' w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_test/data/N_nh_20.dat' u 1:2 t '20km' w l lt 1 lc rgb 'green' lw 3 ,\
+'rslt_test/data/N_nh_30.dat' u 1:2 t '30km' w l lt 1 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/N_nh_40.dat' u 1:2 t '40km' w l lt 1 lc rgb 'purple' lw 3 ,\
+'rslt_test/data/N_nh_50.dat' u 1:2 t '50km' w l lt 1 lc rgb 'cyan' lw 3 ,\
+'rslt_test/data/N_nh_60.dat' u 1:2 t '60km' w l lt 1 lc rgb 'black' lw 3 ,\
+'rslt_test/data/N_nh_70.dat' u 1:2 t '70km' w l lt 1 lc rgb 'red' lw 3 ,\
+'rslt_test/data/N_nh_80.dat' u 1:2 t '80km' w l lt 1 lc rgb 'gray' lw 3 ,\
+'rslt_test/data/N_nh_90.dat' u 1:2 t '90km' w l lt 1 lc rgb 'orange' lw 3 ,\
+'rslt_test/data/N_nh_100.dat' u 1:2 t '100km' w l lt 1 lc rgb 'green' lw 3 ,\
+'rslt_test/data/N_ih_10.dat' u 1:2 notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_test/data/N_ih_20.dat' u 1:2 notitle w l lt 2 lc rgb 'green' lw 3 ,\
+'rslt_test/data/N_ih_30.dat' u 1:2 notitle w l lt 2 lc rgb 'blue' lw 3 ,\
+'rslt_test/data/N_ih_40.dat' u 1:2 notitle w l lt 2 lc rgb 'purple' lw 3 ,\
+'rslt_test/data/N_ih_50.dat' u 1:2 notitle w l lt 2 lc rgb 'cyan' lw 3 ,\
+'rslt_test/data/N_ih_60.dat' u 1:2 notitle w l lt 2 lc rgb 'black' lw 3 ,\
+'rslt_test/data/N_ih_70.dat' u 1:2 notitle w l lt 2 lc rgb 'red' lw 3 ,\
+'rslt_test/data/N_ih_80.dat' u 1:2 notitle w l lt 2 lc rgb 'gray' lw 3 ,\
+'rslt_test/data/N_ih_90.dat' u 1:2 notitle w l lt 2 lc rgb 'orange' lw 3 ,\
+'rslt_test/data/N_ih_100.dat' u 1:2 notitle w l lt 2 lc rgb 'green' lw 3
 set nomultiplot
 
 reset

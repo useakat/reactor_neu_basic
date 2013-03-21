@@ -21,21 +21,23 @@ C     ----------
       real*8 function rNormalDist(rx,rmean,rsigma)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Sep.7 2012
-C     
+C
+C     ARGUMENTS
+C     real*8 rx: variable
+C     real*8 rmean: the mean value
+C     real*8 rsigma: the standard deviation
+C
+C     Last Modified: Dec.14 2012
 C     ****************************************************
       implicitnone
-      
       include 'const.inc'
-C     
 C     ARGUMENTS 
-C     
       real*8 rx,rmean,rsigma
 
       real*8 ra
       
       real*8 rGauss
       external rGauss
-
 C     ----------
 C     BEGIN CODE
 C     ----------
