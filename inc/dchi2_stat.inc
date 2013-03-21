@@ -7,8 +7,8 @@ c         z_dat(15) = 100 ! N vs. sqrt(E)
          include 'bining_dx.inc'
 
          if (ifirst.eq.0) then
-c            call MakeHisto1D_stat(nout,hfunc1D,z_dat,nevent,nbins,x
-            call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
+            call MakeHisto1D_stat(nout,hfunc1D,z_dat,nevent,nbins,x
+c            call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &           ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &           ,nevent_dat,ierr1) 
 c     call smearing(event_dat,nbins,rdx,Eres,event2_dat)         

@@ -34,9 +34,9 @@ c      fb = z(7)
       elseif (mode.lt.20) then
          E = L/x   ! x = L/E{\nu}
       elseif (mode.lt.30) then
-         Evis = x**2*( 1d0 +fscale/0.02d0*(1.07346d0 -0.0302668d0*x**2 
-     &        +0.00424563d0*x**4 -0.000201452d0*x**6 -1d0) )
-c         Evis = ( 1d0 +fscale )*x**2
+c         Evis = x**2*( 1d0 +fscale/0.02d0*(1.07346d0 -0.0302668d0*x**2 
+c     &        +0.00424563d0*x**4 -0.000201452d0*x**6 -1d0) )
+         Evis = ( 1d0 +fscale )*x**2
          E = Evis +0.8d0  ! x = sqrt{E_{vis}}
       endif
 

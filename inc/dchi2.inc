@@ -15,13 +15,17 @@ c         call smearing(event_dat,nbins,rdx,Eres,event2_dat)
      &        ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &        ,nevent_th,ierr2)
 c         call smearing(event_th,nbins,rdx,Eres,event2_th)
-         EEres = Eres
-         EEres_nl = Eres_nl
+         EEres = Eres*z(7)
+         EEres_nl = Eres_nl*z(8)
          call smearing_nl(event_th,x,nbins,rdx,EEres,EEres_nl,event2_th)         
 
 c            dchisq = dchi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
 c     &           ,error)  
             chisq_wrong = chi2_2(nout,event2_dat,event2_th,nbins,npar,z
      &        ,z_dat,error)  
+c            write(6,*) npar
+c            write(6,*) z(1),z(2),z(3),z(4),z(5),z(6),z(7)
+c            write(6,*) z_dat(1),z_dat(2),z_dat(3),z_dat(4),z_dat(5),z_dat(6),z_dat(7)
+c            write(6,*) error(1),error(2),error(3),error(4),error(5),error(6),error(7)            
 
             dchisq = chisq_wrong
