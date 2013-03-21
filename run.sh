@@ -26,7 +26,7 @@ P=20
 V=5
 R=0.12
 Y=5
-Lmin=10
+Lmin=1
 Lmax=100
 ndiv=100
 binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
@@ -139,19 +139,23 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 fi
 
 if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
-    switch1=1  # Fig.4 & 5
-    switch2=1  # Fig.6
-    switch3=1  # Fig.7
+    switch1=0  # Fig.4 & 5
+    switch2=0  # Fig.6
+    switch3=0  # Fig.7
     switch4=0  # Fig.2 & 3 
-    switch5=0  # parameter error
+    switch5=1  # parameter error
 
 # chi2 fitting
     mode=0
     ifluc=0
     ifixL=0
-    binsize=0.0025
+#    binsize=0.0
 
     if [ ${switch1} -eq 1 ]; then 
+	Eres=0
+	Eres_nl=0
+#	binsize=0.06
+	source dchi2_fitting_Eresnl.sh
 	Eres=6
 	Eres_nl=0
 #	binsize=0.06
@@ -229,14 +233,14 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
 
 if [ 1 -eq 1 ];then # dchi2 evaluation for a parameter set
-    maxL_nh=60
+    maxL_nh=50
     maxL_ih=${maxL_nh}
-    Eres=2.6
-    Eres_nl=1
-    Y=38
+    Eres=3
+    Eres_nl=0
+    Y=5
     output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
     touch ${output}
-    source binsize_points.sh
+    source dchi2_dist_onepoint.sh
 fi
 
 if [ 0 -eq 1 ];then    

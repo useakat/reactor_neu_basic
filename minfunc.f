@@ -99,7 +99,7 @@ CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCC
          if (ifluc.eq.0) then
             include 'inc/dchi2.inc'
          elseif (ifluc.eq.1) then
-            include 'inc/dchi2.inc'
+            include 'inc/dchi2_stat.inc'
          endif
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
