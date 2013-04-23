@@ -11,7 +11,7 @@ C     ARGUMENTS
       integer npar,iflag
       real*8 grad,dchisq,chisq_true,chisq_wrong
 C     GLOBAL VARIABLES
-      real*8 zz(40)
+      real*8 zz(50)
       common /zz/ zz
       integer ifirst
       real*8 final_bins
@@ -21,7 +21,7 @@ C     LOCAL VARIABLES
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
       integer maxnbin,imode,minflag,ierr,ierr1,ierr2,iswitch_smear,nnbins
       parameter (nout=6, maxnbin=20000)
-      integer ifluc
+      integer ifluc,nreactor
       real*8 x(0:maxnbin),z_dat(40),event_th(maxnbin),z(40)
       real*8 nevent_th,ans,erro,event_dat(maxnbin),nevent_dat,error(10)
       real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror,rdx
@@ -30,11 +30,13 @@ C     LOCAL VARIABLES
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
       real*8 Eres_nl,rdbin,EEres,EEres_nl
       real*8 dmm13min,dmm13max,ndmm13
-      common /event_dat/ event2_dat,nbins,nevent_dat
+      common /event_dat/ event2_dat,nevent_dat,nbins
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,chi2_2
       real*8 gran
       external hfunc1D,dchi2,futil,adchi2,chi2_2,gran
+      integer nthdiv,multi_flag
+      common /multi/ multi_flag
 c      save event2_dat
 C     ----------
 C     BEGIN CODE
@@ -66,6 +68,8 @@ C     ----------
       z_dat(15) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
 c      z_dat(15) = 100                   ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E]
       z_dat(16) = zz(1)                  ! L [km]
+      z_dat(17) = zz(39)
+      z_dat(18) = zz(40)
       z(11) = zz(36)*z_dat(11)              
 c      z(11) = z_dat(11)
       z(12) = z_dat(12)
@@ -73,6 +77,8 @@ c      z(11) = z_dat(11)
       z(14) = z_dat(14)
       z(15) = z_dat(15)
       z(16) = z_dat(16)
+      z(17) = z_dat(17)
+      z(18) = z_dat(18)
 
       serror = zz(32)
       snmax = zz(33)
@@ -85,11 +91,6 @@ c      z(11) = z_dat(11)
 
       nevent = 0
       rdx = zz(38)
-c      rdx = 0.01
-c      rdx = 0.0075
-c      rdx = 0.005
-c      rdx = 0.0025
-c      rdx = 0.00125
       nnbins = 1000
 
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -248,5 +249,19 @@ CCCCCCCCCCCCCCCCCCCCCC                              CCCCCCCCCCCCCCCCCCCCCCCCC
          close(1)
       endif
 
+
+CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization with multi-reactors CCCCCCCC
+CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
+
+      if (imode.eq.6) then 
+         multi_flag = 1
+         if (ifluc.eq.0) then
+            include 'inc/dchi2.inc'
+         elseif (ifluc.eq.1) then
+            include 'inc/dchi2_stat.inc'
+         endif
+      endif
+
       return
       end
+

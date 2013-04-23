@@ -1,5 +1,6 @@
 C -*- fortran -*-
-         z_dat(15) = 20 ! N vs. sqrt(E)
+      if (multi_flag.eq.0) z_dat(15) = 20 ! N vs. sqrt(E)
+      if (multi_flag.eq.1) z_dat(15) = 25 ! RENO50 multi-reactor: N vs. sqrt(E)
          hmode = 1 ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 2
          evform_th = 2

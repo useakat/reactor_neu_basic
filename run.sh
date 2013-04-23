@@ -22,7 +22,7 @@ else
     run_mode=$4
     plot_run_mode=$5
 fi    
-P=20
+P=18
 V=5
 R=0.12
 Y=5
@@ -235,10 +235,9 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
 if [ 1 -eq 1 ];then # dchi2 evaluation for a parameter set
     maxL_nh=50
     maxL_ih=${maxL_nh}
-    Eres=3
+    Eres=2
     Eres_nl=0
-    Y=5
-    binsize=0.01
+    binsize=0.005
     output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
     touch ${output}
     source dchi2_dist_onepoint.sh
@@ -361,6 +360,17 @@ if [ ${run_mode} -eq 5 ]; then  # Free analysis (parallel)
     if [ 1 -eq 1 ];then
 	source dchi2_error_parallel.sh
     fi
+fi
+
+if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis (parallel)
+    job_system=bsub
+    que=l
+
+    maxL_nh=50
+    maxL_ih=${maxL_nh}
+    binsiz=0.005
+    nreactor=1
+    source dchi2_multi_parallel.sh
 fi
 
 mv *.dat data/.

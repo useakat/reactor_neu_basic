@@ -11,7 +11,7 @@ LIBS          = $(LIBS_MYLIB)
 
 OBJS_basic_plots = basic_plots.o funcs.o
 OBJS_fft         = fft_nor_inv.o funcs.o
-OBJS_dchi2       = test2.o hfunc1D.o minfunc.o funcs.o smearing.o gran.o
+OBJS_dchi2       = test2.o hfunc1D.o minfunc.o funcs.o smearing.o gran.o get_Ls.o
 OBJS_dist       = dist.o make_dist.o fFluxXsec.o funcs.o
 OBJS_eventdist       = eventdist.o feventdist.o make_dist.o funcs.o
 OBJS_get_cl       = get_cl.o

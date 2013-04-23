@@ -8,16 +8,17 @@
       real*8 chisqmin_wrong,dchisqmin
       real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
-      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY
+      character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY,ctheta
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
+      character*10 cnreactor
       
-      integer iflag,ifixL,ifluc
+      integer iflag,ifixL,ifluc,nreactor
       real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
-      real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize
+      real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize,theta
 
-      real*8 zz(40)
+      real*8 zz(50)
       common /zz/ zz
 
       integer lench,time
@@ -30,7 +31,7 @@
 
       integer nbins,iev
       real*8 event2_dat(20000),allevent,nevent_dat
-      common /event_dat/ event2_dat,nbins,nevent_dat
+      common /event_dat/ event2_dat,nevent_dat,nbins
 
       call getarg(1,cLmin)
       call getarg(2,cLmax)
@@ -46,6 +47,8 @@
       call getarg(12,cfixL)
       call getarg(13,cfluc)
       call getarg(14,cbinsize)
+      call getarg(15,ctheta)
+      call getarg(16,cnreactor)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -60,6 +63,8 @@
       read (cfixL,*) ifixL
       read (cfluc,*) ifluc
       read (cbinsize,*) binsize
+      read (ctheta,*) theta
+      read (cnreactor,*) nreactor
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
       s213_2(1) = 0.089d0
@@ -109,6 +114,8 @@
       zz(35) = ndiv
       zz(37) = ifluc
       zz(38) = binsize
+      zz(39) = theta
+      zz(40) = nreactor
 
       call gran_init(time())
 c      call gran_init(200)
