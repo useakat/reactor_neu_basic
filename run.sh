@@ -32,7 +32,8 @@ ndiv=100
 binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
 ifixL=0
 ifluc=0
-
+theta=0
+nreactor=0
 if [ ${run_mode} -eq 10 ]; then
     ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
     exit
@@ -366,11 +367,16 @@ if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis (parallel)
     job_system=bsub
     que=l
 
+    mode=0
     maxL_nh=50
     maxL_ih=${maxL_nh}
-    binsiz=0.005
-    nreactor=1
+    binsize=0.005
+    Eres=2
+    Eres_nl=0
+#    theta=0.7
+    nreactor=6
     source dchi2_multi_parallel.sh
+#    ./dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}
 fi
 
 mv *.dat data/.

@@ -97,6 +97,7 @@ CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
 
       if (imode.eq.0) then 
+         if (zz(40).ge.1) multi_flag = 1
          if (ifluc.eq.0) then
             include 'inc/dchi2.inc'
          elseif (ifluc.eq.1) then

@@ -65,6 +65,7 @@
       read (cbinsize,*) binsize
       read (ctheta,*) theta
       read (cnreactor,*) nreactor
+
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
       s213_2(1) = 0.089d0
@@ -268,6 +269,7 @@ c               endif
             enddo
             write(19,*) ""
             write(19,*) ""           
+
          enddo
          close(19)
          close(20)

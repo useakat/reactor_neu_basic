@@ -30,7 +30,7 @@ c      fb = z(7)
       YY = z(14)
       mode = z(15)
       theta = z(17)
-      nr = z(18)
+      nr = int(z(18))
 
       Lfact = 4*pi*(L*1d5)**2
       if (mode.lt.10) then

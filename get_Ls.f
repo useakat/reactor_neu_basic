@@ -22,8 +22,8 @@ C     ----------
       else 
          ieven = 0
       endif
-      lh0 = L*dcos(theta)
-      lv = L*dsin(theta)
+      lh0 = L*dsin(theta)
+      lv = L*dcos(theta)
       if (n.eq.1) then
          dl = 1d0
       else
