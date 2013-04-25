@@ -372,8 +372,7 @@ if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis (parallel)
     maxL_ih=${maxL_nh}
     binsize=0.005
     Eres=2
-    Eres_nl=0
-#    theta=0.7
+    Eres_nl=0.5
     nreactor=6
     source dchi2_multi_parallel.sh
 #    ./dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}

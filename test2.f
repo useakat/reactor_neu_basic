@@ -158,6 +158,7 @@ c      call gran_init(200)
                open(23,file='dchi2_vsparam_nh.dat',status='replace')
                open(25,file='dchi2_dist_nh.dat',status='replace')
                open(26,file='sensitivity_dist_nh.dat',status='replace')
+               open(27,file='dchi2_multi_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
@@ -166,6 +167,7 @@ c      call gran_init(200)
                open(23,file='dchi2_vsparam_ih.dat',status='replace')
                open(25,file='dchi2_dist_ih.dat',status='replace')
                open(26,file='sensitivity_dist_ih.dat',status='replace')
+               open(27,file='dchi2_multi_ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             do j = 0,ndiv
@@ -176,6 +178,7 @@ c      call gran_init(200)
                   if (zz(2).eq.1) zz(1) = Lmin
                   if (zz(2).eq.-1) zz(1) = Lmax
                endif
+               write(*,*) zz(1),"[km]"               
                write(19,*) zz(1),"[km]"               
                call mninit(5,20,7)
                
@@ -218,6 +221,7 @@ c               dchisqmin = chisqmin_true
 
                if (ifixL.eq.1) write(25,*) dchisqmin
                if (ifixL.eq.1) write(26,'(e22.15,1x,e12.5)') sensitivity,dchisqmin
+               write(27,*) theta,zz(1),dchisqmin
                write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
@@ -278,6 +282,7 @@ c               endif
          close(23)
          close(25)
          close(26)
+         close(27)
 
          if (ifixL.eq.1) then
             open(1,file="dchi2_dist_nh.dat",status="old")

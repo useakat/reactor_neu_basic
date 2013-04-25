@@ -14,10 +14,12 @@ nreactor=${12}
 
 selfdir=$(cd $(dirname $0);pwd)
 
-ifixL=1  # do not change
+ifixL=0  # do not change
 ifluc=0
-Lmin=${maxL_nh}
-Lmax=${maxL_ih}
-ndiv=0
+#Lmin=${maxL_nh}
+#Lmax=${maxL_ih}
+Lmin=10
+Lmax=100
+ndiv=30
 source ${selfdir}/dchi2_fitting_Eresnl.sh
 #source ${selfdir}/dchi2_dist_onepoint.sh
