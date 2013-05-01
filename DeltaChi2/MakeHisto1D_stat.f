@@ -9,7 +9,7 @@ C     ****************************************************
 
 C     ARGUMENTS 
       integer nevent,nbins,nout,evform,nmax,mode
-      real*8 f,x(0:nbins),error,z(40)
+      real*8 f,x(0:nbins),error,z(50)
       real*8 event(nbins),hevent(nbins),nevent_th
 C     LOCAL VARIABLES 
       integer i,j

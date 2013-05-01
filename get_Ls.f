@@ -50,3 +50,65 @@ C     ----------
 
       return
       end
+
+
+      subroutine get_Ls_xy(xx,yy,n,LL)
+C     ****************************************************
+C     By Yoshitaro Takaesu @KIAS MAY 1 2013
+C     ****************************************************
+      implicit none
+C     GLOBAL VARIABLES
+C     CONSTANTS
+C     ARGUMENTS 
+      integer n
+      real*8 xx(0:n),yy(0:n),LL(n)
+C     LOCAL VARIABLES 
+      integer i
+      real*8 xy2d
+C     EXTERNAL FUNCTIONS
+      external xy2d
+C     ----------
+C     BEGIN CODE
+C     ----------      
+      do i = 1,n
+         LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+      enddo
+
+      return
+      end
+
+
+      real*8 function xy2d(x1,y1,x2,y2)
+C     ************************************************************
+C     Calculate the straight distance, xy2d [km], between two 
+C     points, P1=(tokei-x1, hokui-y1) and P2=(tokei-x2, hokui-y2)
+C
+C     By Yoshitaro Takaesu @KIAS MAY 1 2013
+C     ************************************************************
+      implicit none
+      include 'const.inc'
+C     ARGUMENTS 
+      real*8 x1,y1,x2,y2
+C     LOCAL VARIABLES
+      real*8 rx1,ry1,rx2,ry2,R
+      real*8 xx1,yy1,zz1,xx2,yy2,zz2
+C     ----------
+C     BEGIN CODE
+C     ----------      
+      R = 6378.137d0 ! [km]
+      rx1 = x1*2*pi/360d0
+      ry1 = (90d0-y1)*2*pi/360d0
+      rx2 = x2*2*pi/360d0
+      ry2 = (90d0-y2)*2*pi/360d0
+      
+      xx1 = R*dsin(ry1)*dcos(rx1)
+      yy1 = R*dsin(ry1)*dsin(rx1)
+      zz1 = R*dcos(ry1)
+      xx2 = R*dsin(ry2)*dcos(rx2)
+      yy2 = R*dsin(ry2)*dsin(rx2)
+      zz2 = R*dcos(ry2)
+
+      xy2d = dsqrt( (xx1-xx2)**2 +(yy1-yy2)**2 +(zz1-zz2)**2 )
+
+      return
+      end

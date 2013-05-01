@@ -1,6 +1,14 @@
 C -*- fortran -*-
-      if (multi_flag.eq.0) z_dat(15) = 20 ! N vs. sqrt(E)
-      if (multi_flag.eq.1) z_dat(15) = 25 ! RENO50 multi-reactor: N vs. sqrt(E)
+      if (multi_flag.eq.0) then
+         z(15) = 20
+         z_dat(15) = z(15)         ! N vs. sqrt(E)
+      elseif (multi_flag.eq.1) then
+         z(15) = 25
+         z_dat(15) = z(15)         ! RENO50 multi-reactor: N vs. sqrt(E)
+      elseif (multi_flag.eq.2) then
+         z(15) = 26
+         z_dat(15) = z(15)         ! Korean multi-reactor: N vs. sqrt(E)
+      endif
          hmode = 1 ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 2
          evform_th = 2
@@ -22,6 +30,13 @@ c         call smearing(event_th,nbins,rdx,Eres,event2_th)
 
 c            dchisq = dchi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
 c     &           ,error)  
+c         write(19,*) z
+c         write(19,*) z_dat
+c         write(19,*) nevent_dat,nevent_th
+c         do i = 1,nbins
+c            write(19,*) i,event_dat(i),event_th(i)
+c         enddo
+c         write(19,*)
             chisq_wrong = chi2_2(nout,event2_dat,event2_th,nbins,npar,z
      &        ,z_dat,error)  
 c            write(6,*) npar

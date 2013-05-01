@@ -15,7 +15,7 @@ OBJS_dchi2       = test2.o hfunc1D.o minfunc.o funcs.o smearing.o gran.o get_Ls.
 OBJS_dist       = dist.o make_dist.o fFluxXsec.o funcs.o
 OBJS_eventdist       = eventdist.o feventdist.o make_dist.o funcs.o
 OBJS_get_cl       = get_cl.o
-OBJS_test       = test.o gran.o
+OBJS_test       = test.o gran.o get_Ls.o
 
 .f.o:
 	$(F77) $(FFLAGS) $(INCLUDES) -c $<

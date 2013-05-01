@@ -78,7 +78,7 @@ C     ----------
          sumth = sumth +th(i)
          if (ipos.eq.nn) then
             if (sumdat.ge.minevents) then
-               write(41,*) i,sumdat
+               write(41,*) i,sumdat,sumth
                final_bins = final_bins + 1
                sgm2 = sumdat
                chi2_2 = chi2_2 + ( sumdat -sumth )**2 / sgm2

@@ -1,6 +1,6 @@
 #!/bin/bash
 selfdir=$(cd $(dirname $0);pwd)
-    ${selfdir}/dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 ${ifixL} ${ifluc} ${binsize} ${theta} ${nreactor}
+    ${selfdir}/dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 ${ifixL} ${ifluc} ${binsize} ${theta} ${nreactor} $xx $yy
     if [ ${ifixL} -eq 0 ];then
 	mv dchi2min_nh.dat dchi2min_nh_${Eres}_${Eres_nl}.dat >/dev/null 2>&1
 	mv dchi2min_ih.dat dchi2min_ih_${Eres}_${Eres_nl}.dat >/dev/null 2>&1

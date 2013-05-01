@@ -10,13 +10,14 @@
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY,ctheta
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
-      character*10 cnreactor
+      character*10 cnreactor,cxx,cyy
       
       integer iflag,ifixL,ifluc,nreactor
       real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
       real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize,theta
+      real*8 xx,yy
 
       real*8 zz(50)
       common /zz/ zz
@@ -49,6 +50,8 @@
       call getarg(14,cbinsize)
       call getarg(15,ctheta)
       call getarg(16,cnreactor)
+      call getarg(17,cxx)
+      call getarg(18,cyy)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -65,6 +68,8 @@
       read (cbinsize,*) binsize
       read (ctheta,*) theta
       read (cnreactor,*) nreactor
+      read (cxx,*) xx
+      read (cyy,*) yy
 
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
@@ -75,7 +80,7 @@
       dm31_2(1) = 2.32d-3
       dm31_2(2) = 0.1d-3
       ovnorm(1) = 1d0
-      ovnorm(2) = 0.1d0
+      ovnorm(2) = 0.03d0
       fa(1) = 1d0
       fa(2) = 0.1d0
       fb(1) = 1d0
@@ -87,6 +92,7 @@
       Emax = 8d0
       serror = 1d-4
       snmax = 10
+      if (ifixL.eq.1) ndiv = 0
 
       zz(10) = s2sun_2(1)
       zz(11) = s2sun_2(2)
@@ -117,6 +123,8 @@
       zz(38) = binsize
       zz(39) = theta
       zz(40) = nreactor
+      zz(41) = xx
+      zz(42) = yy
 
       call gran_init(time())
 c      call gran_init(200)
@@ -149,7 +157,7 @@ c      call gran_init(200)
       write(19,*) "[Delta-Chi2 analysis]"
 
       if (mode.eq.0) then
-         do k = -1,1,2
+         do k = 1,-1,-2
             zz(2) = k
             if (k.eq.1) then
                open(20,file='minorm_nh.dat',status='replace')
@@ -221,7 +229,11 @@ c               dchisqmin = chisqmin_true
 
                if (ifixL.eq.1) write(25,*) dchisqmin
                if (ifixL.eq.1) write(26,'(e22.15,1x,e12.5)') sensitivity,dchisqmin
-               write(27,*) theta,zz(1),dchisqmin
+               if (nreactor.ge.1) then
+                  write(27,*) theta,zz(1),dchisqmin
+               elseif (nreactor.le.-1) then
+                  write(27,*) xx,yy,dchisqmin
+               endif
                write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
      &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)

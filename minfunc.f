@@ -22,11 +22,11 @@ C     LOCAL VARIABLES
       integer maxnbin,imode,minflag,ierr,ierr1,ierr2,iswitch_smear,nnbins
       parameter (nout=6, maxnbin=20000)
       integer ifluc,nreactor
-      real*8 x(0:maxnbin),z_dat(40),event_th(maxnbin),z(40)
+      real*8 x(0:maxnbin),z_dat(50),event_th(maxnbin),z(50)
       real*8 nevent_th,ans,erro,event_dat(maxnbin),nevent_dat,error(10)
       real*8 Emin,Emax,rootEmin,rootEmax,Eres,serror,rdx
       real*8 hevent_th(maxnbin),hevent_dat(maxnbin),xmin,xmax
-      real*8 z_min(40),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
+      real*8 z_min(50),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
       real*8 Eres_nl,rdbin,EEres,EEres_nl
       real*8 dmm13min,dmm13max,ndmm13
@@ -70,6 +70,9 @@ c      z_dat(15) = 100                   ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(fl
       z_dat(16) = zz(1)                  ! L [km]
       z_dat(17) = zz(39)
       z_dat(18) = zz(40)
+      z_dat(19) = zz(41)
+      z_dat(20) = zz(42)
+
       z(11) = zz(36)*z_dat(11)              
 c      z(11) = z_dat(11)
       z(12) = z_dat(12)
@@ -79,6 +82,8 @@ c      z(11) = z_dat(11)
       z(16) = z_dat(16)
       z(17) = z_dat(17)
       z(18) = z_dat(18)
+      z(19) = z_dat(19)
+      z(20) = z_dat(20)
 
       serror = zz(32)
       snmax = zz(33)
@@ -97,7 +102,11 @@ CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
 
       if (imode.eq.0) then 
-         if (zz(40).ge.1) multi_flag = 1
+         if (zz(40).ge.1) then
+            multi_flag = 1 ! YongGwang reactors
+         elseif (zz(40).le.-1) then
+            multi_flag = 2 ! reactors in Korea
+         endif 
          if (ifluc.eq.0) then
             include 'inc/dchi2.inc'
          elseif (ifluc.eq.1) then

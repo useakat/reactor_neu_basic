@@ -22,7 +22,7 @@ else
     run_mode=$4
     plot_run_mode=$5
 fi    
-P=18
+P=16.52 # YongGwang
 V=5
 R=0.12
 Y=5
@@ -34,6 +34,8 @@ ifixL=0
 ifluc=0
 theta=0
 nreactor=0
+xx=130
+yy=34
 if [ ${run_mode} -eq 10 ]; then
     ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
     exit
@@ -363,7 +365,7 @@ if [ ${run_mode} -eq 5 ]; then  # Free analysis (parallel)
     fi
 fi
 
-if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis (parallel)
+if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis for YongGwang (parallel)
     job_system=bsub
     que=l
 
@@ -375,6 +377,21 @@ if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis (parallel)
     Eres_nl=0.5
     nreactor=6
     source dchi2_multi_parallel.sh
+#    ./dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}
+fi
+
+if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (parallel)
+    job_system=bsub
+    que=l
+
+    mode=0
+    maxL_nh=50
+    maxL_ih=${maxL_nh}
+    binsize=0.005
+    Eres=2
+    Eres_nl=0.5
+    nreactor=-4
+    source dchi2_multi_korea_parallel.sh
 #    ./dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}
 fi
 

@@ -6,9 +6,10 @@
 
       integer i
       integer sign,mode,nr
-      real*8 x,z(40),error(10),L,E,loe,Np,P,YY,ovnorm
+      real*8 x,z(50),error(10),L,E,loe,Np,P,YY,ovnorm
       real*8 flux,xsec,prob_ee,Lfact,fa,fb,Evis,fscale,theta
-      real*8 probLL,LL(10),LLfact(10)
+      real*8 probLL,LL(10),LLfact(10),tokei(0:4),hokui(0:4)
+      real*8 PP(4)
       external flux,xsec,prob_ee      
 
       error(1) = 0.025d0
@@ -30,7 +31,9 @@ c      fb = z(7)
       YY = z(14)
       mode = z(15)
       theta = z(17)
-      nr = int(z(18))
+      nr = int(abs(z(18)))
+      tokei(0) = z(19)
+      hokui(0) = z(20)
 
       Lfact = 4*pi*(L*1d5)**2
       if (mode.lt.10) then
@@ -38,8 +41,6 @@ c      fb = z(7)
       elseif (mode.lt.20) then
          E = L/x   ! x = L/E{\nu}
       elseif (mode.lt.30) then
-c         Evis = x**2*( 1d0 +fscale/0.02d0*(1.07346d0 -0.0302668d0*x**2 
-c     &        +0.00424563d0*x**4 -0.000201452d0*x**6 -1d0) )
          Evis = ( 1d0 +fscale )*x**2
          E = Evis +0.8d0  ! x = sqrt{E_{vis}}
       endif
@@ -83,6 +84,34 @@ c     &        +0.00424563d0*x**4 -0.000201452d0*x**6 -1d0) )
             probLL = probLL +prob_ee(LL(i)/E,z,error,sign,0,0)/LLfact(i)
          enddo
          hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)*probLL*xsec(E)/dble(nr)
+      elseif (mode.eq.26) then  ! dN/dsqrt(E_{vis})
+c     YongGwang
+         tokei(1) = 126.42d0 
+         hokui(1) = 35.40d0
+         PP(1) = 16.52d0
+c     Kori
+         tokei(2) = 129.28d0
+         hokui(2) = 35.32d0
+         PP(2) = 22.22d0
+c     Wolsong
+         tokei(3) = 129.47d0
+         hokui(3) = 35.70d0
+         PP(3) = 13.38d0 
+c     Ulchin
+         tokei(4) = 129.38d0
+         hokui(4) = 37.08d0
+         PP(4) = 24.36d0
+         
+         call get_Ls_xy(tokei,hokui,nr,LL)
+         do i = 1,nr
+            LLfact(i) = 4*pi*(LL(i)*1d5)**2
+         enddo
+         probLL = 0d0
+         do i = 1,nr
+            probLL = probLL +flux(E,PP(i))
+     &           *prob_ee(LL(i)/E,z,error,sign,0,0)/LLfact(i)
+         enddo
+         hfunc1D = 2*x*ovnorm*Np*YY*probLL*xsec(E)
       elseif (mode.eq.100) then  ! Xsec vs sqrt{E_{vis}}
          hfunc1D = 2000d0
       endif
