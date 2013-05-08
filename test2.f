@@ -10,9 +10,9 @@
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY,ctheta
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
-      character*10 cnreactor,cxx,cyy
+      character*10 cnreactor,cxx,cyy,creactor_mode,creactor_type
       
-      integer iflag,ifixL,ifluc,nreactor
+      integer iflag,ifixL,ifluc,nreactor,reactor_mode,reactor_type
       real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
@@ -52,6 +52,8 @@
       call getarg(16,cnreactor)
       call getarg(17,cxx)
       call getarg(18,cyy)
+      call getarg(19,creactor_mode)
+      call getarg(20,creactor_type)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -70,6 +72,8 @@
       read (cnreactor,*) nreactor
       read (cxx,*) xx
       read (cyy,*) yy
+      read (creactor_mode,*) reactor_mode
+      read (creactor_type,*) reactor_type
 
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
@@ -125,6 +129,8 @@
       zz(40) = nreactor
       zz(41) = xx
       zz(42) = yy
+      zz(43) = reactor_mode
+      zz(44) = reactor_type
 
       call gran_init(time())
 c      call gran_init(200)

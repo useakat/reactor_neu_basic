@@ -71,17 +71,21 @@ C     ----------
       ipos = 0
       sumdat = 0d0
       sumth = 0d0
-      open(41,file="final_bining.dat",status="replace")
+      open(41,file="final_bining_dat.dat",status="replace")
+      open(42,file="final_bining_th.dat",status="replace")
+      open(43,file="final_bining_dchi2.dat",status="replace")
       do i = 1,nbins
          ipos = ipos +1
          sumdat = sumdat +dat(i)
          sumth = sumth +th(i)
          if (ipos.eq.nn) then
             if (sumdat.ge.minevents) then
-               write(41,*) i,sumdat,sumth
+               write(41,*) i,sumdat
+               write(42,*) i,sumth
                final_bins = final_bins + 1
                sgm2 = sumdat
                chi2_2 = chi2_2 + ( sumdat -sumth )**2 / sgm2
+               write(43,*) i,( sumdat -sumth )**2 / sgm2
                ipos = 0
                sumdat = 0d0
                sumth = 0d0
@@ -96,6 +100,8 @@ c     &              ,minevents,"."
             endif
          endif
       enddo
+      close(43)
+      close(42)
       close(41)
       
       chi22 = 0d0

@@ -4,12 +4,12 @@
       
       include 'const.inc'
 
-      integer i
+      integer i,reactor_mode,reactor_type
       integer sign,mode,nr
       real*8 x,z(50),error(10),L,E,loe,Np,P,YY,ovnorm
       real*8 flux,xsec,prob_ee,Lfact,fa,fb,Evis,fscale,theta
-      real*8 probLL,LL(10),LLfact(10),tokei(0:4),hokui(0:4)
-      real*8 PP(4)
+      real*8 probLL,LL(200),LLfact(200),tokei(0:200),hokui(0:200)
+      real*8 PP(200)
       external flux,xsec,prob_ee      
 
       error(1) = 0.025d0
@@ -34,6 +34,8 @@ c      fb = z(7)
       nr = int(abs(z(18)))
       tokei(0) = z(19)
       hokui(0) = z(20)
+      reactor_mode = int(z(21))
+      reactor_type = int(z(22))
 
       Lfact = 4*pi*(L*1d5)**2
       if (mode.lt.10) then
@@ -85,33 +87,10 @@ c      fb = z(7)
          enddo
          hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)*probLL*xsec(E)/dble(nr)
       elseif (mode.eq.26) then  ! dN/dsqrt(E_{vis})
-c     YongGwang
-         tokei(1) = 126.42d0 
-         hokui(1) = 35.40d0
-         PP(1) = 16.52d0
-c     Kori
-         tokei(2) = 129.28d0
-         hokui(2) = 35.32d0
-         PP(2) = 22.22d0
-c     Wolsong
-         tokei(3) = 129.47d0
-         hokui(3) = 35.70d0
-         PP(3) = 13.38d0 
-c     Ulchin
-         tokei(4) = 129.38d0
-         hokui(4) = 37.08d0
-         PP(4) = 24.36d0
-         
-         call get_Ls_xy(tokei,hokui,nr,LL)
-         do i = 1,nr
-            LLfact(i) = 4*pi*(LL(i)*1d5)**2
-         enddo
-         probLL = 0d0
-         do i = 1,nr
-            probLL = probLL +flux(E,PP(i))
-     &           *prob_ee(LL(i)/E,z,error,sign,0,0)/LLfact(i)
-         enddo
-         hfunc1D = 2*x*ovnorm*Np*YY*probLL*xsec(E)
+         include 'inc/set_reactors.inc'
+         call get_Ls_xy(tokei,hokui,nr,LL,reactor_mode,reactor_type)
+         include 'inc/get_probLL.inc'
+         hfunc1D = 2*x*ovnorm*Np*YY*2.8*probLL*xsec(E)
       elseif (mode.eq.100) then  ! Xsec vs sqrt{E_{vis}}
          hfunc1D = 2000d0
       endif

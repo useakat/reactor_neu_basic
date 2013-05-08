@@ -13,6 +13,8 @@ theta=${11}
 nreactor=${12}
 xx=${13}
 yy=${14}
+reactor_mode=${15}
+reactor_type=${16}
 
 selfdir=$(cd $(dirname $0);pwd)
 

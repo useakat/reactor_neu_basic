@@ -13,14 +13,20 @@ if [[ $1 = "" ]]; then
     read Eres
     echo "input non-linear energy resolution [%]"
     read Eres_nl
+    echo "reactor_mode"
+    read reactor_mode
+    echo "reactor_type"
+    read reactor_type
     echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2 4:Free Analysis"
     read run_mode  
 else
     run=$1
     Eres=$2
     Eres_nl=$3
-    run_mode=$4
-    plot_run_mode=$5
+    reactor_mode=$4
+    reactor_type=$5
+    run_mode=$6
+    plot_run_mode=$7
 fi    
 P=16.52 # YongGwang
 V=5
@@ -36,6 +42,8 @@ theta=0
 nreactor=0
 xx=130
 yy=34
+#reactor_mode=0
+#reactor_type=0
 if [ ${run_mode} -eq 10 ]; then
     ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
     exit
@@ -391,6 +399,8 @@ if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (pa
     Eres=2
     Eres_nl=0.5
     nreactor=-4
+#    reactor_mode=1  # 0:averaged over reactors 1:individusl reactors
+#    reactor_type=1  # 0:Currently operating reactors 1:include planned reactors
     source dchi2_multi_korea_parallel.sh
 #    ./dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}
 fi

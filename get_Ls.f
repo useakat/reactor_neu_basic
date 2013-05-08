@@ -52,7 +52,7 @@ C     ----------
       end
 
 
-      subroutine get_Ls_xy(xx,yy,n,LL)
+      subroutine get_Ls_xy(xx,yy,n,LL,reactor_mode,reactor_type)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS MAY 1 2013
 C     ****************************************************
@@ -60,8 +60,8 @@ C     ****************************************************
 C     GLOBAL VARIABLES
 C     CONSTANTS
 C     ARGUMENTS 
-      integer n
-      real*8 xx(0:n),yy(0:n),LL(n)
+      integer n,reactor_mode,reactor_type
+      real*8 xx(0:200),yy(0:200),LL(200)
 C     LOCAL VARIABLES 
       integer i
       real*8 xy2d
@@ -70,9 +70,66 @@ C     EXTERNAL FUNCTIONS
 C     ----------
 C     BEGIN CODE
 C     ----------      
-      do i = 1,n
-         LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
-      enddo
+      if (reactor_mode.eq.0) then
+         do i = 1,n
+            LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+         enddo
+      elseif(reactor_mode.eq.1) then
+         if (reactor_type.eq.0) then
+            if (n.ge.1) then
+               do i = 11,16
+c               do i = 1,1
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+            if (n.ge.2) then
+               do i = 21,26
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+            if (n.ge.3) then
+               do i = 31,35
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+            if (n.ge.4) then
+               do i = 41,46
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+         elseif (reactor_type.eq.1) then
+            if (n.ge.1) then
+               do i = 11,16
+c               do i = 1,1
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+            if (n.ge.2) then
+               do i = 21,26
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+               do i = 121,124
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+            if (n.ge.3) then
+               do i = 31,35
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+               do i = 131,131
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+            if (n.ge.4) then
+               do i = 41,46
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+               do i = 141,144
+                  LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
+               enddo
+            endif
+         endif
+      endif
 
       return
       end

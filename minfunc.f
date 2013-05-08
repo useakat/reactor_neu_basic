@@ -72,6 +72,8 @@ c      z_dat(15) = 100                   ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(fl
       z_dat(18) = zz(40)
       z_dat(19) = zz(41)
       z_dat(20) = zz(42)
+      z_dat(21) = zz(43)
+      z_dat(22) = zz(44)
 
       z(11) = zz(36)*z_dat(11)              
 c      z(11) = z_dat(11)
@@ -84,6 +86,8 @@ c      z(11) = z_dat(11)
       z(18) = z_dat(18)
       z(19) = z_dat(19)
       z(20) = z_dat(20)
+      z(21) = z_dat(21)
+      z(22) = z_dat(22)
 
       serror = zz(32)
       snmax = zz(33)
