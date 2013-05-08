@@ -3,7 +3,6 @@
 
     touch dchi2_multi_nh_${Eres}_${Eres_nl}.dat
     touch dchi2_multi_ih_${Eres}_${Eres_nl}.dat
-    command="../dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}"
 
     idiv=30
     d=`divide.sh 3.141 $idiv 5`

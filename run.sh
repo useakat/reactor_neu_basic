@@ -371,8 +371,8 @@ if [ ${run_mode} -eq 5 ]; then  # Free analysis (parallel)
     que=l
 
     if [ 1 -eq 1 ];then
-	source dchi2_error_parallel.sh
-#	source dchi2_e.sh
+#	source dchi2_error_parallel.sh
+	source dchi2_binsize_parallel.sh
     fi
     
 fi
