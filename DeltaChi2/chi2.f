@@ -43,7 +43,7 @@ c            stop
       end
 
 
-      real*8 function chi2_2(nout,dat,th,nbins,nparm,parm,parm0,error)
+      real*8 function chi2_2(nout,dat,th,x,nbins,nparm,parm,parm0,error)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS AUG 27 2012
 C
@@ -55,6 +55,7 @@ C     ARGUMENTS
       integer nbins,nmin,nout,nparm,minevents
       parameter (minevents=10)
       real*8 dat(nbins),th(nbins),parm(nparm),parm0(nparm),error(nparm)
+      real*8 x(0:20000)
 C     LOCAL VARIABLES 
       integer i,nn,ipos
       real*8 sgm2,chi22,sumdat,sumth
@@ -80,12 +81,12 @@ C     ----------
          sumth = sumth +th(i)
          if (ipos.eq.nn) then
             if (sumdat.ge.minevents) then
-               write(41,*) i,sumdat
-               write(42,*) i,sumth
+               write(41,*) x(i),sumdat
+               write(42,*) x(i),sumth
                final_bins = final_bins + 1
                sgm2 = sumdat
                chi2_2 = chi2_2 + ( sumdat -sumth )**2 / sgm2
-               write(43,*) i,( sumdat -sumth )**2 / sgm2
+               write(43,*) x(i),( sumdat -sumth )**2 / sgm2
                ipos = 0
                sumdat = 0d0
                sumth = 0d0

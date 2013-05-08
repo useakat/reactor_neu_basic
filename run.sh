@@ -28,7 +28,8 @@ else
     run_mode=$6
     plot_run_mode=$7
 fi    
-P=16.52 # YongGwang
+#P=16.52 # YongGwang
+P=20
 V=5
 R=0.12
 Y=5
@@ -42,8 +43,8 @@ theta=0
 nreactor=0
 xx=130
 yy=34
-#reactor_mode=0
-#reactor_type=0
+reactor_mode=0
+reactor_type=0
 if [ ${run_mode} -eq 10 ]; then
     ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
     exit
@@ -61,7 +62,7 @@ run_dir=rslt_${run}
 defout=${run_dir}/summary.txt
 
 if [ -e ${run_dir} ]; then
-#    rm -rf ${run_dir}/*
+    rm -rf ${run_dir}/*
     echo "run directory exists."
 else
     mkdir ${run_dir}
@@ -247,11 +248,12 @@ if [ 1 -eq 1 ];then # dchi2 evaluation for a parameter set
     maxL_nh=50
     maxL_ih=${maxL_nh}
     Eres=2
-    Eres_nl=0
-    binsize=0.005
+    Eres_nl=0.5
+    binsize=2
     output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
     touch ${output}
     source dchi2_dist_onepoint.sh
+    cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
 fi
 
 if [ 0 -eq 1 ];then    
@@ -370,10 +372,12 @@ if [ ${run_mode} -eq 5 ]; then  # Free analysis (parallel)
 
     if [ 1 -eq 1 ];then
 	source dchi2_error_parallel.sh
+#	source dchi2_e.sh
     fi
+    
 fi
 
-if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis for YongGwang (parallel)
+if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis in the polar cordinate (parallel)
     job_system=bsub
     que=l
 
@@ -385,7 +389,6 @@ if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis for YongGwang (parallel
     Eres_nl=0.5
     nreactor=6
     source dchi2_multi_parallel.sh
-#    ./dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}
 fi
 
 if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (parallel)
@@ -399,10 +402,7 @@ if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (pa
     Eres=2
     Eres_nl=0.5
     nreactor=-4
-#    reactor_mode=1  # 0:averaged over reactors 1:individusl reactors
-#    reactor_type=1  # 0:Currently operating reactors 1:include planned reactors
     source dchi2_multi_korea_parallel.sh
-#    ./dchi2_multi.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor}
 fi
 
 mv *.dat data/.

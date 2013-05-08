@@ -77,7 +77,8 @@
 
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
-      s213_2(1) = 0.089d0
+c      s213_2(1) = 0.089d0
+      s213_2(1) = 0.092d0
       s213_2(2) = 0.005d0
       dm21_2(1) = 7.50d-5
       dm21_2(2) = 0.20d-5
@@ -192,7 +193,6 @@ c      call gran_init(200)
                   if (zz(2).eq.1) zz(1) = Lmin
                   if (zz(2).eq.-1) zz(1) = Lmax
                endif
-               write(*,*) zz(1),"[km]"               
                write(19,*) zz(1),"[km]"               
                call mninit(5,20,7)
                
