@@ -368,7 +368,8 @@ fi
 
 if [ ${run_mode} -eq 5 ]; then  # Free analysis (parallel)
     job_system=bsub
-    que=l
+#    que=l
+    que=e
 
     if [ 1 -eq 1 ];then
 #	source dchi2_error_parallel.sh

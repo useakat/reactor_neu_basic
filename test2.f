@@ -77,8 +77,7 @@
 
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
-c      s213_2(1) = 0.089d0
-      s213_2(1) = 0.092d0
+      s213_2(1) = 0.089d0
       s213_2(2) = 0.005d0
       dm21_2(1) = 7.50d-5
       dm21_2(2) = 0.20d-5
@@ -233,7 +232,7 @@ c               dchisqmin = chisqmin_true
      &                 ,ierr)
                enddo
 
-               if (ifixL.eq.1) write(25,*) dchisqmin
+               if (ifixL.eq.1) write(25,*) dchisqmin,nbins
                if (ifixL.eq.1) write(26,'(e22.15,1x,e12.5)') sensitivity,dchisqmin
                if (nreactor.ge.1) then
                   write(27,*) theta,zz(1),dchisqmin

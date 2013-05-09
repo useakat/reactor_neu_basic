@@ -20,7 +20,7 @@ c         include 'bining_dx.inc'
      &        ,nevent_dat,ierr1) 
 c         call smearing(event_dat,nbins,rdx,Eres,event2_dat)         
 c         call smearing_nl(event_dat,x,nbins,rdx,Eres,Eres_nl,event2_dat)         
-         call smearing_nl2(event_dat,x,nbins,Eres,Eres_nl,event2_dat)         
+c         call smearing_nl2(event_dat,x,nbins,Eres,Eres_nl,event2_dat)         
         
          call MakeHisto1D(nout,hfunc1D,z,nevent,nbins,x
      &        ,evform_th,serror,snmax,hmode,event_th,hevent_th
@@ -29,7 +29,7 @@ c         call smearing(event_th,nbins,rdx,Eres,event2_th)
          EEres = Eres*z(7)
          EEres_nl = Eres_nl*z(8)
 c         call smearing_nl(event_th,x,nbins,rdx,EEres,EEres_nl,event2_th)         
-         call smearing_nl2(event_th,x,nbins,EEres,EEres_nl,event2_th)         
+c         call smearing_nl2(event_th,x,nbins,EEres,EEres_nl,event2_th)         
 
 c            dchisq = dchi2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
 c     &           ,error)  
@@ -40,8 +40,8 @@ c         do i = 1,nbins
 c            write(19,*) i,event_dat(i),event_th(i)
 c         enddo
 c         write(19,*)
-            chisq_wrong = chi2_2(nout,event2_dat,event2_th,x,nbins,npar,z
-c            chisq_wrong = chi2_2(nout,event_dat,event_th,x,nbins,npar,z
+c            chisq_wrong = chi2_2(nout,event2_dat,event2_th,x,nbins,npar,z
+            chisq_wrong = chi2_2(nout,event_dat,event_th,x,nbins,npar,z
      &        ,z_dat,error)  
 c            write(6,*) npar
 c            write(6,*) z(1),z(2),z(3),z(4),z(5),z(6),z(7)
