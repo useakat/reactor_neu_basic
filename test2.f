@@ -77,7 +77,8 @@
 
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
-      s213_2(1) = 0.089d0
+c      s213_2(1) = 0.089d0 ! latest Dyabay result
+      s213_2(1) = 0.10d0 ! latest RENO result
       s213_2(2) = 0.005d0
       dm21_2(1) = 7.50d-5
       dm21_2(2) = 0.20d-5
@@ -96,7 +97,6 @@
       Emax = 8d0
       serror = 1d-4
       snmax = 10
-      if (ifixL.eq.1) ndiv = 0
 
       zz(10) = s2sun_2(1)
       zz(11) = s2sun_2(2)
@@ -219,8 +219,8 @@ c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
                call mnstat(chisqmin_wrong,fedm,errdef,npari,nparx,istat)
 
-               dchisqmin = chisqmin_wrong -chisqmin_true
-c               dchisqmin = chisqmin_true
+c               dchisqmin = chisqmin_wrong -chisqmin_true
+               dchisqmin = chisqmin_true
                if (dchisqmin.gt.0d0) then
                   sensitivity = SigmaProb(dsqrt(dchisqmin))
                else

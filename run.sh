@@ -28,11 +28,11 @@ else
     run_mode=$6
     plot_run_mode=$7
 fi    
-#P=16.52 # YongGwang
-P=20
+P=16.52 # YongGwang
+#P=20
 V=5
 R=0.12
-Y=5
+Y=10
 Lmin=10
 Lmax=100
 ndiv=100
@@ -151,11 +151,11 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 fi
 
 if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
-    switch1=0  # Fig.4 & 5
-    switch2=0  # Fig.6
-    switch3=0  # Fig.7
+    switch1=1  # Fig.4 & 5
+    switch2=1  # Fig.6
+    switch3=1  # Fig.7
     switch4=0  # Fig.2 & 3 
-    switch5=1  # parameter error
+    switch5=0  # parameter error
 
 # chi2 fitting
     mode=0
@@ -244,7 +244,19 @@ fi
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
 
-if [ 1 -eq 1 ];then # dchi2 evaluation for a parameter set
+if [ 1 -eq 1 ];then # dchi2 distribution
+    maxL_nh=50
+    maxL_ih=${maxL_nh}
+    Eres=3
+    Eres_nl=0.75
+    binsize=0.005
+    output=dchi2_dist2_nh_${Eres}_${Eres_nl}.dat
+    touch ${output}
+    source dchi2_dist_onepoint.sh
+    cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
+fi
+
+if [ 0 -eq 1 ];then # dchi2 evaluation for a parameter set
     maxL_nh=50
     maxL_ih=${maxL_nh}
     Eres=2
@@ -394,13 +406,13 @@ fi
 
 if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (parallel)
     job_system=bsub
-    que=l
+    que=e
 
     mode=0
     maxL_nh=50
     maxL_ih=${maxL_nh}
-    binsize=0.005
-    Eres=2
+    binsize=0.0025
+    Eres=3
     Eres_nl=0.5
     nreactor=-4
     source dchi2_multi_korea_parallel.sh

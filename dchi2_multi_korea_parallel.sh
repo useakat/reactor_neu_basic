@@ -4,26 +4,26 @@
     touch dchi2_multi_korea_nh_${Eres}_${Eres_nl}.dat
     touch dchi2_multi_korea_ih_${Eres}_${Eres_nl}.dat
 
-#    xxmin=125.8
-#    xxmax=130
-#    yymin=34
-#    yymax=38
+    xxmin=125.8
+    xxmax=130
+    yymin=34
+    yymax=38
 
 #    xxmin=125.8
 #    xxmax=128
 #    yymin=34
 #    yymax=36.5
 
-    xxmin=126.8
-    xxmax=126.8
-    yymin=35
-    yymax=35
+    # xxmin=126.8
+    # xxmax=126.8
+    # yymin=35
+    # yymax=35
 
     dxx=`echo "scale=5; $xxmax - $xxmin" | bc`
     dyy=`echo "scale=5; $yymax - $yymin" | bc`
 
-    idivx=0
-    idivy=0
+    idivx=40
+    idivy=40
     if [ $idivx -ne 0 ];then
 	ddxx=`divide.sh $dxx $idivx 5`
 	ddyy=`divide.sh $dyy $idivy 5`
