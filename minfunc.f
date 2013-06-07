@@ -102,9 +102,10 @@ c      z(11) = z_dat(11)
       rdx = zz(38)
       nnbins = 1000
 
+      multi_flag = 0
+
 CCCCCCCCCCCCCCCCCCCCCCCC  For Delta Chi^2 minimization  CCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCCCCC 
-
       if (imode.eq.0) then 
          if (zz(40).ge.1) then
             multi_flag = 1 ! YongGwang reactors

@@ -1,38 +1,18 @@
 #!/bin/bash
 if [[ "$1" == "-h" ]]; then
     echo ""
-    echo "Usage: run.sh [run_name] [Eres] [Eres_nl] [run mode] (plot_run_mode)"
+    echo "Usage: run.sh [run_name] [run_mode] [Eres] [Eres_nl] [reactor mode] [reactor type] (plot_run_mode)"
     echo ""
     exit
 fi
-
-if [[ $1 = "" ]]; then
-    echo "input run name"
-    read run
-    echo "input energy resolution [%]"
-    read Eres
-    echo "input non-linear energy resolution [%]"
-    read Eres_nl
-    echo "reactor_mode"
-    read reactor_mode
-    echo "reactor_type"
-    read reactor_type
-    echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:del-chi2 4:Free Analysis"
-    read run_mode  
-else
-    run=$1
-    Eres=$2
-    Eres_nl=$3
-    reactor_mode=$4
-    reactor_type=$5
-    run_mode=$6
-    plot_run_mode=$7
-fi    
-P=16.52 # YongGwang
-#P=20
+selfdir=$(cd $(dirname $0);pwd)
+run=test
+run_mode=4
+#P=16.52 # YongGwang
+P=20
 V=5
 R=0.12
-Y=10
+Y=5
 Lmin=10
 Lmax=100
 ndiv=100
@@ -45,6 +25,43 @@ xx=130
 yy=34
 reactor_mode=0
 reactor_type=0
+if [[ $1 = "h" ]]; then
+    echo "input run name"
+    read run
+    echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:dchi2 4:Free Analysis"
+    read run_mode  
+    echo "input energy resolution [%]"
+    read Eres
+    echo "input non-linear energy resolution [%]"
+    read Eres_nl
+    echo "reactor_mode"
+    read reactor_mode
+    echo "reactor_type"
+    read reactor_type
+else
+    if [ $# -ge 1 ];then
+	run=$1
+    fi
+    if [ $# -ge 2 ];then
+	run_mode=$2
+    fi
+    if [ $# -ge 3 ];then
+	Eres=$3
+    fi
+    if [ $# -ge 4 ];then
+	Eres_nl=$4
+    fi
+    if [ $# -ge 5 ];then
+	reactor_mode=$5
+    fi
+    if [ $# -ge 6 ];then
+	reactor_type=$6
+    fi
+    if [ $# -ge 7 ];then
+	plot_run_mode=$7
+    fi
+fi    
+
 if [ ${run_mode} -eq 10 ]; then
     ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
     exit
@@ -161,7 +178,7 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
     mode=0
     ifluc=0
     ifixL=0
-#    binsize=0.0
+    binsize=0.0025d0
 
     if [ ${switch1} -eq 1 ]; then 
 	Eres=0
@@ -203,7 +220,6 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 
     if [ ${switch3} -eq 1 ]; then 
 	Eres=3
-#	binsize=0.03
 	Eres_nl=0.5
 	source dchi2_fitting_Eresnl.sh
 	Eres_nl=0.75
@@ -244,35 +260,38 @@ fi
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
 
-if [ 1 -eq 1 ];then # dchi2 distribution
-    maxL_nh=50
-    maxL_ih=${maxL_nh}
-    Eres=3
-    Eres_nl=0.75
-    binsize=0.005
-    output=dchi2_dist2_nh_${Eres}_${Eres_nl}.dat
-    touch ${output}
-    source dchi2_dist_onepoint.sh
-    cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
-fi
-
-if [ 0 -eq 1 ];then # dchi2 evaluation for a parameter set
-    maxL_nh=50
-    maxL_ih=${maxL_nh}
-    Eres=2
-    Eres_nl=0.5
-    binsize=2
-    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
-    touch ${output}
-    source dchi2_dist_onepoint.sh
-    cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
-fi
-
-if [ 0 -eq 1 ];then    
+    if [ 0 -eq 1 ];then fluctuation study 
+	ifixL=1
+	ifluc=1
+	ndiv=100
+	maxL_nh=50
+	maxL_ih=${maxL_nh}
+	Eres=3
+	Eres_nl=0.75
+	binsize=0.005
+	output=dchi2_fluc_nh_${Eres}_${Eres_nl}.dat
+	touch ${output}
+	source ${selfdir}/dchi2_fitting_Eresnl.sh
+	cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
+    fi
+    
+    if [ 0 -eq 1 ];then # binsize study
+	maxL_nh=50
+	maxL_ih=${maxL_nh}
+	Eres=3
+	Eres_nl=0.75
+	binsize=2
+	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	touch ${output}
+	source dchi2_dist_onepoint.sh
+	cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
+    fi
+    
+    if [ 0 -eq 1 ];then # binsize study
 #    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
 #    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
-    maxL_nh=50
-    maxL_ih=50
+	maxL_nh=50
+	maxL_ih=50
     # Y=0.3125
     # source dchi2_dist_error_only.sh
     # Y=0.555
@@ -283,36 +302,36 @@ if [ 0 -eq 1 ];then
     # source dchi2_dist_error_only.sh
 #    Y=5
 #    source dchi2_dist_error_only.sh
-    Eres=6
-    Eres_nl=0
-    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
-    touch ${output}
-    source binsize_points.sh
-
-    Eres=2
-    Eres_nl=0
-    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
-    touch ${output}
-    source binsize_points.sh
-
-    Eres=3
-    Eres_nl=0
-    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
-    touch ${output}
-    source binsize_points.sh
-
-    Eres=4
-    Eres_nl=0
-    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
-    touch ${output}
-    source binsize_points.sh
-
-    Eres=5
-    Eres_nl=0
-    output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
-    touch ${output}
-    source binsize_points.sh
-
+	Eres=6
+	Eres_nl=0
+	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	touch ${output}
+	source binsize_points.sh
+	
+	Eres=2
+	Eres_nl=0
+	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	touch ${output}
+	source binsize_points.sh
+	
+	Eres=3
+	Eres_nl=0
+	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	touch ${output}
+	source binsize_points.sh
+	
+	Eres=4
+	Eres_nl=0
+	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	touch ${output}
+	source binsize_points.sh
+	
+	Eres=5
+	Eres_nl=0
+	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	touch ${output}
+	source binsize_points.sh
+	
     # binsize=0.00125
     # source dchi2_dist_onepoint.sh
     # cat dchi2_dist_nh.dat >> ${output}
@@ -324,58 +343,7 @@ if [ 0 -eq 1 ];then
 #    source dchi2_dist_error_only.sh
 #    Y=80
 #    source dchi2_dist_error_only.sh
-fi
-
-if [ 0 -eq 1 ];then
-   Eres=3
-   Eres_nl=0.75
-   touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
-   touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
-   maxL_nh=50
-   maxL_ih=50
-    Y=0.555
-    source dchi2_dist_error_only.sh
-    Y=1.25
-    source dchi2_dist_error_only.sh
-    Y=5
-    source dchi2_dist_error_only.sh
-    Y=20
-    source dchi2_dist_error_only.sh
-    Y=45
-    source dchi2_dist_error_only.sh
-    Y=80
-    source dchi2_dist_error_only.sh
-    Y=125
-    source dchi2_dist_error_only.sh
-fi
-
-    # Eres=2
-    # Eres_nl=0
-    # source dchi2_dist_error.sh
-    # Eres_nl=0.5
-    # source dchi2_dist_error.sh
-    # Eres_nl=0.75
-    # source dchi2_dist_error.sh
-    # Eres_nl=1
-    # source dchi2_dist_error.sh
-    # Eres=3
-    # Eres_nl=0
-    # source dchi2_dist_error.sh
-    # Eres_nl=0.5
-    # source dchi2_dist_error.sh
-    # Eres_nl=0.75
-    # source dchi2_dist_error.sh
-    # Eres_nl=1
-    # source dchi2_dist_error.sh
-    # Eres=4
-    # Eres_nl=0
-    # source dchi2_dist_error.sh
-    # Eres=5
-    # Eres_nl=0
-    # source dchi2_dist_error.sh
-    # Eres=6
-    # Eres_nl=0
-    # source dchi2_dist_error.sh
+    fi
 fi
 
 if [ ${run_mode} -eq 5 ]; then  # Free analysis (parallel)
@@ -387,7 +355,6 @@ if [ ${run_mode} -eq 5 ]; then  # Free analysis (parallel)
 #	source dchi2_error_parallel.sh
 	source dchi2_binsize_parallel.sh
     fi
-    
 fi
 
 if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis in the polar cordinate (parallel)

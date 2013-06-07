@@ -10,14 +10,14 @@
       real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY,ctheta
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
-      character*10 cnreactor,cxx,cyy,creactor_mode,creactor_type
-      
+      character*10 cnreactor,cxx,cyy,creactor_mode,creactor_type      
       integer iflag,ifixL,ifluc,nreactor,reactor_mode,reactor_type
       real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
       real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize,theta
-      real*8 xx,yy
+      real*8 xx,yy,dchi_rej,dchi_acc
+      integer ndetermined,nmissed
 
       real*8 zz(50)
       common /zz/ zz
@@ -77,15 +77,60 @@
 
       s2sun_2(1) = 0.857d0
       s2sun_2(2) = 0.024d0
-c      s213_2(1) = 0.089d0 ! latest Dyabay result
-      s213_2(1) = 0.10d0 ! latest RENO result
+c      s2sun_2(2) = 0.77d-2 ! 1yr
+c      s2sun_2(2) = 0.46d-2 ! 2yr
+c      s2sun_2(2) = 0.32d-2 ! 3yr
+c      s2sun_2(2) = 0.24d-2 ! 4yr
+c      s2sun_2(2) = 0.59d-2 ! 1-2yr
+c      s2sun_2(2) = 0.50d-2 ! 1-3yr
+c      s2sun_2(2) = 0.53d-2 ! 2-2yr
+c      s2sun_2(2) = 0.42d-2 ! 3-3yr
+c      s2sun_2(2) = 0.36d-2 ! 4-4yr
+c      s213_2(1) = 0.10d0 ! latest RENO result
+      s213_2(1) = 0.089d0 ! latest Dyabay result
       s213_2(2) = 0.005d0
+c      s213_2(2) = 0.5d-2 ! 1yr
+c      s213_2(2) = 0.49d-2 ! 2yr
+c      s213_2(2) = 0.48d-2 ! 3yr
+c      s213_2(2) = 0.46d-2 ! 4yr
+c      s213_2(2) = 0.49d-2 ! 1-2yr
+c      s213_2(2) = 0.49d-2 ! 1-3yr
+c      s213_2(2) = 0.50d-2 ! 2-2yr
+c      s213_2(2) = 0.49d-2 ! 3-3yr
+c      s213_2(2) = 0.48d-2 ! 4-4yr
       dm21_2(1) = 7.50d-5
       dm21_2(2) = 0.20d-5
+c      dm21_2(2) = 0.61d-6  ! 1yr
+c      dm21_2(2) = 0.36d-6  ! 2yr
+c      dm21_2(2) = 0.26d-6  ! 3yr
+c      dm21_2(2) = 0.20d-6  ! 4yr
+c      dm21_2(2) = 0.45d-6  ! 1-2yr
+c      dm21_2(2) = 0.37d-6  ! 1-3yr
+c      dm21_2(2) = 0.44d-6  ! 2-2yr
+c      dm21_2(2) = 0.36d-6  ! 3-3yr
+c      dm21_2(2) = 0.31d-6  ! 4-4yr
       dm31_2(1) = 2.32d-3
       dm31_2(2) = 0.1d-3
+c      dm31_2(2) = 0.18d-4  ! 1yr
+c      dm31_2(2) = 0.10d-4  ! 2yr
+c      dm31_2(2) = 0.72d-5  ! 3yr
+c      dm31_2(2) = 0.57d-5  ! 4yr
+c      dm31_2(2) = 0.12d-4  ! 1-2yr
+c      dm31_2(2) = 0.10d-4  ! 1-3yr
+c      dm31_2(2) = 0.13d-4  ! 2-2yr
+c      dm31_2(2) = 0.11d-4  ! 3-3yr
+c      dm31_2(2) = 0.95d-5  ! 4-4yr
       ovnorm(1) = 1d0
       ovnorm(2) = 0.03d0
+c      ovnorm(2) = 0.021d0 !1yr
+c      ovnorm(2) = 0.014d0  ! 2yr
+c      ovnorm(2) = 0.98d-2  ! 3yr
+c      ovnorm(2) = 0.74d-2  ! 4yr
+c      ovnorm(2) = 0.17d-1  ! 1-2yr
+c      ovnorm(2) = 0.15d-1  ! 1-3yr
+c      ovnorm(2) = 0.16d-1  ! 2-2yr
+c      ovnorm(2) = 0.13d-1  ! 3-3yr
+c      ovnorm(2) = 0.11d-1  ! 4-4yr
       fa(1) = 1d0
       fa(2) = 0.1d0
       fb(1) = 1d0
@@ -164,6 +209,7 @@ c      call gran_init(200)
 
       if (mode.eq.0) then
          do k = 1,-1,-2
+c         do k = 1,1
             zz(2) = k
             if (k.eq.1) then
                open(20,file='minorm_nh.dat',status='replace')
@@ -173,6 +219,7 @@ c      call gran_init(200)
                open(25,file='dchi2_dist_nh.dat',status='replace')
                open(26,file='sensitivity_dist_nh.dat',status='replace')
                open(27,file='dchi2_multi_nh.dat',status='replace')
+               open(28,file='dchi2_prob_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
@@ -182,8 +229,12 @@ c      call gran_init(200)
                open(25,file='dchi2_dist_ih.dat',status='replace')
                open(26,file='sensitivity_dist_ih.dat',status='replace')
                open(27,file='dchi2_multi_ih.dat',status='replace')
+               open(28,file='dchi2_prob_nh.dat',status='replace')
                write(19,*) "<IH case>"
             endif
+            ndetermined = 0
+            nmissed = 0
+
             do j = 0,ndiv
                ifirst = 0
                if (ifixL.eq.0) then
@@ -219,13 +270,44 @@ c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
                call mnstat(chisqmin_wrong,fedm,errdef,npari,nparx,istat)
 
-c               dchisqmin = chisqmin_wrong -chisqmin_true
-               dchisqmin = chisqmin_true
-               if (dchisqmin.gt.0d0) then
-                  sensitivity = SigmaProb(dsqrt(dchisqmin))
-               else
-                  sensitivity = 0d0
+               dchisqmin = chisqmin_wrong -chisqmin_true
+c               dchisqmin = chisqmin_true
+
+               if (0.eq.1) then
+                  if (chisqmin_true.lt.chisqmin_wrong) then
+                     dchi_rej = 2.85517d0
+c                     dchi_rej = 6.62873d0
+                     dchi_acc = -2.8517d0
+                     if (chisqmin_true/nbins.lt.2) then
+                        if (dchisqmin.gt.dchi_rej) then
+                           if (dchisqmin.gt.dchi_acc) then
+                              ndetermined = ndetermined +1
+                              write(28,*) ndetermined,dchisqmin
+     &                             ,chisqmin_true/nbins,chisqmin_wrong/nbins
+                           endif
+                        endif
+                     endif
+                  else
+                     dchi_rej = -2.85517d0
+c                     dchi_rej = -6.62873d0
+                     dchi_acc = 2.8517d0
+                     if (chisqmin_wrong/nbins.lt.2) then
+                        if (dchisqmin.gt.dchi_rej) then
+                           if (dchisqmin.gt.dchi_acc) then
+                              nmissed = nmissed +1
+                              write(28,*) nmissed,dchisqmin
+     &                             ,chisqmin_true/nbins,chisqmin_wrong/nbins
+                           endif
+                        endif
+                     endif
+                  endif
                endif
+
+c$$$               if (dchisqmin.gt.0d0) then
+c$$$                  sensitivity = SigmaProb(dsqrt(dchisqmin))
+c$$$               else
+c$$$                  sensitivity = 0d0
+c$$$               endif
 
                do i = 1,nparx
                   call mnpout(i,name(i),pval(i),perr(i),plo(i),phi(i)
@@ -290,7 +372,7 @@ c               endif
             enddo
             write(19,*) ""
             write(19,*) ""           
-
+            write(28,*) ndetermined/dble(ndiv),nmissed/dble(ndiv) 
          enddo
          close(19)
          close(20)
@@ -300,40 +382,42 @@ c               endif
          close(25)
          close(26)
          close(27)
+         close(28)
 
          if (ifixL.eq.1) then
-            open(1,file="dchi2_dist_nh.dat",status="old")
-            call get_mean_error(1,99,mean_dchi2min_nh,error_nh
-     &           ,mean_error_nh,error_error_nh)
-            close(1)
-            open(1,file="dchi2_dist_ih.dat",status="old")
-            call get_mean_error(1,99,mean_dchi2min_ih,error_ih
-     &           ,mean_error_ih,error_error_ih)
-            close(1)
-            open(1,file="dchi2_error_nh.dat",status="replace")
-           write(1,*) Lmin,mean_dchi2min_nh,error_nh,mean_error_nh,error_error_nh
-            close(1)
-            open(1,file="dchi2_error_ih.dat",status="replace")
-           write(1,*) Lmin,mean_dchi2min_ih,error_ih,mean_error_ih,error_error_ih
-            close(1)
-
-            open(1,file="sensitivity_dist_nh.dat",status="old")
-            call get_mean_error(1,99,mean_nh,error_nh,mean_error_nh
-     &           ,error_error_nh)
-            close(1)
-            open(1,file="sensitivity_dist_ih.dat",status="old")
-            call get_mean_error(1,99,mean_ih,error_ih,mean_error_ih
-     &           ,error_error_ih)
-            close(1)
-            open(1,file="sensitivity_error_nh.dat",status="replace")
-           write(1,*) mean_dchi2min_nh,mean_nh,error_nh,mean_error_nh,error_error_nh
-            close(1)
-            open(1,file="sensitivity_error_ih.dat",status="replace")
-           write(1,*) mean_dchi2min_ih,mean_ih,error_ih,mean_error_ih,error_error_ih
-            close(1)
-c            write(6,*) "stat"
-c            write(6,*) "nh", mean_nh,error_nh
-c            write(6,*) "ih", mean_ih,error_ih
+            if (zz(2).eq.1) then
+               open(1,file="dchi2_dist_nh.dat",status="old")
+               call get_mean_error(1,99,mean_dchi2min_nh,error_nh
+     &              ,mean_error_nh,error_error_nh)
+               close(1)
+               open(1,file="dchi2_error_nh.dat",status="replace")
+               write(1,*) Lmin,mean_dchi2min_nh,error_nh,mean_error_nh,error_error_nh
+               close(1)
+               open(1,file="sensitivity_dist_nh.dat",status="old")
+               call get_mean_error(1,99,mean_nh,error_nh,mean_error_nh
+     &              ,error_error_nh)
+               close(1)
+               open(1,file="sensitivity_error_nh.dat",status="replace")
+               write(1,*) mean_dchi2min_nh,mean_nh,error_nh,mean_error_nh,error_error_nh
+               close(1)
+            elseif (zz(2).eq.-1) then
+               open(1,file="dchi2_dist_ih.dat",status="old")
+               call get_mean_error(1,99,mean_dchi2min_ih,error_ih
+     &              ,mean_error_ih,error_error_ih)
+               close(1)
+               open(1,file="dchi2_error_ih.dat",status="replace")
+               write(1,*) Lmin,mean_dchi2min_ih,error_ih,mean_error_ih,error_error_ih
+               close(1)
+               open(1,file="sensitivity_dist_ih.dat",status="old")
+               call get_mean_error(1,99,mean_ih,error_ih,mean_error_ih
+     &              ,error_error_ih)
+               close(1)
+               open(1,file="sensitivity_error_ih.dat",status="replace")
+               write(1,*) mean_dchi2min_ih,mean_ih,error_ih,mean_error_ih,error_error_ih
+               close(1)
+            else 
+               write(*,*) "ERROR:test2.f:Invalid zz(2)"
+            endif
          endif
 
       elseif (mode.eq.1) then ! For F vs. dsqrt(E) distribution
