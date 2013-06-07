@@ -38,8 +38,8 @@ n=11
 set lmargin 8
 set bmargin 4
 set output 'plots/dchi2_sigma.eps'
-#set title 'P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 10 years'
-#set title '20GW_{th}, 5kton (12.00% proton), ({/Symbol=\144}E_{vis}/E_{vis})^2 = (a %/ {/Symbol=\326}E_{vis})^2 + (b %)^2'
+#set title 'P_{reactor} = 16.52GW_{th}, V = 10kton (12.00% free proton), 5 years'
+#set title '16.52GW_{th}, 10kton (12.00% proton), ({/Symbol=\144}E_{vis}/E_{vis})^2 = (a %/ {/Symbol=\326}E_{vis})^2 + (b %)^2'
 set ylabel '{/=25 1 - P}' offset 0,0
 #set xlabel '{/=25 {/Symbol=\326}({/Symbol=\104}{/Symbol=\143}^2)_{min}}' offset -1,0
 #set xlabel '  ' offset -1,0

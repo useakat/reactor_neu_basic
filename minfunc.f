@@ -16,6 +16,8 @@ C     GLOBAL VARIABLES
       integer ifirst
       real*8 final_bins
       common /first/ final_bins,ifirst
+      real*8 fs2sun_2(2),fs213_2(2),fdm21_2(2),fdm31_2(2),fovnorm(2)
+      common /parm0/ fs2sun_2,fs213_2,fdm21_2,fdm31_2,fovnorm
 C     LOCAL VARIABLES 
       integer i,j
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
@@ -29,7 +31,7 @@ C     LOCAL VARIABLES
       real*8 z_min(50),event_fit(maxnbin),nevent_fit(maxnbin),hevent_fit(maxnbin)
       real*8 event2_dat(maxnbin),event2_th(maxnbin),radchi2,rint_adchi2
       real*8 Eres_nl,rdbin,EEres,EEres_nl
-      real*8 dmm13min,dmm13max,ndmm13
+      real*8 dmm13min,dmm13max,ndmm13,parm0(10)
       common /event_dat/ event2_dat,nevent_dat,nbins
 C     EXTERNAL FUNCTIONS
       real*8 hfunc1D,dchi2,futil,adchi2,chi2_2
@@ -52,11 +54,20 @@ C     ----------
       z_dat(6) = zz(20)
       z_dat(7) = zz(22)
       z_dat(8) = zz(24)
-      error(1) = zz(11)
-      error(2) = zz(13)
-      error(3) = zz(15)
-      error(4) = zz(17)
-      error(5) = zz(19)
+
+      parm0(1) = fs2sun_2(1)
+      parm0(2) = fs213_2(1)
+      parm0(3) = fdm21_2(1)
+      parm0(4) = fdm31_2(1)
+      parm0(5) = fovnorm(1)
+      parm0(6) = zz(20)
+      parm0(7) = zz(22)
+      parm0(8) = zz(24)
+      error(1) = fs2sun_2(2)
+      error(2) = fs213_2(2)
+      error(3) = fdm21_2(2)
+      error(4) = fdm31_2(2)
+      error(5) = fovnorm(2)
       error(6) = zz(21)
       error(7) = zz(23)
       error(8) = zz(25)

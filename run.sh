@@ -8,9 +8,9 @@ fi
 selfdir=$(cd $(dirname $0);pwd)
 run=test
 run_mode=4
-#P=16.52 # YongGwang
-P=20
-V=5
+P=16.52 # YongGwang
+#P=20
+V=10
 R=0.12
 Y=5
 Lmin=10
@@ -168,11 +168,11 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 fi
 
 if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
-    switch1=1  # Fig.4 & 5
-    switch2=1  # Fig.6
-    switch3=1  # Fig.7
+    switch1=0  # Fig.4 & 5
+    switch2=0  # Fig.6
+    switch3=0  # Fig.7
     switch4=0  # Fig.2 & 3 
-    switch5=0  # parameter error
+    switch5=1  # parameter error
 
 # chi2 fitting
     mode=0
@@ -259,6 +259,18 @@ fi
 
 if [ ${run_mode} -eq 4 ]; then  # Free analysis
     mode=0
+
+    if [ 1 -eq 1 ];then # updated parameter study
+	ifixL=1
+	ifluc=0
+	ndiv=0
+	Lmin=50
+	Lmax=${Lmin}
+	Eres=3
+	Eres_nl=1
+	binsize=0.0025
+	source dchi2_fitting_Eresnl.sh
+    fi
 
     if [ 0 -eq 1 ];then fluctuation study 
 	ifixL=1

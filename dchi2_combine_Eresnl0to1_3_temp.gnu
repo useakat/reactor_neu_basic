@@ -23,7 +23,7 @@ set xlabel '{/=25 L [km]}' offset -1,0
 #set label '1.5%' at 60,15
 #set label '3%' at 50,14
 #set label '6%' at 50,9
-#set yrange [0:210]
+set yrange [0:8]
 set pointsize 1
 set multiplot
 plot \

@@ -4,10 +4,10 @@
       integer i,j,k
       integer ierr,lencm,npari,nparx,istat,ndiv,mode
       real*8 arg(10),pval(10),perr(10),plo(10),phi(10),gint
-      real*8 chisqmin_true,fedm,errdef,Lmin,Lmax,Eres,s2sun_2(2),Eres_nl
+      real*8 chisqmin_true,fedm,errdef,Lmin,Lmax,Eres,Eres_nl
       real*8 chisqmin_wrong,dchisqmin
-      real*8 s213_2(2),dm21_2(2),dm31_2(2),Emin,Emax,serror,snmax
-      real*8 ovnorm(2),fa(2),fb(2),value,fscale(2)
+      real*8 s213_2,dm21_2,dm31_2,s2sun_2,Emin,Emax,serror,snmax
+      real*8 ovnorm,fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY,ctheta
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
       character*10 cnreactor,cxx,cyy,creactor_mode,creactor_type      
@@ -18,6 +18,8 @@
       real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize,theta
       real*8 xx,yy,dchi_rej,dchi_acc
       integer ndetermined,nmissed
+      real*8 fs2sun_2(2),fs213_2(2),fdm21_2(2),fdm31_2(2),fovnorm(2)
+      common /parm0/ fs2sun_2,fs213_2,fdm21_2,fdm31_2,fovnorm
 
       real*8 zz(50)
       common /zz/ zz
@@ -75,62 +77,34 @@
       read (creactor_mode,*) reactor_mode
       read (creactor_type,*) reactor_type
 
-      s2sun_2(1) = 0.857d0
-      s2sun_2(2) = 0.024d0
-c      s2sun_2(2) = 0.77d-2 ! 1yr
-c      s2sun_2(2) = 0.46d-2 ! 2yr
-c      s2sun_2(2) = 0.32d-2 ! 3yr
-c      s2sun_2(2) = 0.24d-2 ! 4yr
-c      s2sun_2(2) = 0.59d-2 ! 1-2yr
-c      s2sun_2(2) = 0.50d-2 ! 1-3yr
-c      s2sun_2(2) = 0.53d-2 ! 2-2yr
-c      s2sun_2(2) = 0.42d-2 ! 3-3yr
-c      s2sun_2(2) = 0.36d-2 ! 4-4yr
-c      s213_2(1) = 0.10d0 ! latest RENO result
-      s213_2(1) = 0.089d0 ! latest Dyabay result
-      s213_2(2) = 0.005d0
-c      s213_2(2) = 0.5d-2 ! 1yr
-c      s213_2(2) = 0.49d-2 ! 2yr
-c      s213_2(2) = 0.48d-2 ! 3yr
-c      s213_2(2) = 0.46d-2 ! 4yr
-c      s213_2(2) = 0.49d-2 ! 1-2yr
-c      s213_2(2) = 0.49d-2 ! 1-3yr
-c      s213_2(2) = 0.50d-2 ! 2-2yr
-c      s213_2(2) = 0.49d-2 ! 3-3yr
-c      s213_2(2) = 0.48d-2 ! 4-4yr
-      dm21_2(1) = 7.50d-5
-      dm21_2(2) = 0.20d-5
-c      dm21_2(2) = 0.61d-6  ! 1yr
-c      dm21_2(2) = 0.36d-6  ! 2yr
-c      dm21_2(2) = 0.26d-6  ! 3yr
-c      dm21_2(2) = 0.20d-6  ! 4yr
-c      dm21_2(2) = 0.45d-6  ! 1-2yr
-c      dm21_2(2) = 0.37d-6  ! 1-3yr
-c      dm21_2(2) = 0.44d-6  ! 2-2yr
-c      dm21_2(2) = 0.36d-6  ! 3-3yr
-c      dm21_2(2) = 0.31d-6  ! 4-4yr
-      dm31_2(1) = 2.32d-3
-      dm31_2(2) = 0.1d-3
-c      dm31_2(2) = 0.18d-4  ! 1yr
-c      dm31_2(2) = 0.10d-4  ! 2yr
-c      dm31_2(2) = 0.72d-5  ! 3yr
-c      dm31_2(2) = 0.57d-5  ! 4yr
-c      dm31_2(2) = 0.12d-4  ! 1-2yr
-c      dm31_2(2) = 0.10d-4  ! 1-3yr
-c      dm31_2(2) = 0.13d-4  ! 2-2yr
-c      dm31_2(2) = 0.11d-4  ! 3-3yr
-c      dm31_2(2) = 0.95d-5  ! 4-4yr
-      ovnorm(1) = 1d0
-      ovnorm(2) = 0.03d0
-c      ovnorm(2) = 0.021d0 !1yr
-c      ovnorm(2) = 0.014d0  ! 2yr
-c      ovnorm(2) = 0.98d-2  ! 3yr
-c      ovnorm(2) = 0.74d-2  ! 4yr
-c      ovnorm(2) = 0.17d-1  ! 1-2yr
-c      ovnorm(2) = 0.15d-1  ! 1-3yr
-c      ovnorm(2) = 0.16d-1  ! 2-2yr
-c      ovnorm(2) = 0.13d-1  ! 3-3yr
-c      ovnorm(2) = 0.11d-1  ! 4-4yr
+      s2sun_2 = 0.857d0
+c      s213_2 = 0.10d0 ! latest RENO result
+c      s213_2 = 0.089d0 ! latest Dyabay resultc      dm21_2(1) = 7.50d-5
+      s213_2 = 0.098d0
+      dm21_2 = 7.50d-5
+      dm31_2 = 2.32d-3
+      ovnorm = 1d0
+
+      fs2sun_2(1) = 0.857d0
+      fs2sun_2(2) = 0.024d0
+      fs213_2(1) = 0.098d0 
+      fs213_2(2) = 0.005d0 
+      fdm21_2(1) = 7.500d-5
+      fdm21_2(2) = 0.20d-5  
+      fdm31_2(1) = 2.32d-3
+      fdm31_2(2) = 0.1d-3  
+      fovnorm(1) = 1d0
+      fovnorm(2) = 0.03d0  
+c$$$      fs2sun_2(1) = 0.857d0
+c$$$      fs2sun_2(2) = 0.29d-2
+c$$$      fs213_2(1) = 0.097211d0 
+c$$$      fs213_2(2) = 0.0047d0 
+c$$$      fdm21_2(1) = 7.4992d-5
+c$$$      fdm21_2(2) = 0.21d-6  
+c$$$      fdm31_2(1) = 2.2908d-3
+c$$$      fdm31_2(2) = 0.6d-5  
+c$$$      fovnorm(1) = 0.99942d0
+c$$$      fovnorm(2) = 0.0093d0  
       fa(1) = 1d0
       fa(2) = 0.1d0
       fb(1) = 1d0
@@ -143,16 +117,16 @@ c      ovnorm(2) = 0.11d-1  ! 4-4yr
       serror = 1d-4
       snmax = 10
 
-      zz(10) = s2sun_2(1)
-      zz(11) = s2sun_2(2)
-      zz(12) = s213_2(1)
-      zz(13) = s213_2(2)
-      zz(14) = dm21_2(1)
-      zz(15) = dm21_2(2)
-      zz(16) = dm31_2(1)
-      zz(17) = dm31_2(2)
-      zz(18) = ovnorm(1)
-      zz(19) = ovnorm(2)
+      zz(10) = s2sun_2
+      zz(11) = fs2sun_2(2)
+      zz(12) = s213_2
+      zz(13) = fs213_2(2)
+      zz(14) = dm21_2
+      zz(15) = fdm21_2(2)
+      zz(16) = dm31_2
+      zz(17) = fdm31_2(2)
+      zz(18) = ovnorm
+      zz(19) = fovnorm(2)
       zz(20) = fscale(1)
       zz(21) = fscale(2)
       zz(22) = fa(1)
@@ -181,16 +155,16 @@ c      ovnorm(2) = 0.11d-1  ! 4-4yr
 c      call gran_init(200)
 
       open(19,file='dchi2_result.txt',status='replace')
-      write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2(1)," +-"
-     &     ,s2sun_2(2)
-      write(19,'(a11,e12.5,a3,e9.2)') "sin213_2 = ",s213_2(1)," +-"
-     &     ,s213_2(2)
-      write(19,'(a11,e12.5,a3,e9.2)') "dm21_2 = ",dm21_2(1)," +-"
-     &     ,dm21_2(2)
-      write(19,'(a11,e12.5,a3,e9.2)') "dm31_2 = ",dm31_2(1)," +-"
-     &     ,dm31_2(2)
-      write(19,'(a11,e12.5,a3,e9.2)') "ovnorm = ",ovnorm(1)," +-"
-     &     ,ovnorm(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2," +-"
+     &     ,fs2sun_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "sin213_2 = ",s213_2," +-"
+     &     ,fs213_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "dm21_2 = ",dm21_2," +-"
+     &     ,fdm21_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "dm31_2 = ",dm31_2," +-"
+     &     ,fdm31_2(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "ovnorm = ",ovnorm," +-"
+     &     ,fovnorm(2)
       write(19,'(a11,e12.5,a3,e9.2)') "fscale = ",fscale(1)," +-"
      &     ,fscale(2)
       write(19,'(a11,e12.5,a3,e9.2)') "fa = ",fa(1)," +-"
@@ -246,12 +220,12 @@ c         do k = 1,1
                write(19,*) zz(1),"[km]"               
                call mninit(5,20,7)
                
-               call mnparm(1,'s2sun_2',s2sun_2(1),s2sun_2(2),0d0,0d0
+               call mnparm(1,'s2sun_2',fs2sun_2(1),fs2sun_2(2),0d0,0d0
      &              ,ierr)
-               call mnparm(2,'s213_2',s213_2(1),s213_2(2),0d0,0d0,ierr)
-               call mnparm(3,'dm21_2',dm21_2(1),dm21_2(2),0d0,0d0,ierr)
-               call mnparm(4,'dm31_2',dm31_2(1),dm31_2(2),0d0,0d0,ierr)
-               call mnparm(5,'Norm',ovnorm(1),ovnorm(2),0d0,0d0,ierr)
+               call mnparm(2,'s213_2',fs213_2(1),fs213_2(2),0d0,0d0,ierr)
+               call mnparm(3,'dm21_2',fdm21_2(1),fdm21_2(2),0d0,0d0,ierr)
+               call mnparm(4,'dm31_2',fdm31_2(1),fdm31_2(2),0d0,0d0,ierr)
+               call mnparm(5,'Norm',fovnorm(1),fovnorm(2),0d0,0d0,ierr)
                call mnparm(6,'fscale',fscale(1),fscale(2),0d0,0d0,ierr)
                call mnparm(7,'fa',fa(1),fa(2),0d0,0d0,ierr)
                call mnparm(8,'fb',fb(1),fb(2),0d0,0d0,ierr)
@@ -263,15 +237,15 @@ c         do k = 1,1
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
 c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
 
-               zz(36) = 1
-               call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
-               call mnstat(chisqmin_true,fedm,errdef,npari,nparx,istat)
                zz(36) = -1
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
-               call mnstat(chisqmin_wrong,fedm,errdef,npari,nparx,istat)
+               call mnstat(chisqmin_true,fedm,errdef,npari,nparx,istat)
+c$$$               zz(36) = -1
+c$$$               call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
+c$$$               call mnstat(chisqmin_wrong,fedm,errdef,npari,nparx,istat)
 
-               dchisqmin = chisqmin_wrong -chisqmin_true
-c               dchisqmin = chisqmin_true
+c               dchisqmin = chisqmin_wrong -chisqmin_true
+               dchisqmin = chisqmin_true
 
                if (0.eq.1) then
                   if (chisqmin_true.lt.chisqmin_wrong) then
@@ -322,11 +296,11 @@ c$$$               endif
                   write(27,*) xx,yy,dchisqmin
                endif
                write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
-     &              ,pval(1),perr(1),s2sun_2(2),(pval(1)-s2sun_2(1))/s2sun_2(2)
-     &              ,pval(2),perr(2),s213_2(2),(pval(2)-s213_2(1))/s213_2(2)
-     &              ,pval(3),perr(3),dm21_2(2),(pval(3)-dm21_2(1))/dm21_2(2)
-     &              ,pval(4),perr(4),dm31_2(2),(pval(4)-dm31_2(1))/dm31_2(2)
-     &              ,pval(5),perr(5),ovnorm(2),(pval(5)-ovnorm(1))/ovnorm(2)
+     &              ,pval(1),perr(1),fs2sun_2(2),(pval(1)-fs2sun_2(1))/fs2sun_2(2)
+     &              ,pval(2),perr(2),fs213_2(2),(pval(2)-fs213_2(1))/fs213_2(2)
+     &              ,pval(3),perr(3),fdm21_2(2),(pval(3)-fdm21_2(1))/fdm21_2(2)
+     &              ,pval(4),perr(4),fdm31_2(2),(pval(4)-fdm31_2(1))/fdm31_2(2)
+     &              ,pval(5),perr(5),fovnorm(2),(pval(5)-fovnorm(1))/fovnorm(2)
      &              ,pval(6),perr(6),fscale(2),(pval(6)-fscale(1))/fscale(2)
      &              ,pval(7),perr(7),fa(2),(pval(7)-fa(1))/fa(2)
      &              ,pval(8),perr(8),fb(2),(pval(8)-fb(1))/fb(2)

@@ -33,7 +33,7 @@ unset xlabel
 #unset ylabel
 set format x ""
 #set ylabel '{/=25 Error_{fit}/Error}' offset 1,0
-set label '{/=25 sin^22{/Symbol=\161}_{12}}' at graph 0.03, graph 0.5
+set label '{/=25 sin^22{/Symbol=\161}_{12}}' at graph 0.03, graph 0.4
 #set label '{/=20 {/Symbol=\163}_{input} = 0.024}' at 30,0.7
 set ytics ("0.5"5E-3,1E-2,1.5E-2,2E-2,""2.5E-2)
 set yrange[0:3E-2]

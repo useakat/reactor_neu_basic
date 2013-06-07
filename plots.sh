@@ -37,10 +37,10 @@ else
     mode=$6
 fi
 
-P=20
-V=5
+P=16.52
+V=10
 R=0.12
-Y=10
+Y=5
 
 rm -rf plots/*
 
