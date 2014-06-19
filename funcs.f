@@ -78,6 +78,34 @@ c      Ee = (E +mp)/2d0*(1d0 -(mn**2 -me**2)/(2*E*mp +mp**2))
       end
 
 
+      real*8 function xsec_IBD_naive2(E)
+C     ****************************************************
+C     By Yoshitaro Takaesu @KIAS Aug.17 2012
+C     
+C     Cross section between electron neutrino and detector in cm^2 unit.
+C     Ref: astro-ph/0302055 eq.25
+C
+C     input
+C           E: energy of the positron in MeV           
+C     ****************************************************
+      implicitnone
+C     CONSTANTS
+      real*8 me,mp,mn
+C     ARGUMENTS 
+      real*8 E,Ee,pw
+C     ----------
+C     BEGIN CODE
+C     ----------
+      me = 0.510998910d0
+      mp = 938.272d0
+      mn = 939.565d0
+      Ee = E -(mn-mp)
+      pw = -0.07056 +0.02018*dlog(E) -0.001953*dlog(E)**3
+      xsec_IBD_naive2 = Ee*dsqrt(Ee**2 -me**2)*E**pw*1d-43
+      return
+      end
+
+
       real*8 function prob_ee(a,param,error,sign,mode,unc_mode)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Aug.17 2012

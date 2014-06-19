@@ -18,7 +18,7 @@ set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dXsec / dE_{/Symbol=\156} [/MeV]' offset 1,0
 set multiplot
 plot \
-'rslt_test2/data/Xsec.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
+'rslt_test4/data/Xsec.dat' u 1:2 notitle  w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 reset

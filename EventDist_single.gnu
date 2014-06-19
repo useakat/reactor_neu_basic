@@ -26,7 +26,7 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'rslt_test2/data/events_nh_50_3_1.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'red' lw 3
+'rslt_test/data/events_nh_50_3_1.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 reset

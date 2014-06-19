@@ -3,6 +3,13 @@ if [[ "$1" == "-h" ]]; then
     echo ""
     echo "Usage: run.sh [run_name] [run_mode] [Eres] [Eres_nl] [reactor mode] [reactor type] (plot_run_mode)"
     echo ""
+    echo "run_mode: 0:All 1:Flux*Xsec 2:dN/dE 3:dchi2 4:Free Analysis 10:plot-only mode"
+    echo "Eres: Energy resolution [%]"
+    echo "Eres_nl: Non-linear energy resolution [%]"
+    echo "reactor mode: 0:use the averaged position of reactor cores 1:use each position of reactor cores"
+    echo "reactor type: 0:only operating reactors 1:add planned reactors "
+    echo "plot_run_mode (only valid for run_mode=10): select run mode for plotting"
+    echo ""
     exit
 fi
 selfdir=$(cd $(dirname $0);pwd)
@@ -57,14 +64,15 @@ fi
 ###
 ### parameters
 ###    
-#P=16.52 # YongGwang
-P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
-V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
+P=20
+#P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
+#V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
+V=5
 R=0.12
 Y=5
 Lmin=10
 Lmax=100
-ndiv=100
+ndiv=10
 binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
 ifixL=0
 ifluc=0
@@ -82,6 +90,8 @@ fi
 ###
 ### start program
 ###
+
+### Initialization
 make clean >/dev/null 2>&1
 rm -rf plots/*
 rm -rf data/*
@@ -110,22 +120,26 @@ echo "Free Proton Weight Fraction:" $R >> ${defout}
 echo "Exposure time:" $Y "year" >> ${defout}
 
 cd DeltaChi2
-make >/dev/null 2>&1
+#make >/dev/null 2>&1
+make
 cd ..
-make dchi2 >/dev/null 2>&1
-make get_cl >/dev/null 2>&1
+#make dchi2 >/dev/null 2>&1
+make dchi2
+#make get_cl >/dev/null 2>&1
+make get_cl
 
-if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
+### plotting Flux*Xsec
+if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  
     norm=1
 
     mode=1
     Lmin=1
-    ./dchi2 $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
+    source ./run_dchi2.sh
 
     mode=5
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
+	source ./run_dchi2.sh
 	mv PeeNH.dat PeeNH_${i}.dat
 	mv PeeIH.dat PeeIH_${i}.dat
 	mv N_nh.dat N_nh_${i}.dat
@@ -136,7 +150,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  # plotting Flux*Xsec
     mode=3
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
+	source ./run_dchi2.sh
 	mv FluxXsec_loe.dat FluxXsec_loe_${i}.dat
 	mv FluxXsecPeeNH_loe.dat FluxXsecPeeNH_loe_${i}.dat
 	mv FluxXsecPeeIH_loe.dat FluxXsecPeeIH_loe_${i}.dat
@@ -152,7 +166,8 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 # Energy distributions
     i=10
     while [ $i -lt 110 ]; do
-	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
+	source ./run_dchi2.sh
+#	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
 	mv evdinh.dat events_nh_${i}_${Eres}_${Eres_nl}.dat
 	mv evdiih.dat events_ih_${i}_${Eres}_${Eres_nl}.dat
 	i=`expr $i + 10`
@@ -166,12 +181,14 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 	i=10
 	while [ $i -lt 110 ]; do
 	    Eres=3
-	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
+	    source ./run_dchi2.sh
+#	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
 	    mv edh6nh.dat events_3_nh_${i}.dat
 	    mv edh6ih.dat events_3_ih_${i}.dat
 	
 	    Eres=1.5
-	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
+	    source ./run_dchi2.sh
+#	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
 	    mv edh6nh.dat events_1.5_nh_${i}.dat
 	    mv edh6ih.dat events_1.5_ih_${i}.dat
 	    i=`expr $i + 10`
@@ -180,7 +197,8 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 
 fi
 
-if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
+### Analysis for 1210.8141
+if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  
     switch1=1  # Fig.4 & 5
     switch2=0  # Fig.6
     switch3=0  # Fig.7
@@ -188,14 +206,14 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
     switch5=0  # parameter error
 
 # chi2 fitting
-    mode=0
+    mode=0  # dchi2 analysis
     ifluc=0
     ifixL=0
     binsize=0.0025d0
 
     if [ ${switch1} -eq 1 ]; then 
-	Eres=0
-	Eres_nl=0
+	Eres=3
+	Eres_nl=1
 #	binsize=0.06
 	source dchi2_fitting_Eresnl.sh
 # 	Eres=6
@@ -270,8 +288,18 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
     cat dchi2_result.txt >> ${defout}
 fi    
 
-if [ ${run_mode} -eq 4 ]; then  # Free analysis
+### Free analysis
+if [ ${run_mode} -eq 4 ]; then  
     mode=0
+## dchi2 analysis
+    if [ 1 -eq 1 ]; then 
+	ifluc=0
+	ifixL=0
+	binsize=0.0025d0
+	Eres=3
+	Eres_nl=1
+	source dchi2_fitting_Eresnl.sh
+    fi
 
     if [ 1 -eq 1 ];then # updated parameter study
 	ifixL=1

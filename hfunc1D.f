@@ -9,8 +9,8 @@
       real*8 x,z(50),error(10),L,E,loe,Np,P,YY,ovnorm
       real*8 flux,xsec,prob_ee,Lfact,fa,fb,Evis,fscale,theta
       real*8 probLL,LL(200),LLfact(200),tokei(0:200),hokui(0:200)
-      real*8 PP(200)
-      external flux,xsec,prob_ee      
+      real*8 PP(200),xsec_IBD_naive2
+      external flux,xsec,prob_ee,xsec_IBD_naive2
 
       error(1) = 0.025d0
       error(2) = 0.005d0
@@ -49,7 +49,8 @@ c      fb = z(7)
 
       if (mode.eq.0) then   ! dN/dE_{\nu}
          hfunc1D = ovnorm*Np*YY*flux(E,P)/Lfact
-     &        *prob_ee(L/E,z,error,sign,0,0)*xsec(E)
+c     &        *prob_ee(L/E,z,error,sign,0,0)*xsec(E)
+     &        *prob_ee(L/E,z,error,sign,0,0)*xsec_IBD_naive2(E)
       elseif (mode.eq.1) then   ! dFlux/dE_{\nu}  eq.6
          hfunc1D = flux(E,P)
       elseif (mode.eq.2) then   ! dXsec/dE_{\nu}  eq.13

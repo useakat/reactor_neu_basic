@@ -89,26 +89,28 @@ elif [ ${mode} -eq 3 ]; then
     Eres=6
     Eres_nl=0
     ./mkgnu_EventDistmin_combine.sh $P $V $R $Y 30 ${Eres} ${Eres_nl} ${run_dir}
-###################################################################
 
-elif [ ${mode} -eq 4 ]; then  # Free Analysis Plots
+
+## Free Analysis Plots
+elif [ ${mode} -eq 4 ]; then  
     
-    ./mkgnu_dchi2_cl.sh $P $V $R $Y 2 0.5 ${run_dir}
-
+    #./mkgnu_dchi2_cl.sh $P $V $R $Y 2 0.5 ${run_dir}
     # ./mkgnu_dchi2_combine_error.sh $P $V $R $Y ${Eres_nl} ${run_dir}
     # ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 2 ${run_dir}
-    # ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 3 ${run_dir}
+     ./mkgnu_dchi2_Eresnl_error.sh $P $V $R $Y 3 ${run_dir}
     # ./mkgnu_dchi2_param_all.sh $P $V $R $Y ${Eres} ${Eres_nl} ${run_dir}
 
     # Eres=0
     # Eres_nl=0
     # i=${Lmin}
     # while [ $i -lt ${Lmaxp10} ]; do
-    # 	./mkgnu_EventDistmin.sh $P $V $R $Y $i ${Eres} ${Eres_nl} ${run_dir}			
-    # 	i=`expr $i + 10`
+    # ./mkgnu_EventDistmin.sh $P $V $R $Y $i ${Eres} ${Eres_nl} ${run_dir}
+    # i=`expr $i +10`
     # done
 
-elif [ ${mode} -eq 5 ]; then  # Free Analysis (parallel) Plots
+
+## Free Analysis (parallel) Plots
+elif [ ${mode} -eq 5 ]; then  
     
     ./mkgnu_dchi2_cl.sh $P $V $R $Y 2 0.5 ${run_dir}
 fi

@@ -182,8 +182,8 @@ c      call gran_init(200)
       write(19,*) "[Delta-Chi2 analysis]"
 
       if (mode.eq.0) then
-         do k = 1,-1,-2
-c         do k = 1,1
+c         do k = 1,-1,-2
+         do k = 1,1
             zz(2) = k
             if (k.eq.1) then
                open(20,file='minorm_nh.dat',status='replace')
