@@ -1,7 +1,11 @@
 C -*- fortran -*-
 C     Nuclear Power Data are from http://world-nuclear.org/info/Country-Profiles/Countries-O-S/South-Korea/#.UYIxAiv24hw
+C
+C     reactor mode: 0: use the averaged position of reactor cores
+C                   1: use each position of reactor cores
+
 c     YongGwang
-c         tokei(1) = 126.416015d0  ! center
+c         tokei(1) = 126.416015d0  ! center                                                                                                                                                                
 c         hokui(1) = 35.411101d0
 c         PP(1) = 16.52d0 ! [MWe]
          tokei(11) = 126.410367d0 ! YongGwang1
@@ -22,13 +26,14 @@ c         PP(1) = 16.52d0 ! [MWe]
          tokei(16) = 126.421766d0 ! YongGwang6
          hokui(16) = 35.414490d0
          PP(16) = 0.996d0
-c         if (reactor_mode.eq.0) then
+         if (reactor_mode.eq.0) then
             tokei(1) = (tokei(11)+tokei(12)+tokei(13)+tokei(14)
      &           +tokei(15)+tokei(16))/6d0
             hokui(1) = (hokui(11)+hokui(12)+hokui(13)+hokui(14)
      &           +hokui(15)+hokui(16))/6d0
             PP(1) = PP(11)+PP(12)+PP(13)+PP(14)+PP(15)+PP(16)
-c         endif
+         endif
+
 c     Kori
 c         tokei(2) = 129.28d0
 c         hokui(2) = 35.32d0
@@ -63,14 +68,14 @@ c         PP(2) = 22.22d0
          tokei(124) = 129.312020d0 ! Shin-Kori6 *estimation
          hokui(124) = 35.341330d0
          PP(124) = 1.350d0
-         if (reactor_mode.eq.0) then
-            if (reactor_type.eq.0) then
+         if (reactor_mode.eq.0) then 
+            if (reactor_type.eq.0) then ! add only operating reactors
                tokei(2) = (tokei(21)+tokei(22)+tokei(23)+tokei(24)
      &              +tokei(25)+tokei(26))/6d0
                hokui(2) = (hokui(21)+hokui(22)+hokui(23)+hokui(24)
      &              +hokui(25)+hokui(26))/6d0
                PP(2) = PP(21)+PP(22)+PP(23)+PP(24)+PP(25)+PP(26)
-            elseif (reactor_type.eq.1) then
+            elseif (reactor_type.eq.1) then ! add planned reactors as well
                tokei(2) = (tokei(22)+tokei(23)+tokei(24)+tokei(25)
      &              +tokei(26)+tokei(121)+tokei(122)+tokei(123)
      &              +tokei(124))/9d0
@@ -81,10 +86,11 @@ c         PP(2) = 22.22d0
      &              +PP(122)+PP(123)+PP(124)
             endif
          endif
+
 c     Wolsong
 c         tokei(3) = 129.47d0
 c         hokui(3) = 35.70d0
-c         PP(3) = 13.38d0 
+c         PP(3) = 13.38d0
          tokei(31) = 129.473084d0 ! Wolsong1
          hokui(31) = 35.709386d0
          PP(31) = 0.666d0
@@ -118,6 +124,7 @@ c         PP(3) = 13.38d0
                PP(3) = PP(31)+PP(32)+PP(33)+PP(34)+PP(35)+PP(131)
             endif
          endif
+
 c     Ulchin
 c         tokei(4) = 129.38d0
 c         hokui(4) = 37.08d0

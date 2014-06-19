@@ -13,7 +13,7 @@ set grid
 #set yrange [0:1E-33]
 
 set output "plots/FluxXsecPee_loe_100.eps"
-set title "P_{reactor} = 20GW_{th}, L = 100km"
+set title "P_{reactor} = 16.52GW_{th}, L = 100km"
 set xlabel 'L/E_{/Symbol=\156} [km/MeV]' offset -1,0
 set ylabel 'd( flux * Xsec * Pee) / d(L/E_{/Symbol=\156}) [MeV/s/cm^3]' offset 1,0
 set multiplot

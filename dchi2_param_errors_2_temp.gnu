@@ -40,6 +40,7 @@ set yrange[0:3E-2]
 set format y '%1.1l'
 set label '{/=15 {/Symbol=\264}10^{-2}' at -5, graph 0.9
 set label '(a, b) =' at 20, graph 0.82
+
 plot \
 'DATADIR/dchi2min_nh_3_0.5.dat' u 1:5 t '(3, 0.5) NH'  w l lt 1 lc rgb '#006400' lw 3 ,\
 'DATADIR/dchi2min_ih_3_0.5.dat' u 1:5 t 'IH'  w l lt 2 lc rgb '#006400' lw 3 ,\

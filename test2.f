@@ -92,7 +92,7 @@ c      s213_2 = 0.089d0 ! latest Dyabay resultc      dm21_2(1) = 7.50d-5
       fdm21_2(1) = 7.500d-5
       fdm21_2(2) = 0.20d-5  
       fdm31_2(1) = 2.32d-3
-      fdm31_2(2) = 0.1d-3  
+      fdm31_2(2) = 0.1d-3
       fovnorm(1) = 1d0
       fovnorm(2) = 0.03d0  
 c$$$      fs2sun_2(1) = 0.857d0
@@ -194,6 +194,7 @@ c         do k = 1,1
                open(26,file='sensitivity_dist_nh.dat',status='replace')
                open(27,file='dchi2_multi_nh.dat',status='replace')
                open(28,file='dchi2_prob_nh.dat',status='replace')
+               open(29,file='dchi2_paramdist_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
@@ -204,6 +205,7 @@ c         do k = 1,1
                open(26,file='sensitivity_dist_ih.dat',status='replace')
                open(27,file='dchi2_multi_ih.dat',status='replace')
                open(28,file='dchi2_prob_nh.dat',status='replace')
+               open(29,file='dchi2_paramdist_ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             ndetermined = 0
@@ -308,6 +310,8 @@ c$$$               endif
                write(22,'(e10.3,8e13.5)') zz(1),pval(1),pval(2),pval(3)
      &              ,pval(4),pval(5),pval(6),pval(7),pval(8)
 
+               write(29,'(2e13.5)') pval(3),perr(3)
+
 c               if ((zz(1).ge.50d0).and.(zz(1).lt.50.9d0)) then
 c                  write(23,*) value, dchisqmin
 c               endif
@@ -357,6 +361,7 @@ c               endif
          close(26)
          close(27)
          close(28)
+         close(29)
 
          if (ifixL.eq.1) then
             if (zz(2).eq.1) then

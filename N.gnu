@@ -13,7 +13,7 @@ set grid
 #set yrange [1E-5:2E8]
 
 set output "plots/N.eps"
-set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 10 years, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis}"
+set title "P_{reactor} = 16.52GW_{th}, V = 10kton (12.00% free proton), 5 years, {/Symbol=\144}E_{vis}/E_{vis} = 3%/{/Symbol=\326}E_{vis}"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 set logscale y

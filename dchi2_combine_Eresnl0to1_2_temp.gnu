@@ -4,7 +4,7 @@ set terminal postscript eps enhanced 'Times-Roman' color 20
 #set format x '%L'
 #set format y '%L'
 #set xtics (0.001,0.01)
-set ytics (0,2,4,6,8,10,12,14,16,18,20)
+set ytics (0,2,4,6,8,10,12,14,16,18,20,22,24,26)
 #set tics scale 2
 set grid
 #set key samplen 2
@@ -23,7 +23,7 @@ set xlabel '{/=25 L [km]}' offset -1,0
 #set label '1.5%' at 60,15
 #set label '3%' at 50,14
 #set label '6%' at 50,9
-set yrange [0:20]
+set yrange [0:24]
 set pointsize 1
 set multiplot
 plot \

@@ -76,23 +76,22 @@ C     ----------
          enddo
       elseif(reactor_mode.eq.1) then
          if (reactor_type.eq.0) then
-            if (n.ge.1) then
+            if (n.ge.1) then ! YongGwang
                do i = 11,16
-c               do i = 1,1
                   LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
                enddo
             endif
-            if (n.ge.2) then
+            if (n.ge.2) then ! +Kori
                do i = 21,26
                   LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
                enddo
             endif
-            if (n.ge.3) then
+            if (n.ge.3) then ! +Wolsong
                do i = 31,35
                   LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
                enddo
             endif
-            if (n.ge.4) then
+            if (n.ge.4) then ! +Ulchin
                do i = 41,46
                   LL(i) = xy2d(xx(0),yy(0),xx(i),yy(i))
                enddo

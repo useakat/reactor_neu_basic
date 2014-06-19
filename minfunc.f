@@ -124,9 +124,9 @@ CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCC
             multi_flag = 2 ! reactors in Korea
          endif 
          if (ifluc.eq.0) then
-            include 'inc/dchi2.inc'
+            include 'inc/dchi2.inc' ! without statistical fluctuations
          elseif (ifluc.eq.1) then
-            include 'inc/dchi2_stat.inc'
+            include 'inc/dchi2_stat.inc' ! with statistical fluctuations
          endif
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC

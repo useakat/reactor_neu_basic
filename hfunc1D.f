@@ -76,7 +76,7 @@ c      fb = z(7)
          hfunc1D = flux(E,P)
       elseif (mode.eq.24) then  ! Xsec vs sqrt{E_{vis}}
          hfunc1D = xsec(E)
-      elseif (mode.eq.25) then  ! dN/dsqrt(E_{vis})
+      elseif (mode.eq.25) then  ! RENO50 dN/dsqrt(E_{vis})
          call get_Ls(L,theta,nr,LL)
          do i = 1,nr
             LLfact(i) = 4*pi*(LL(i)*1d5)**2
@@ -86,7 +86,7 @@ c      fb = z(7)
             probLL = probLL +prob_ee(LL(i)/E,z,error,sign,0,0)/LLfact(i)
          enddo
          hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)*probLL*xsec(E)/dble(nr)
-      elseif (mode.eq.26) then  ! dN/dsqrt(E_{vis})
+      elseif (mode.eq.26) then  ! Korean reactors dN/dsqrt(E_{vis})
          include 'inc/set_reactors.inc'
          call get_Ls_xy(tokei,hokui,nr,LL,reactor_mode,reactor_type)
          include 'inc/get_probLL.inc'

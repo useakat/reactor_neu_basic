@@ -1,41 +1,25 @@
 #!/bin/bash
     mode=0
-
+# prepare output files    
     touch dchi2_multi_korea_nh_${Eres}_${Eres_nl}.dat
     touch dchi2_multi_korea_ih_${Eres}_${Eres_nl}.dat
 
-    xxmin=125.8
-    xxmax=130
-    yymin=34
-    yymax=38
-
-#    xxmin=125.8
-#    xxmax=128
-#    yymin=34
-#    yymax=36.5
-
-    # xxmin=126.8
-    # xxmax=126.8
-    # yymin=35
-    # yymax=35
-
+# calculate the interval for each scan
     dxx=`echo "scale=5; $xxmax - $xxmin" | bc`
     dyy=`echo "scale=5; $yymax - $yymin" | bc`
-
-    idivx=40
-    idivy=40
     if [ $idivx -ne 0 ];then
-	ddxx=`divide.sh $dxx $idivx 5`
+	ddxx=`divide.sh $dxx $idivx 5` 
 	ddyy=`divide.sh $dyy $idivy 5`
     fi
 
-    if [ $idivx -eq 0 ];then
+# submit jobs for the sensitivity scan
+    if [ $idivx -eq 0 ];then # 1 point servey
 	xx=$xxmin
 	yy=$yymin
 	jobname="job"$RANDOM
 	./submit_job.sh $job_system $que 0 $jobname "../dchi2_multi_korea.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor} $xx $yy ${reactor_mode} ${reactor_type}"
 	count=1
-    elif [ $idivx -ne 0 ];then
+    elif [ $idivx -ne 0 ];then # 2D scan
 	i=0
 	count=0
 	while [ $i -le $idivx ];do
@@ -66,3 +50,12 @@
     done
 
     rm -rf par_*
+
+if [ $mail -eq 1 ]; then
+    if [ $cluster == "kekcc" ]; then
+        bsub -q ${que} -J $run -u takaesu@post.kek.jp nulljob.sh >/dev/null 2>&1
+    else
+        echo "Notification mail cannot be send from this cluster system. Exting..."
+        exit
+    fi
+fi

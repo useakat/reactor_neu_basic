@@ -13,7 +13,7 @@ set xrange [1.81:8]
 set yrange [5E-39:2E-36]
 
 set output "plots/FluxXsec_combine.eps"
-set title "P_{reactor} = 20GW_{th}"
+set title "P_{reactor} = 16.52GW_{th}"
 set xlabel 'E_{/Symbol=\156}  [MeV]' offset -1,0
 set ylabel 'd(Flux * Xsec) / dE_{/Symbol=\156}  [1/s/MeV]' offset 1,0
 set multiplot

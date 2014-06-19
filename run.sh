@@ -8,9 +8,9 @@ fi
 selfdir=$(cd $(dirname $0);pwd)
 run=test
 run_mode=4
-P=16.52 # YongGwang
-#P=20
-V=10
+#P=16.52 # YongGwang
+P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
+V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
 R=0.12
 Y=5
 Lmin=10
@@ -20,12 +20,12 @@ binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
 ifixL=0
 ifluc=0
 theta=0
-nreactor=0
-xx=130
-yy=34
-reactor_mode=0
-reactor_type=0
-if [[ $1 = "h" ]]; then
+nreactor=0 # The number of reactor cores at Yongwang or The number of reactor sites for negative value 
+xx=130 # default tokei for 1 point servey
+yy=34  # default hokui for 1 point servey
+reactor_mode=0 # 0:use the averaged position of reactor cores 1:use each position of reactor cores
+reactor_type=0 # 0:only operating reactors 1:add planned reactors
+if [ $# -eq 0 ]; then
     echo "input run name"
     read run
     echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:dchi2 4:Free Analysis"
@@ -34,9 +34,9 @@ if [[ $1 = "h" ]]; then
     read Eres
     echo "input non-linear energy resolution [%]"
     read Eres_nl
-    echo "reactor_mode"
+    echo "reactor_mode: 0:use the averaged position of reactor cores 1:use each position of reactor cores"
     read reactor_mode
-    echo "reactor_type"
+    echo "reactor_type: 0:only operating reactors 1:add planned reactors "
     read reactor_type
 else
     if [ $# -ge 1 ];then
@@ -168,11 +168,11 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 fi
 
 if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
-    switch1=0  # Fig.4 & 5
+    switch1=1  # Fig.4 & 5
     switch2=0  # Fig.6
     switch3=0  # Fig.7
     switch4=0  # Fig.2 & 3 
-    switch5=1  # parameter error
+    switch5=0  # parameter error
 
 # chi2 fitting
     mode=0
@@ -185,26 +185,26 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then  # Analysis for paper
 	Eres_nl=0
 #	binsize=0.06
 	source dchi2_fitting_Eresnl.sh
-	Eres=6
-	Eres_nl=0
-#	binsize=0.06
-	source dchi2_fitting_Eresnl.sh
-	Eres=5
-	Eres_nl=0
-#	binsize=0.05
-	source dchi2_fitting_Eresnl.sh
-	Eres=4
-	Eres_nl=0
-#	binsize=0.04
-	source dchi2_fitting_Eresnl.sh
-	Eres=3
-	Eres_nl=0
-#	binsize=0.03
-	source dchi2_fitting_Eresnl.sh
-	Eres=2
-	Eres_nl=0
-#	binsize=0.03
-	source dchi2_fitting_Eresnl.sh
+# 	Eres=6
+# 	Eres_nl=0
+# #	binsize=0.06
+# 	source dchi2_fitting_Eresnl.sh
+# 	Eres=5
+# 	Eres_nl=0
+# #	binsize=0.05
+# 	source dchi2_fitting_Eresnl.sh
+# 	Eres=4
+# 	Eres_nl=0
+# #	binsize=0.04
+# 	source dchi2_fitting_Eresnl.sh
+# 	Eres=3
+# 	Eres_nl=0
+# #	binsize=0.03
+# 	source dchi2_fitting_Eresnl.sh
+# 	Eres=2
+# 	Eres_nl=0
+# #	binsize=0.03
+# 	source dchi2_fitting_Eresnl.sh
     fi
 
     if [ ${switch2} -eq 1 ]; then 
@@ -262,11 +262,11 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
 
     if [ 1 -eq 1 ];then # updated parameter study
 	ifixL=1
-	ifluc=0
-	ndiv=0
+	ifluc=1
+	ndiv=10
 	Lmin=50
 	Lmax=${Lmin}
-	Eres=3
+	Eres=2
 	Eres_nl=1
 	binsize=0.0025
 	source dchi2_fitting_Eresnl.sh
@@ -275,7 +275,7 @@ if [ ${run_mode} -eq 4 ]; then  # Free analysis
     if [ 0 -eq 1 ];then fluctuation study 
 	ifixL=1
 	ifluc=1
-	ndiv=100
+	ndiv=1
 	maxL_nh=50
 	maxL_ih=${maxL_nh}
 	Eres=3
@@ -384,16 +384,28 @@ if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis in the polar cordinate 
 fi
 
 if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (parallel)
+    cluster=kekcc
     job_system=bsub
     que=e
-
-    mode=0
+    mail=1
+#    mode=0
     maxL_nh=50
     maxL_ih=${maxL_nh}
     binsize=0.0025
+#    binsize=0.01
     Eres=3
     Eres_nl=0.5
-    nreactor=-4
+    nreactor=-4 # >0:The number of reactor cores -1:YongGwang -2:+Kori -3:+Wolsong -4:+Ulchin
+    reactor_mode=1 # 0:use the averaged position of reactor cores 1:use each position of reactor cores
+    reactor_type=0 # 0:only operating reactors 1:add planned reactors 
+# The scan region
+    xxmin=125.8
+    xxmax=130
+    yymin=34
+    yymax=38
+# The number of division for the sensitivity scan
+    idivx=40 
+    idivy=40 
     source dchi2_multi_korea_parallel.sh
 fi
 
