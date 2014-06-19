@@ -76,6 +76,7 @@ ndiv=10
 binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
 ifixL=0
 ifluc=0
+ixsec=0 #IBD xsec treatment: 0:include Nulear recoil effect (approx) 1:Neglect the recoil effect 
 theta=0
 nreactor=0 # The number of reactor cores at Yongwang or The number of reactor sites for negative value 
 xx=130 # default tokei for 1 point servey
@@ -104,8 +105,8 @@ run_dir=rslt_${run}
 defout=${run_dir}/summary.txt
 
 if [ -e ${run_dir} ]; then
-    rm -rf ${run_dir}/*
-    echo "run directory exists."
+#    rm -rf ${run_dir}/*
+    echo "run directory exists. The files will be overwritten."
 else
     mkdir ${run_dir}
 fi
@@ -132,10 +133,12 @@ make get_cl
 if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then  
     norm=1
 
+## dsqrt(E) distribution
     mode=1
     Lmin=1
     source ./run_dchi2.sh
 
+## dN/dE distribution
     mode=5
     i=10
     while [ $i -lt 110 ]; do
@@ -147,6 +150,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then
 	i=`expr $i + 10`
     done
 
+## L/E distribution 
     mode=3
     i=10
     while [ $i -lt 110 ]; do
@@ -296,12 +300,10 @@ if [ ${run_mode} -eq 4 ]; then
 	ifluc=0
 	ifixL=0
 	binsize=0.0025d0
-	Eres=3
-	Eres_nl=1
-	source dchi2_fitting_Eresnl.sh
+	source dchi2_fitting.sh
     fi
 
-    if [ 1 -eq 1 ];then # updated parameter study
+    if [ 0 -eq 1 ];then # updated parameter study
 	ifixL=1
 	ifluc=1
 	ndiv=10
@@ -453,7 +455,7 @@ fi
 mv *.dat data/.
 cp -rf data ${run_dir}/.
 
-./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${run_mode}
+#./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${run_mode}
 
 
 ### end program ###

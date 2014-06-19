@@ -9,7 +9,7 @@
       real*8 x,z(50),error(10),L,E,loe,Np,P,YY,ovnorm
       real*8 flux,xsec,prob_ee,Lfact,fa,fb,Evis,fscale,theta
       real*8 probLL,LL(200),LLfact(200),tokei(0:200),hokui(0:200)
-      real*8 PP(200),xsec_IBD_naive2
+      real*8 PP(200),xsec_IBD_naive2,nxsec,ixsec
       external flux,xsec,prob_ee,xsec_IBD_naive2
 
       error(1) = 0.025d0
@@ -36,6 +36,7 @@ c      fb = z(7)
       hokui(0) = z(20)
       reactor_mode = int(z(21))
       reactor_type = int(z(22))
+      ixsec = int(z(23))
 
       Lfact = 4*pi*(L*1d5)**2
       if (mode.lt.10) then
@@ -46,37 +47,46 @@ c      fb = z(7)
          Evis = ( 1d0 +fscale )*x**2
          E = Evis +0.8d0  ! x = sqrt{E_{vis}}
       endif
-
+CCC
+CCC IBD cross section
+CCC
+      if (ixsec.eq.0) then
+         nxsec = xsec_IBD_naive2(E) ! improved approximation
+      elseif (ixsec.eq.1) then
+         nxsec = xsec(E)        ! very naive approximation
+      endif
+CCC
+CCC calculation of hfunc1D
+CCC
       if (mode.eq.0) then   ! dN/dE_{\nu}
          hfunc1D = ovnorm*Np*YY*flux(E,P)/Lfact
-c     &        *prob_ee(L/E,z,error,sign,0,0)*xsec(E)
-     &        *prob_ee(L/E,z,error,sign,0,0)*xsec_IBD_naive2(E)
+     &        *prob_ee(L/E,z,error,sign,0,0)*nxsec
       elseif (mode.eq.1) then   ! dFlux/dE_{\nu}  eq.6
          hfunc1D = flux(E,P)
       elseif (mode.eq.2) then   ! dXsec/dE_{\nu}  eq.13
-         hfunc1D = xsec(E)
+         hfunc1D = nxsec
       elseif (mode.eq.3) then   ! dPee/E_{\nu}
          hfunc1D = prob_ee(L/E,z,error,sign,0,0)         
       elseif (mode.eq.4) then   ! d(Flux*Xsec)/dE_{\nu}
-         hfunc1D = flux(E,P)*xsec(E)
+         hfunc1D = flux(E,P)*nxsec
 
       elseif (mode.eq.12) then      ! d(Flux*Xsec)/d(L/E_{\nu})
-         hfunc1D = E**2/( L*1d5 )*flux(E,P)/Lfact*xsec(E)
+         hfunc1D = E**2/( L*1d5 )*flux(E,P)/Lfact*nxsec
       elseif (mode.eq.13) then  ! d(Flux*Xsec*Pee)/d(L/E_{\nu})
-         hfunc1D = E**2/( L*1d5 )*flux(E,P)/Lfact*xsec(E)
+         hfunc1D = E**2/( L*1d5 )*flux(E,P)/Lfact*nxsec
      &        *prob_ee(x,z,error,sign,0,0)
       elseif (mode.eq.14) then  ! Pee vs L/E_{\nu}
          hfunc1D = prob_ee(L/E,z,error,sign,0,0)         
 
       elseif (mode.eq.20) then  ! dN/dsqrt(E_{vis})
          hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)/Lfact
-     &        *prob_ee(L/E,z,error,sign,0,0)*xsec(E)
+     &        *prob_ee(L/E,z,error,sign,0,0)*nxsec
       elseif (mode.eq.21) then  ! d(Flux*Xsec)/dsqrt{E_{vis}}
-         hfunc1D = 2*x*flux(E,P)/Lfact*xsec(E)
+         hfunc1D = 2*x*flux(E,P)/Lfact*nxsec
       elseif (mode.eq.23) then  ! Flux vs sqrt{E_{vis}}
          hfunc1D = flux(E,P)
       elseif (mode.eq.24) then  ! Xsec vs sqrt{E_{vis}}
-         hfunc1D = xsec(E)
+         hfunc1D = nxsec
       elseif (mode.eq.25) then  ! RENO50 dN/dsqrt(E_{vis})
          call get_Ls(L,theta,nr,LL)
          do i = 1,nr
@@ -86,12 +96,12 @@ c     &        *prob_ee(L/E,z,error,sign,0,0)*xsec(E)
          do i = 1,nr
             probLL = probLL +prob_ee(LL(i)/E,z,error,sign,0,0)/LLfact(i)
          enddo
-         hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)*probLL*xsec(E)/dble(nr)
+         hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)*probLL*nxsec/dble(nr)
       elseif (mode.eq.26) then  ! Korean reactors dN/dsqrt(E_{vis})
          include 'inc/set_reactors.inc'
          call get_Ls_xy(tokei,hokui,nr,LL,reactor_mode,reactor_type)
          include 'inc/get_probLL.inc'
-         hfunc1D = 2*x*ovnorm*Np*YY*2.8*probLL*xsec(E)
+         hfunc1D = 2*x*ovnorm*Np*YY*2.8*probLL*nxsec
       elseif (mode.eq.100) then  ! Xsec vs sqrt{E_{vis}}
          hfunc1D = 2000d0
       endif

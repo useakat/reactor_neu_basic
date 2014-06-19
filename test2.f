@@ -10,8 +10,8 @@
       real*8 ovnorm,fa(2),fb(2),value,fscale(2)
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY,ctheta
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
-      character*10 cnreactor,cxx,cyy,creactor_mode,creactor_type      
-      integer iflag,ifixL,ifluc,nreactor,reactor_mode,reactor_type
+      character*10 cnreactor,cxx,cyy,creactor_mode,creactor_type,cixsec
+      integer iflag,ifixL,ifluc,nreactor,reactor_mode,reactor_type,ixsec
       real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
@@ -56,6 +56,7 @@
       call getarg(18,cyy)
       call getarg(19,creactor_mode)
       call getarg(20,creactor_type)
+      call getarg(21,cixsec)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -76,6 +77,7 @@
       read (cyy,*) yy
       read (creactor_mode,*) reactor_mode
       read (creactor_type,*) reactor_type
+      read (cixsec,*) ixsec
 
       s2sun_2 = 0.857d0
 c      s213_2 = 0.10d0 ! latest RENO result
@@ -150,6 +152,7 @@ c$$$      fovnorm(2) = 0.0093d0
       zz(42) = yy
       zz(43) = reactor_mode
       zz(44) = reactor_type
+      zz(45) = ixsec
 
       call gran_init(time())
 c      call gran_init(200)

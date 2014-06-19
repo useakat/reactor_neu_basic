@@ -79,12 +79,13 @@ C     ----------
       z_dat(15) = 20                     ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E)]
 c      z_dat(15) = 100                   ! hfunc1D mode, 0: dN/d[sqrt(E)] 1:d(flux*Xsec)/d[sqrt(E]
       z_dat(16) = zz(1)                  ! L [km]
-      z_dat(17) = zz(39)
-      z_dat(18) = zz(40)
-      z_dat(19) = zz(41)
-      z_dat(20) = zz(42)
-      z_dat(21) = zz(43)
-      z_dat(22) = zz(44)
+      z_dat(17) = zz(39)  ! theta
+      z_dat(18) = zz(40)  ! nr
+      z_dat(19) = zz(41)  ! tokei
+      z_dat(20) = zz(42)  ! hokui
+      z_dat(21) = zz(43)  ! reactor_mode
+      z_dat(22) = zz(44)  ! reactor_type
+      z_dat(23) = zz(45)  ! ixsec
 
       z(11) = zz(36)*z_dat(11)              
 c      z(11) = z_dat(11)
@@ -99,6 +100,7 @@ c      z(11) = z_dat(11)
       z(20) = z_dat(20)
       z(21) = z_dat(21)
       z(22) = z_dat(22)
+      z(23) = z_dat(23)
 
       serror = zz(32)
       snmax = zz(33)
