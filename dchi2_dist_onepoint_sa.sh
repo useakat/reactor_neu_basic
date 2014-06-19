@@ -20,6 +20,7 @@ xx=${17}
 yy=${18}
 reactor_mode=${19}
 reactor_type=${20}
+ixsec=${21}
 
 source ${selfdir}/dchi2_fitting_Eresnl.sh
 #source ${selfdir}/get_cl.sh

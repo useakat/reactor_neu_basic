@@ -72,7 +72,7 @@ R=0.12
 Y=5
 Lmin=10
 Lmax=100
-ndiv=10
+ndiv=100
 binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
 ifixL=0
 ifluc=0
@@ -423,7 +423,7 @@ if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis in the polar cordinate 
     Eres=2
     Eres_nl=0.5
     nreactor=6
-    source dchi2_multi_parallel.sh
+    source dchi2_multi_parallel.sh  # (under construction due to the new ixsec flag)
 fi
 
 if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (parallel)
