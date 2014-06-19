@@ -12,8 +12,8 @@ set grid
 #set xrange [-1:1]
 #set yrange [1E-5:2E8]
 
-set output "plots/EventDist_0_0_single.eps"
-#set title "P_{reactor} = 20GW_{th}, V = 5kton (12.00% free proton), 10 years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 0%/{/Symbol=\326}E_{vis} +0%"
+set output "plots/EventDist_3_1_single.eps"
+#set title "P_{reactor} = 16.52GW_{th}, V = 10kton (12.00% free proton), 5 years, NH, {/Symbol=\144}E_{vis}/E_{vis} = 3%/{/Symbol=\326}E_{vis} +1%"
 set xlabel 'E_{/Symbol=\156} [MeV]' offset -1,0
 set ylabel 'dN / dE_{/Symbol=\156} [1/MeV]' offset 0,0
 set logscale y
@@ -26,7 +26,7 @@ set xtics (2,3,4,5,6,7,8)
 
 set multiplot
 plot \
-'rslt_test/data/events_nh_50_0_0.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'red' lw 3
+'rslt_test2/data/events_nh_50_3_1.dat' u ($1**2+0.8):($2/(2*$1)) t '50km' w l lt 1 lc rgb 'red' lw 3
 set nomultiplot
 
 reset

@@ -1,0 +1,19 @@
+# Discription
+
+# INSTALL
+  ./makelib
+
+# PARAMETERS
+  see params.card
+
+# ROUTINES
+  ./run.sh: core program for minimization
+
+# HOW TO RUN
+1. normal mode
+   ./run.sh (see run.sh for more details)
+
+# Cautions
+
+# Version history
+14.06.19: version 1

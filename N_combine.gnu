@@ -37,8 +37,8 @@ set ytics (10000,20000,30000,40000)
 #set ytics (2E4,4E4,6E4,8E4,1E5)
 set arrow from 1.81914, graph 0.35 to 1.81914, graph 0.15 lw 3  lc rgb 'red'
 plot \
-'rslt_test/data/N_nh_30.dat' u 1:2 t '30 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'rslt_test/data/N_ih_30.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'rslt_test2/data/N_nh_30.dat' u 1:2 t '30 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'rslt_test2/data/N_ih_30.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 unset title
 unset label
@@ -51,8 +51,8 @@ set ytics (2E3,6E3,1E4,1.4E4)
 unset arrow
 set arrow from 2.425, graph 0.40 to 2.425, graph 0.2 lw 3  lc rgb 'red'
 plot \
-'rslt_test/data/N_nh_40.dat' u 1:2 t '40 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'rslt_test/data/N_ih_40.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'rslt_test2/data/N_nh_40.dat' u 1:2 t '40 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'rslt_test2/data/N_ih_40.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 unset label
 set ylabel '{/=25 dN / dE_{/Symbol=\156} [1/MeV]}' offset 0.5,2
@@ -66,8 +66,8 @@ set ytics (1000,3000,5000,7000)
 unset arrow
 set arrow from 3.03, graph 0.65 to 3.03, graph 0.45 lw 3  lc rgb 'red'
 plot \
-'rslt_test/data/N_nh_50.dat' u 1:2 t '50 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'rslt_test/data/N_ih_50.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'rslt_test2/data/N_nh_50.dat' u 1:2 t '50 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'rslt_test2/data/N_ih_50.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 unset label
 unset ylabel
@@ -83,8 +83,8 @@ set ytics (0,1000,2000,3000,4000)
 unset arrow
 set arrow from 3.638, graph 0.70 to 3.638, graph 0.50 lw 3  lc rgb 'red'
 plot \
-'rslt_test/data/N_nh_60.dat' u 1:2 t '60 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
-'rslt_test/data/N_ih_60.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
+'rslt_test2/data/N_nh_60.dat' u 1:2 t '60 km NH'  w l lt 1 lc rgb 'blue' lw 1 ,\
+'rslt_test2/data/N_ih_60.dat' u 1:2 t '      IH'  w l lt 1 lc rgb 'red' lw 1
 
 set nomultiplot
 

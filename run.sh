@@ -6,26 +6,19 @@ if [[ "$1" == "-h" ]]; then
     exit
 fi
 selfdir=$(cd $(dirname $0);pwd)
+###
+### Default argument values
+###
 run=test
 run_mode=4
-#P=16.52 # YongGwang
-P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
-V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
-R=0.12
-Y=5
-Lmin=10
-Lmax=100
-ndiv=100
-binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
-ifixL=0
-ifluc=0
-theta=0
-nreactor=0 # The number of reactor cores at Yongwang or The number of reactor sites for negative value 
-xx=130 # default tokei for 1 point servey
-yy=34  # default hokui for 1 point servey
+Eres=3
+Eres_nl=1
 reactor_mode=0 # 0:use the averaged position of reactor cores 1:use each position of reactor cores
 reactor_type=0 # 0:only operating reactors 1:add planned reactors
-if [ $# -eq 0 ]; then
+###
+### Argument input routine
+###
+if [ $# -eq 0 ]; then  
     echo "input run name"
     read run
     echo "input run mode: 0:All 1:Flux*Xsec 2:dN/dE 3:dchi2 4:Free Analysis"
@@ -60,13 +53,35 @@ else
     if [ $# -ge 7 ];then
 	plot_run_mode=$7
     fi
-fi    
-
+fi
+###
+### parameters
+###    
+#P=16.52 # YongGwang
+P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
+V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
+R=0.12
+Y=5
+Lmin=10
+Lmax=100
+ndiv=100
+binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
+ifixL=0
+ifluc=0
+theta=0
+nreactor=0 # The number of reactor cores at Yongwang or The number of reactor sites for negative value 
+xx=130 # default tokei for 1 point servey
+yy=34  # default hokui for 1 point servey
+###
+### plot only option
+###
 if [ ${run_mode} -eq 10 ]; then
     ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
     exit
 fi
-
+###
+### start program
+###
 make clean >/dev/null 2>&1
 rm -rf plots/*
 rm -rf data/*
@@ -86,8 +101,6 @@ else
 fi
 
 echo ${date} ${ttime} > ${defout}
-
-### start program ###
 
 echo "" >> ${defout}
 echo "[Input Parameters]" >> ${defout}
