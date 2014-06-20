@@ -39,12 +39,11 @@ C     ----------
 c      flux = a*preflux*1d12/1.602176487d0
 c      flux = a*preflux*1d22/1.602176487d0
 
-
       return
       end
 
 
-      real*8 function xsec(E)
+      real*8 function xsec_IBD_naive(E)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Aug.17 2012
 C     
@@ -55,13 +54,9 @@ C     input
 C           E: energy of the positron in MeV           
 C     ****************************************************
       implicitnone
-C
 C     CONSTANTS
-C
       real*8 me,mp,mn
-C     
 C     ARGUMENTS 
-C     
       real*8 E,Ee
 C     ----------
 C     BEGIN CODE
@@ -69,11 +64,9 @@ C     ----------
       me = 0.510998910d0
       mp = 938.272d0
       mn = 939.565d0
-
 c      Ee = (E +mp)/2d0*(1d0 -(mn**2 -me**2)/(2*E*mp +mp**2))
       Ee = E -(mn-mp)
-      xsec = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
-
+      xsec_IBD_naive = 0.0952d0*Ee*dsqrt(Ee**2 -me**2)*1d-42
       return
       end
 
@@ -106,31 +99,30 @@ C     ----------
       end
 
 
-      real*8 function prob_ee(a,param,error,sign,mode,unc_mode)
+      real*8 function prob_ee(LoE,param,error,sign,mode,unc_mode)
 C     ****************************************************
 C     By Yoshitaro Takaesu @KIAS Aug.17 2012
-C     
+C     Modified @ U.Tokyo Jun.19 2014
+C
 C     P_ee
 C
 C     input
 C           a: L/E in km/MeV
 C     ****************************************************
       implicitnone
-C
 C     CONSTANTS
-C
+C     ARGUMENTS 
+      integer sign,mode,unc_mode,icheck
+      real*8 a,aa,param(4),error(4),LoE
+C     LOCAL VARIABLES
       real*8 s2sun_2,s23_2,s213_2,s12,c12,s13,c13
       real*8 s12_2,s13_2,unc_s2sun_2,unc_s213_2
       real*8 s2sun_2_eff,s213_2_eff
       real*8 dm13_2,dm12_2,dm23_2,unc_dm12_2,unc_dm13_2
       real*8 dm12_2_eff,dm13_2_eff,dm23_2_eff
       real*8 ue1,ue2,ue3,ue1ue2,ue1ue3,ue2ue3
-      real*8 dim_fact
-C     
-C     ARGUMENTS 
-C     
-      integer sign,mode,unc_mode,icheck
-      real*8 a,aa,param(4),error(4)
+      real*8 dim_fact,c212,Del_21,Del_ee,phi
+      real*8 dmee_2,s212_2,cosphi,sinphi
 C     ----------
 C     BEGIN CODE
 C     ----------
@@ -142,8 +134,8 @@ C     ----------
       unc_s213_2 = error(2)
       unc_dm12_2 = error(3)
       unc_dm13_2 = error(4)
-      dm23_2 = sign*dm13_2 -dm12_2
 
+      dm23_2 = sign*dm13_2 -dm12_2
       s2sun_2_eff = s2sun_2 +unc_mode*unc_s2sun_2
       s213_2_eff = s213_2 +unc_mode*unc_s213_2
       dm12_2_eff = dm12_2 
@@ -162,7 +154,7 @@ c      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
       ue3 = s13
 
       dim_fact = 1d6/197.3269631d0
-      aa = a*dim_fact
+      aa = LoE*dim_fact
 
       if (mode.eq.0) then
          prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2_eff*aa/4d0)**2
@@ -171,6 +163,25 @@ c      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
 c         Prob_ee = 1d0 -4*c13**4*s12**2*c12**2*dsin(dm12_2*a*1270d0)**2
 c     &        -c12**2*s213_2*dsin(dm13_2*a*1270d0)**2
 c     &        -s12**2*s213_2*dsin(dm23_2*a*1270d0)**2
+      elseif (mode.eq.1) then
+         s212_2 = s2sun_2
+         dmee_2 = dm13_2
+         c212 = c12**2 -s12**2
+         Del_21 = dm12_2*LoE/4d0*dim_fact
+         Del_ee = dmee_2*LoE/4d0*dim_fact
+c         phi = datan(c212*dtan(Del_21)) -Del_21*c212
+c         phi = 2*s12_2*Del_21*(1d0 -dsin(Del_21)/(2*Del_21
+c     &        *dsqrt(1d0 -4*s12_2*c12**2*dsin(Del_21)**2)))
+      cosphi = (c12**2*dcos(2*s12_2*Del_21)+s12_2*dcos(2*c12**2*Del_21))
+     &        /dsqrt(1d0 -4*s12_2*c12**2*dsin(Del_21)**2)
+      sinphi = (c12**2*dsin(2*s12_2*Del_21)-s12_2*dsin(2*c12**2*Del_21))
+     &        /dsqrt(1d0 -4*s12_2*c12**2*dsin(Del_21)**2)
+      
+         prob_ee = 1d0 -0.5*s213_2*(1d0 -dsqrt(1d0 
+     &        -s212_2*dsin(Del_21)**2)*(dcos(2*Del_ee)*cosphi 
+     &        -sign*dsin(2*Del_ee)*sinphi))
+     &        -s212_2*c13**4*dsin(Del_21)**2       
+c     &        -s212_2*dsin(Del_21)**2)*dcos(2*Del_ee +sign*phi))  
       elseif (mode.eq.21) then
          prob_ee = 1d0 -4*ue1**2*ue2**2*dsin(dm12_2_eff*aa/4d0)**2
       elseif (mode.eq.31) then

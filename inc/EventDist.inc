@@ -3,7 +3,7 @@ C -*- fortran -*-
          hmode = 1              ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 2   ! 1:integer 2:real*8
 c         include 'bining_value.inc'  ! bining by value
-         include 'bining_dx.inc'
+         include 'inc/bining_dx.inc'
 
          z_dat(11) = 1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
@@ -14,8 +14,10 @@ c         call smearing(event_dat,nbins,rdx,Eres,event2_dat)
          open(1,file="evdinh.dat",status="replace")
          do i = 1,nbins
             write(1,*) x(i),event2_dat(i)/rdx,event2_dat(i),nevent_dat
+c            write(1,*) x(i),event_dat(i)/rdx,event_dat(i),nevent_dat
          enddo
          close(1)
+
          z_dat(11) = -1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat

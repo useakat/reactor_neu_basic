@@ -12,7 +12,7 @@ C     -*- fortran -*-
       hmode = 1                 ! 0:continuous 1:simpson 2:center-value 
       evform_dat = 2
       evform_th = 2
-      include 'bining_dx.inc'
+      include 'inc/bining_dx.inc'
 c     include 'bining_Eres2.inc'
       
       if (ifirst.eq.0) then

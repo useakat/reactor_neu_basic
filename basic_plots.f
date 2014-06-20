@@ -9,8 +9,8 @@
       real*8 P,V,Y,R,Np,YY
       character*4 cL,cP,cV,cR,cY
 
-      real*8 flux,xsec,prob_ee
-      external flux,xsec,prob_ee
+      real*8 flux,xsec_IBD_naive,prob_ee
+      external flux,xsec_IBD_naive,prob_ee
 
       include 'const.inc'
 
@@ -65,7 +65,7 @@
          loemax = L/Emin
          loe = loemin +(loemax -loemin)/dble(ndiv)*(i-1)
          E = L/loe
-         no_osc = flux(E)*xsec(E)*P/L**2*Np*YY
+         no_osc = flux(E)*xsec_IBD_naive(E)*P/L**2*Np*YY
          prob_nor = prob_ee(loe,z,error,1,0,0)
          prob_inv = prob_ee(loe,z,error,-1,0,0)
          events_nor = no_osc*prob_nor
@@ -73,12 +73,12 @@
          diff = 1d0 -prob_inv/prob_nor
          write(10,*) E,flux(E)
          write(11,*) E,no_osc
-         write(12,*) E,xsec(E)
+         write(12,*) E,xsec_IBD_naive(E)
          write(13,*) E,prob_nor,prob_inv,diff
          write(14,*) E,no_osc,events_nor,events_inv,diff
          write(20,*) loe,flux(E)
          write(21,*) loe,no_osc
-         write(22,*) loe,xsec(E)
+         write(22,*) loe,xsec_IBD_naive(E)
          write(23,*) loe,prob_nor,prob_inv,diff
          write(24,*) loe,no_osc,events_nor,events_inv,diff
       enddo

@@ -17,7 +17,7 @@
 	xx=$xxmin
 	yy=$yymin
 	jobname="job"$RANDOM
-	./submit_job.sh $job_system $que 0 $jobname "../dchi2_multi_korea.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor} $xx $yy ${reactor_mode} ${reactor_type} ${ixsec}"
+	./submit_job.sh $job_system $que 0 $jobname "../dchi2_multi_korea.sh $P $V $R $Y $Eres $Eres_nl $mode $maxL_nh $maxL_ih $binsize $theta ${nreactor} $xx $yy ${reactor_mode} ${reactor_type} ${ixsec} ${iPee}"
 	count=1
     elif [ $idivx -ne 0 ];then # 2D scan
 	i=0

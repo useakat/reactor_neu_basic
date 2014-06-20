@@ -1,10 +1,12 @@
-F77      = g77
+#F77      = g77
+F77      = gfortran
 FFLAGS   = -O -ffixed-line-length-132
 #PHYSHOME = ./
 #INCLUDES = -I./ -I$(PHYSHOME)/inc
 LIBDIR   = -L./lib
 #-L$(PACKAGES)/fftw_v3.3.2/lib
 
+#LIBS_MYLIB = -lmylib -lminuit -lDeltaChi2 -lquadpack
 LIBS_MYLIB = -lmylib -lminuit -lDeltaChi2
 
 LIBS          = $(LIBS_MYLIB)
@@ -15,7 +17,7 @@ OBJS_dchi2       = test2.o hfunc1D.o minfunc.o funcs.o smearing.o gran.o get_Ls.
 OBJS_dist       = dist.o make_dist.o fFluxXsec.o funcs.o
 OBJS_eventdist       = eventdist.o feventdist.o make_dist.o funcs.o
 OBJS_get_cl       = get_cl.o
-OBJS_test       = test.o gran.o get_Ls.o
+OBJS_test       = test.o
 
 .f.o:
 	$(F77) $(FFLAGS) $(INCLUDES) -c $<

@@ -1,7 +1,7 @@
 C -*- fortran -*-
          z_dat(15) = 20    ! N vs. sqrt(E)
 c         include 'bining_value.inc'
-         include 'bining_dx.inc'
+         include 'inc/bining_dx.inc'
          hmode = 1
          evform_dat = 2
 

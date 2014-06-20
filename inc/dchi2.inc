@@ -12,7 +12,7 @@ C -*- fortran -*-
       hmode = 1                 ! 0:continuous 1:simpson 2:center-value 
       evform_dat = 2
       evform_th = 2
-      include 'bining_dx.inc'
+      include 'inc/bining_dx.inc'
 c     include 'bining_Eres2.inc'
       
       if (ifirst.eq.0) then
@@ -24,7 +24,8 @@ c         call smearing(event_dat,nbins,rdx,Eres,event2_dat)
 c         call smearing_nl2(event_dat,x,nbins,Eres,Eres_nl,event2_dat)         
          ifirst = 1
       endif
-      
+
+      hmode = 1
       call MakeHisto1D(nout,hfunc1D,z,nevent,nbins,x
      &     ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &     ,nevent_th,ierr2)

@@ -25,7 +25,7 @@
 	while [ $i -le $ddiv ];do
 	    binsize[$i]=`echo "scale=5; $min +$del*$i" | bc`
 	    jobname="job"$RANDOM
-	    ./submit_job.sh $job_system $que $i $jobname "${selfdir}/dchi2_dist_onepoint_sa.sh $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 ${ifixL} ${ifluc} ${binsize[$i]} ${theta} ${nreactor} $xx $yy ${reactor_mode} ${reactor_type} ${ixsec}" 
+	    ./submit_job.sh $job_system $que $i $jobname "${selfdir}/dchi2_dist_onepoint_sa.sh $Lmin $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 ${ifixL} ${ifluc} ${binsize[$i]} ${theta} ${nreactor} $xx $yy ${reactor_mode} ${reactor_type} ${ixsec} ${iPee}"  
 	    i=`expr $i + 1`
 	done
 	n1=$i

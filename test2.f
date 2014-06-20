@@ -11,7 +11,9 @@
       character*10 name(10),iname,cLmin,cLmax,cndiv,cP,cV,cR,cY,ctheta
       character*10 cEres,cmode,cEres_nl,cvalue,cfixL,cfluc,cbinsize
       character*10 cnreactor,cxx,cyy,creactor_mode,creactor_type,cixsec
+      character*10 ciPee
       integer iflag,ifixL,ifluc,nreactor,reactor_mode,reactor_type,ixsec
+      integer iPee
       real*8 z(20),dchisq,grad,futil,sensitivity
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
@@ -24,9 +26,11 @@
       real*8 zz(50)
       common /zz/ zz
 
-      integer lench,time
+c      integer lench,time
+      integer lench
       real*8 SigmaProb
-      external minfunc,lench,time,SigmaProb
+c      external minfunc,lench,time,SigmaProb
+      external minfunc,lench,SigmaProb
 
       integer ifirst
       real*8 final_bins
@@ -57,6 +61,7 @@
       call getarg(19,creactor_mode)
       call getarg(20,creactor_type)
       call getarg(21,cixsec)
+      call getarg(22,ciPee)
       read (cLmin,*) Lmin 
       read (cLmax,*) Lmax
       read (cndiv,*) ndiv 
@@ -78,13 +83,18 @@
       read (creactor_mode,*) reactor_mode
       read (creactor_type,*) reactor_type
       read (cixsec,*) ixsec
+      read (ciPee,*) iPee
 
       s2sun_2 = 0.857d0
+c      s2sun_2 = 0.8556d0 ! 0503283 Fig.1      
 c      s213_2 = 0.10d0 ! latest RENO result
-c      s213_2 = 0.089d0 ! latest Dyabay resultc      dm21_2(1) = 7.50d-5
+c      s213_2 = 0.089d0 ! latest Dyabay result
       s213_2 = 0.098d0
+c      s213_2 = 0.1536d0 ! 0503283 Fig.1
       dm21_2 = 7.50d-5
+c      dm21_2 = 8.00d-5 ! 0503283 Fig.1
       dm31_2 = 2.32d-3
+c      dm31_2 = 2.5d-3 ! 0503283 Fig.1
       ovnorm = 1d0
 
       fs2sun_2(1) = 0.857d0
@@ -115,8 +125,9 @@ c$$$      fovnorm(2) = 0.0093d0
       fscale(2) = 0.02d0
 
       Emin = 1.81d0  
+c      Emin = 0.5d0  
       Emax = 8d0
-      serror = 1d-4
+      serror = 1d-3
       snmax = 10
 
       zz(10) = s2sun_2
@@ -153,9 +164,10 @@ c$$$      fovnorm(2) = 0.0093d0
       zz(43) = reactor_mode
       zz(44) = reactor_type
       zz(45) = ixsec
+      zz(46) = iPee
 
-      call gran_init(time())
-c      call gran_init(200)
+c      call gran_init(time())
+      call gran_init(200)
 
       open(19,file='dchi2_result.txt',status='replace')
       write(19,'(a11,e12.5,a3,e9.2)') "sin212_2 = ",s2sun_2," +-"
@@ -187,6 +199,7 @@ c      call gran_init(200)
       if (mode.eq.0) then
 c         do k = 1,-1,-2
          do k = 1,1
+c         do k = -1,-1
             zz(2) = k
             if (k.eq.1) then
                open(20,file='minorm_nh.dat',status='replace')
@@ -243,6 +256,7 @@ c         do k = 1,-1,-2
 c               call mnexcm(minfunc,'SIMPLEX',arg,0,ierr,0)
 
                zz(36) = -1
+c               zz(36) = 1
                call mnexcm(minfunc,'MIGRAD',arg,0,ierr,0)
                call mnstat(chisqmin_true,fedm,errdef,npari,nparx,istat)
 c$$$               zz(36) = -1
@@ -252,6 +266,7 @@ c$$$               call mnstat(chisqmin_wrong,fedm,errdef,npari,nparx,istat)
 c               dchisqmin = chisqmin_wrong -chisqmin_true
                dchisqmin = chisqmin_true
 
+ccc chisqmin consistency
                if (0.eq.1) then
                   if (chisqmin_true.lt.chisqmin_wrong) then
                      dchi_rej = 2.85517d0

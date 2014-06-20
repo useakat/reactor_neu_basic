@@ -1,4 +1,5 @@
-FC = g77
+#FC = g77
+FC = gfortran
 FFLAGS        = -O
 DEST	      = ../lib
 LIBRARY	      = libminuit.a

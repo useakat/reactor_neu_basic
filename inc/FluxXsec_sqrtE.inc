@@ -1,5 +1,5 @@
 C -*- fortran -*-
-         include 'bining_E.inc'
+         include 'inc/bining_E.inc'
          evform_dat = 2   ! 1:integer 2:real*8
 
          z_dat(15) = 1   ! dFlux/dE

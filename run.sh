@@ -73,10 +73,11 @@ Y=5
 Lmin=10
 Lmax=100
 ndiv=100
-binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV)
+binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV) 0.0025 default
 ifixL=0
 ifluc=0
-ixsec=0 #IBD xsec treatment: 0:include Nulear recoil effect (approx) 1:Neglect the recoil effect 
+ixsec=1 #IBD xsec treatment: 0:include Nulear recoil effect (approx) 1:Neglect the recoil effect 
+iPee=1 # survival probability: 0:dm31_2-dm32_2 scheme 1:dmee_2 scheme 
 theta=0
 nreactor=0 # The number of reactor cores at Yongwang or The number of reactor sites for negative value 
 xx=130 # default tokei for 1 point servey
@@ -135,13 +136,14 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then
 
 ## dsqrt(E) distribution
     mode=1
-    Lmin=1
+    Lmin=10
     source ./run_dchi2.sh
 
 ## dN/dE distribution
     mode=5
     i=10
     while [ $i -lt 110 ]; do
+	Lmin=$i
 	source ./run_dchi2.sh
 	mv PeeNH.dat PeeNH_${i}.dat
 	mv PeeIH.dat PeeIH_${i}.dat
@@ -154,6 +156,7 @@ if [ ${run_mode} -eq 1 ] || [ ${run_mode} -eq 0 ] ; then
     mode=3
     i=10
     while [ $i -lt 110 ]; do
+	Lmin=$i
 	source ./run_dchi2.sh
 	mv FluxXsec_loe.dat FluxXsec_loe_${i}.dat
 	mv FluxXsecPeeNH_loe.dat FluxXsecPeeNH_loe_${i}.dat
@@ -170,6 +173,7 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 # Energy distributions
     i=10
     while [ $i -lt 110 ]; do
+	Lmin=$i
 	source ./run_dchi2.sh
 #	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
 	mv evdinh.dat events_nh_${i}_${Eres}_${Eres_nl}.dat
@@ -184,6 +188,7 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     if [ 1 -eq 0 ]; then	
 	i=10
 	while [ $i -lt 110 ]; do
+	    Lmin=$i
 	    Eres=3
 	    source ./run_dchi2.sh
 #	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
@@ -299,7 +304,7 @@ if [ ${run_mode} -eq 4 ]; then
     if [ 1 -eq 1 ]; then 
 	ifluc=0
 	ifixL=0
-	binsize=0.0025d0
+#	binsize=0.025d0
 	source dchi2_fitting.sh
     fi
 
