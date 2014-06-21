@@ -64,15 +64,17 @@ fi
 ###
 ### parameters
 ###    
-P=20
+#P=35.8
+P=16.4
 #P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
 #V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
-V=5
+V=18
 R=0.12
+#R=0.11
 Y=5
 Lmin=10
 Lmax=100
-ndiv=100
+ndiv=20
 binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV) 0.0025 default
 ifixL=0
 ifluc=0

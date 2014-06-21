@@ -10,8 +10,9 @@
       real*8 flux,xsec_IBD_naive,prob_ee,Lfact,fa,fb,Evis,fscale,theta
       real*8 probLL,LL(200),LLfact(200),tokei(0:200),hokui(0:200)
       real*8 PP(200),xsec_IBD_naive2,nxsec,Pee,geo_neu_flux,nflux
+      real*8 Prob_geo,Pgeo
       external flux,xsec_IBD_naive,prob_ee,xsec_IBD_naive2
-      external geo_neu_flux
+      external geo_neu_flux,Prob_geo
 
       error(1) = 0.025d0
       error(2) = 0.005d0
@@ -60,20 +61,22 @@ CCC
 CCC
 CCC survival probability (P_ee)
 CCC
-c      Pee = prob_ee(L/E,z,error,sign,iPee,0)
-      Pee = 1d0
+      Pee = prob_ee(L/E,z,error,sign,iPee,0)
+      Pgeo = prob_geo(L/E,z,error,sign,iPee,0)
+c      Pee = 1d0
 CCC
 CCC survival probability (P_ee)
 CCC
-c      nflux = flux(E,P)
-      nflux = geo_neu_flux(E)
+      nflux = flux(E,P)
+c      nflux = geo_neu_flux(E)
 CCC
 CCC calculation of hfunc1D
 CCC
+      hfunc1D = 0d0
       if (mode.eq.0) then   ! dN/dE_{\nu}
-         hfunc1D = ovnorm*Np*YY*nflux/Lfact
-     &        *Pee*nxsec
-c         hfunc1D = Pee
+         hfunc1D = ovnorm*Np*YY*flux(E,P)/Lfact*Pee*nxsec
+c         hfunc1D = hfunc1D +Np*YY*geo_neu_flux(E)*Pgeo*nxsec
+         hfunc1D = hfunc1D +ovnorm_geo*Np*YY*geo_neu_flux(E)*nxsec
       elseif (mode.eq.1) then   ! dFlux/dE_{\nu}  eq.6
          hfunc1D = nflux
 c         hfunc1D = geo_neu_flux(E)
@@ -94,8 +97,11 @@ c         hfunc1D = geo_neu_flux(E)*nxsec
          hfunc1D = Pee
 
       elseif (mode.eq.20) then  ! dN/dsqrt(E_{vis})
-c         hfunc1D = 2*x*ovnorm*Np*YY*nflux/Lfact*Pee*nxsec
-         hfunc1D = 2*x*ovnorm*Np*YY*nflux*nxsec
+         hfunc1D = 2*x*ovnorm*Np*YY*nflux/Lfact*Pee*nxsec
+c         hfunc1D = hfunc1D +2*x*Np*YY*geo_neu_flux(E)*nxsec*Pgeo
+c         hfunc1D = 3.49d32*3.1536d7*geo_neu_flux(E)*nxsec ! consistent with KAMLAND
+c         hfunc1D = 5.2d33*3.1536d7*geo_neu_flux(E)*nxsec ! consistent with KAMLAND
+c         hfunc1D = geo_neu_flux(E)
       elseif (mode.eq.21) then  ! d(Flux*Xsec)/dsqrt{E_{vis}}
          hfunc1D = 2*x*nflux/Lfact*nxsec
       elseif (mode.eq.23) then  ! Flux vs sqrt{E_{vis}}

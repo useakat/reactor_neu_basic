@@ -48,20 +48,23 @@ C     By Yoshitaro Takaesu @KIAS Aug.31 2012
 C     
 C     Anti-electron-neutrino flux of energy E[MeV] 
 C     from the reactors with the total thermal 
-C     power of P[GW] in [ 1/s/MeV ] unit
+C     power of P[GW] in [ 1/cm^2/s/MeV ] unit
 C     ****************************************************
       implicitnone
 C     ARGUMENTS
       integer iso
       real*8 E,r
       real*8 norm,flux_U,flux_Th,flux
-      real*8 preflux,pi
+      real*8 preflux,pi,norm_U,norm_Th
 C     ----------
 C     BEGIN CODE
 C     ----------
       pi = dacos(-1d0)
       r = 0.857
-      norm = 1d6*0.343 ! KAMLAND measurement
+      norm = 4.3d6 ! 1/cm^2/s KAMLAND measurement
+c      r = 1d0
+      norm_U = 4.04d6
+      norm_Th = 3.72d6
 
       if (E.lt.1.74) then
          flux_U = -0.391 +0.678*E -0.214*E**2  
@@ -87,6 +90,7 @@ c         flux_U = -3.66 +4.23*E -1.18*E**2
       endif
 
       geo_neu_flux = norm*(flux_U +r*flux_Th)
+c      geo_neu_flux = norm_U*flux_U +norm_Th*flux_Th
 
       return
       end
@@ -238,6 +242,65 @@ c     &        -s212_2*dsin(Del_21)**2)*dcos(2*Del_ee +sign*phi))
       elseif (mode.eq.32) then
          prob_ee = -4*ue2**2*ue3**2*dsin(dm23_2_eff*aa/4d0)**2
       endif
+
+      return
+      end
+
+
+      real*8 function prob_geo(LoE,param,error,sign,mode,unc_mode)
+C     ****************************************************
+C     By Yoshitaro Takaesu @U.Tokyo Jun.21 2014
+C
+C     P_geo
+C
+C     input
+C           a: L/E in km/MeV
+C     ****************************************************
+      implicitnone
+C     CONSTANTS
+C     ARGUMENTS 
+      integer sign,mode,unc_mode,icheck
+      real*8 a,aa,param(4),error(4),LoE
+C     LOCAL VARIABLES
+      real*8 s2sun_2,s23_2,s213_2,s12,c12,s13,c13
+      real*8 s12_2,s13_2,unc_s2sun_2,unc_s213_2
+      real*8 s2sun_2_eff,s213_2_eff
+      real*8 dm13_2,dm12_2,dm23_2,unc_dm12_2,unc_dm13_2
+      real*8 dm12_2_eff,dm13_2_eff,dm23_2_eff
+      real*8 ue1,ue2,ue3,ue1ue2,ue1ue3,ue2ue3
+      real*8 dim_fact,c212,Del_21,Del_ee,phi
+      real*8 dmee_2,s212_2,cosphi,sinphi
+C     ----------
+C     BEGIN CODE
+C     ----------
+      s2sun_2 = param(1)
+      s213_2 = param(2)
+      dm12_2 = param(3)
+      dm13_2 = param(4)
+      unc_s2sun_2 = error(1)
+      unc_s213_2 = error(2)
+      unc_dm12_2 = error(3)
+      unc_dm13_2 = error(4)
+
+      dm23_2 = sign*dm13_2 -dm12_2
+      s2sun_2_eff = s2sun_2 +unc_mode*unc_s2sun_2
+      s213_2_eff = s213_2 +unc_mode*unc_s213_2
+      dm12_2_eff = dm12_2 
+      dm13_2_eff = dm13_2 
+      dm23_2_eff = dm23_2
+
+      s13_2 = 0.5*s213_2_eff/( 1d0 +dsqrt(1d0 -s213_2_eff) )
+      s13 = dsqrt(s13_2)
+      c13 = dsqrt(1d0 -s13**2)
+c      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
+      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff) )/2d0
+      s12 = dsqrt(s12_2)
+      c12 = dsqrt(1d0 -s12**2)
+      ue1 = c12*c13
+      ue2 = s12*c13
+      ue3 = s13
+
+      prob_geo = c13**4*(1d0 -2*s12_2*c12**2) +s13**4
 
       return
       end
