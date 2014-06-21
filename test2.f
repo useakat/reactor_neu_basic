@@ -125,7 +125,7 @@ c$$$      fovnorm(2) = 0.0093d0
       fscale(2) = 0.02d0
 
       Emin = 1.81d0  
-c      Emin = 0.5d0  
+c      Emin = 0d0  
       Emax = 8d0
       serror = 1d-3
       snmax = 10

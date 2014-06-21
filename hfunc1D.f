@@ -9,8 +9,9 @@
       real*8 x,z(50),error(10),L,E,loe,Np,P,YY,ovnorm
       real*8 flux,xsec_IBD_naive,prob_ee,Lfact,fa,fb,Evis,fscale,theta
       real*8 probLL,LL(200),LLfact(200),tokei(0:200),hokui(0:200)
-      real*8 PP(200),xsec_IBD_naive2,nxsec,Pee
+      real*8 PP(200),xsec_IBD_naive2,nxsec,Pee,geo_neu_flux,nflux
       external flux,xsec_IBD_naive,prob_ee,xsec_IBD_naive2
+      external geo_neu_flux
 
       error(1) = 0.025d0
       error(2) = 0.005d0
@@ -59,36 +60,46 @@ CCC
 CCC
 CCC survival probability (P_ee)
 CCC
-      Pee = prob_ee(L/E,z,error,sign,iPee,0)
+c      Pee = prob_ee(L/E,z,error,sign,iPee,0)
+      Pee = 1d0
+CCC
+CCC survival probability (P_ee)
+CCC
+c      nflux = flux(E,P)
+      nflux = geo_neu_flux(E)
 CCC
 CCC calculation of hfunc1D
 CCC
       if (mode.eq.0) then   ! dN/dE_{\nu}
-         hfunc1D = ovnorm*Np*YY*flux(E,P)/Lfact
+         hfunc1D = ovnorm*Np*YY*nflux/Lfact
      &        *Pee*nxsec
 c         hfunc1D = Pee
       elseif (mode.eq.1) then   ! dFlux/dE_{\nu}  eq.6
-         hfunc1D = flux(E,P)
+         hfunc1D = nflux
+c         hfunc1D = geo_neu_flux(E)
       elseif (mode.eq.2) then   ! dXsec/dE_{\nu}  eq.13
          hfunc1D = nxsec
       elseif (mode.eq.3) then   ! dPee/E_{\nu}
          hfunc1D = Pee
       elseif (mode.eq.4) then   ! d(Flux*Xsec)/dE_{\nu}
-         hfunc1D = flux(E,P)*nxsec
+         hfunc1D = nflux*nxsec
+c         hfunc1D = nxsec
+c         hfunc1D = geo_neu_flux(E)*nxsec
 
       elseif (mode.eq.12) then      ! d(Flux*Xsec)/d(L/E_{\nu})
-         hfunc1D = E**2/( L*1d5 )*flux(E,P)/Lfact*nxsec
+         hfunc1D = E**2/( L*1d5 )*nflux/Lfact*nxsec
       elseif (mode.eq.13) then  ! d(Flux*Xsec*Pee)/d(L/E_{\nu})
-         hfunc1D = E**2/( L*1d5 )*flux(E,P)/Lfact*nxsec*Pee
+         hfunc1D = E**2/( L*1d5 )*nflux/Lfact*nxsec*Pee
       elseif (mode.eq.14) then  ! Pee vs L/E_{\nu}
          hfunc1D = Pee
 
       elseif (mode.eq.20) then  ! dN/dsqrt(E_{vis})
-         hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)/Lfact*Pee*nxsec
+c         hfunc1D = 2*x*ovnorm*Np*YY*nflux/Lfact*Pee*nxsec
+         hfunc1D = 2*x*ovnorm*Np*YY*nflux*nxsec
       elseif (mode.eq.21) then  ! d(Flux*Xsec)/dsqrt{E_{vis}}
-         hfunc1D = 2*x*flux(E,P)/Lfact*nxsec
+         hfunc1D = 2*x*nflux/Lfact*nxsec
       elseif (mode.eq.23) then  ! Flux vs sqrt{E_{vis}}
-         hfunc1D = flux(E,P)
+         hfunc1D = nflux
       elseif (mode.eq.24) then  ! Xsec vs sqrt{E_{vis}}
          hfunc1D = nxsec
       elseif (mode.eq.25) then  ! RENO50 dN/dsqrt(E_{vis})
@@ -102,6 +113,7 @@ c         hfunc1D = Pee
      &              +prob_ee(LL(i)/E,z,error,sign,iPee,0)/LLfact(i)
          enddo
          hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)*probLL*nxsec/dble(nr)
+c         hfunc1D = 2*x*ovnorm*Np*YY*flux(E,P)*probLL*nxsec/dble(nr)
       elseif (mode.eq.26) then  ! Korean reactors dN/dsqrt(E_{vis})
          include 'inc/set_reactors.inc'
          call get_Ls_xy(tokei,hokui,nr,LL,reactor_mode,reactor_type)

@@ -42,6 +42,55 @@ c      flux = a*preflux*1d22/1.602176487d0
       return
       end
 
+      real*8 function geo_neu_flux(E)
+C     ****************************************************
+C     By Yoshitaro Takaesu @KIAS Aug.31 2012
+C     
+C     Anti-electron-neutrino flux of energy E[MeV] 
+C     from the reactors with the total thermal 
+C     power of P[GW] in [ 1/s/MeV ] unit
+C     ****************************************************
+      implicitnone
+C     ARGUMENTS
+      integer iso
+      real*8 E,r
+      real*8 norm,flux_U,flux_Th,flux
+      real*8 preflux,pi
+C     ----------
+C     BEGIN CODE
+C     ----------
+      pi = dacos(-1d0)
+      r = 0.857
+      norm = 1d6*0.343 ! KAMLAND measurement
+
+      if (E.lt.1.74) then
+         flux_U = -0.391 +0.678*E -0.214*E**2  
+      elseif (E.lt.1.9) then
+c         flux_U = -3.66 +4.23*E -1.18*E**2
+         flux_U = 0.322 -0.103*E
+      elseif (E.lt.2.28) then
+         flux_U = -0.165 +0.363*E -0.111*E**2
+      elseif (E.lt.3.26) then
+         flux_U = 0.0206 +0.00566*E -0.003*E**2
+      else
+         flux_U = 0d0
+      endif
+
+      if (E.lt.1.73) then
+         flux_Th = -0.1106 +0.351*E -0.121*E**2  
+      elseif (E.lt.2.08) then
+         flux_Th = -0.00218 +0.194*E -0.0736*E**2
+      elseif (E.lt.2.25) then
+         flux_Th = -0.39 +0.531*E -0.148*E**2
+      else
+         flux_Th = 0d0
+      endif
+
+      geo_neu_flux = norm*(flux_U +r*flux_Th)
+
+      return
+      end
+
 
       real*8 function xsec_IBD_naive(E)
 C     ****************************************************
