@@ -60,11 +60,12 @@ C     ----------
 C     BEGIN CODE
 C     ----------
       pi = dacos(-1d0)
-      r = 0.857
-      norm = 4.3d6 ! 1/cm^2/s KAMLAND measurement
-c      r = 1d0
-      norm_U = 4.04d6
-      norm_Th = 3.72d6
+
+c      norm = 4.3d6 ! 1/cm^2/s/MeV KAMLAND measurement
+
+      norm_U = 5.65d6  ! 1/cm^2/s/MeV effective flux (= 30 TNU:KAMLAND, Th/U = 3.9)
+      norm_Th = 4.46d6 ! 1/cm^2/s/MeV effective flux (= 8 TNU:KAMLAND)
+c      norm_U = 0d0
 
       if (E.lt.1.74) then
          flux_U = -0.391 +0.678*E -0.214*E**2  
@@ -89,8 +90,8 @@ c         flux_U = -3.66 +4.23*E -1.18*E**2
          flux_Th = 0d0
       endif
 
-      geo_neu_flux = norm*(flux_U +r*flux_Th)
-c      geo_neu_flux = norm_U*flux_U +norm_Th*flux_Th
+c      geo_neu_flux = norm*(flux_U +r*flux_Th)
+      geo_neu_flux = norm_U*flux_U +norm_Th*flux_Th
 
       return
       end

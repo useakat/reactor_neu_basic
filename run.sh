@@ -64,11 +64,14 @@ fi
 ###
 ### parameters
 ###    
-#P=35.8
-P=16.4
+#P=20
+P=35.8 # JUNO
 #P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
 #V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
-V=18
+#V=5
+V=20 # JUNO
+#V=0.16 # DayaBay Total
+#V=0.0165 # RENO
 R=0.12
 #R=0.11
 Y=5
@@ -173,6 +176,7 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     mode=2
 ###### Analysis in the draft ###############################################
 # Energy distributions
+#    binsize=0.05
     i=10
     while [ $i -lt 110 ]; do
 	Lmin=$i

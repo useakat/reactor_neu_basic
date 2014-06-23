@@ -16,8 +16,8 @@ C     GLOBAL VARIABLES
       integer ifirst
       real*8 final_bins
       common /first/ final_bins,ifirst
-      real*8 fs2sun_2(2),fs213_2(2),fdm21_2(2),fdm31_2(2),fovnorm(2)
-      common /parm0/ fs2sun_2,fs213_2,fdm21_2,fdm31_2,fovnorm
+      real*8 fs2sun_2(2),fs213_2(2),fdm21_2(2),fdm31_2(2),fovnorm(2),fovnorm_geo(2)
+      common /parm0/ fs2sun_2,fs213_2,fdm21_2,fdm31_2,fovnorm,fovnorm_geo
 C     LOCAL VARIABLES 
       integer i,j
       integer nevent,nbins,evform_th,evform_dat,nmin,nout,snmax,hmode,ndiv
@@ -51,26 +51,29 @@ C     ----------
       z_dat(3) = zz(14)
       z_dat(4) = zz(16)
       z_dat(5) = zz(18)
-      z_dat(6) = zz(20)
+      z_dat(9) = zz(20)
       z_dat(7) = zz(22)
       z_dat(8) = zz(24)
+      z_dat(6) = zz(26)
 
       parm0(1) = fs2sun_2(1)
       parm0(2) = fs213_2(1)
       parm0(3) = fdm21_2(1)
       parm0(4) = fdm31_2(1)
       parm0(5) = fovnorm(1)
-      parm0(6) = zz(20)
+      parm0(9) = zz(20)
       parm0(7) = zz(22)
       parm0(8) = zz(24)
+      parm0(6) = fovnorm_geo(1)
       error(1) = fs2sun_2(2)
       error(2) = fs213_2(2)
       error(3) = fdm21_2(2)
       error(4) = fdm31_2(2)
       error(5) = fovnorm(2)
-      error(6) = zz(21)
+      error(9) = zz(21)
       error(7) = zz(23)
       error(8) = zz(25)
+      error(6) = fovnorm_geo(2)
 
       z_dat(11) = zz(2)                  ! NH/IH
       z_dat(12) = zz(4)*zz(5)*1d9*avog   ! N_target
@@ -131,7 +134,7 @@ CCCCCCCCCCCCCCCCCCCCCCCC                                CCCCCCCCCCCCCCCCCCCCCCCC
             include 'inc/dchi2.inc' ! without statistical fluctuations
          elseif (ifluc.eq.1) then
             include 'inc/dchi2_stat.inc' ! with statistical fluctuations
-         endif
+         endif 
 
 CCCCCCCCCCCCCCCCCCCCC  basic distributions   CCCCCCCCCCCCCCCCCC
 CCCCCCCCCCCCCCCCCCCCC                  CCCCCCCCCCCCCCCCCC

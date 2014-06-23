@@ -6,7 +6,7 @@
 
       integer i,reactor_mode,reactor_type
       integer sign,mode,nr,iPee,ixsec
-      real*8 x,z(50),error(10),L,E,loe,Np,P,YY,ovnorm
+      real*8 x,z(50),error(10),L,E,loe,Np,P,YY,ovnorm,ovnorm_geo
       real*8 flux,xsec_IBD_naive,prob_ee,Lfact,fa,fb,Evis,fscale,theta
       real*8 probLL,LL(200),LLfact(200),tokei(0:200),hokui(0:200)
       real*8 PP(200),xsec_IBD_naive2,nxsec,Pee,geo_neu_flux,nflux
@@ -23,9 +23,10 @@
 c      error(7) = 0.1d0
 
       ovnorm = z(5)
+      ovnorm_geo = z(6)
 c      fa = z(6)
 c      fb = z(7)
-      fscale = z(6)
+      fscale = z(9)
       L = z(16)
       sign = int(z(11)) ! MH 1:NH -1:IH
       Np = z(12)
@@ -72,11 +73,10 @@ c      nflux = geo_neu_flux(E)
 CCC
 CCC calculation of hfunc1D
 CCC
-      hfunc1D = 0d0
       if (mode.eq.0) then   ! dN/dE_{\nu}
+         hfunc1D = 0d0
          hfunc1D = ovnorm*Np*YY*flux(E,P)/Lfact*Pee*nxsec
-c         hfunc1D = hfunc1D +Np*YY*geo_neu_flux(E)*Pgeo*nxsec
-         hfunc1D = hfunc1D +ovnorm_geo*Np*YY*geo_neu_flux(E)*nxsec
+         hfunc1D = hfunc1D +Np*YY*geo_neu_flux(E)*Pgeo*nxsec
       elseif (mode.eq.1) then   ! dFlux/dE_{\nu}  eq.6
          hfunc1D = nflux
 c         hfunc1D = geo_neu_flux(E)
@@ -97,9 +97,11 @@ c         hfunc1D = geo_neu_flux(E)*nxsec
          hfunc1D = Pee
 
       elseif (mode.eq.20) then  ! dN/dsqrt(E_{vis})
+         hfunc1D = 0d0
          hfunc1D = 2*x*ovnorm*Np*YY*nflux/Lfact*Pee*nxsec
-c         hfunc1D = hfunc1D +2*x*Np*YY*geo_neu_flux(E)*nxsec*Pgeo
-c         hfunc1D = 3.49d32*3.1536d7*geo_neu_flux(E)*nxsec ! consistent with KAMLAND
+c         hfunc1D = hfunc1D +2*x*ovnorm_geo*Np*YY*geo_neu_flux(E)*nxsec
+c         hfunc1D = 1d32*3.1536d7*geo_neu_flux(E)*nxsec ! consistent with KAMLAND
+c         hfunc1D = 3.49d32*3.1536d7*geo_neu_flux(E)*nxsec ! BOREXINO (Neutrino2014)
 c         hfunc1D = 5.2d33*3.1536d7*geo_neu_flux(E)*nxsec ! consistent with KAMLAND
 c         hfunc1D = geo_neu_flux(E)
       elseif (mode.eq.21) then  ! d(Flux*Xsec)/dsqrt{E_{vis}}

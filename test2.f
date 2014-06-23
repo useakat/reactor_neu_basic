@@ -18,10 +18,11 @@
       real*8 mean_nh,error_nh,mean_error_nh,error_error_nh
       real*8 mean_ih,error_ih,mean_error_ih,error_error_ih
       real*8 mean_dchi2min_nh,mean_dchi2min_ih,binsize,theta
-      real*8 xx,yy,dchi_rej,dchi_acc
+      real*8 xx,yy,dchi_rej,dchi_acc,ovnorm_geo
       integer ndetermined,nmissed
       real*8 fs2sun_2(2),fs213_2(2),fdm21_2(2),fdm31_2(2),fovnorm(2)
-      common /parm0/ fs2sun_2,fs213_2,fdm21_2,fdm31_2,fovnorm
+      real*8 fovnorm_geo(2)
+      common /parm0/ fs2sun_2,fs213_2,fdm21_2,fdm31_2,fovnorm,fovnorm_geo
 
       real*8 zz(50)
       common /zz/ zz
@@ -89,17 +90,20 @@ c      external minfunc,lench,time,SigmaProb
 c      s2sun_2 = 0.8556d0 ! 0503283 Fig.1      
 c      s213_2 = 0.10d0 ! latest RENO result
 c      s213_2 = 0.089d0 ! latest Dyabay result
-      s213_2 = 0.098d0
+c      s213_2 = 0.098d0
+      s213_2 = 0.0935d0
 c      s213_2 = 0.1536d0 ! 0503283 Fig.1
       dm21_2 = 7.50d-5
 c      dm21_2 = 8.00d-5 ! 0503283 Fig.1
       dm31_2 = 2.32d-3
 c      dm31_2 = 2.5d-3 ! 0503283 Fig.1
       ovnorm = 1d0
+      ovnorm_geo = 1d0
 
       fs2sun_2(1) = 0.857d0
       fs2sun_2(2) = 0.024d0
-      fs213_2(1) = 0.098d0 
+c      fs213_2(1) = 0.098d0
+      fs213_2(1) = 0.0935d0 
 c      fs213_2(1) = 0.089d0 
       fs213_2(2) = 0.005d0 
       fdm21_2(1) = 7.500d-5
@@ -108,6 +112,8 @@ c      fs213_2(1) = 0.089d0
       fdm31_2(2) = 0.1d-3
       fovnorm(1) = 1d0
       fovnorm(2) = 0.03d0  
+      fovnorm_geo(1) = 1d0
+      fovnorm_geo(2) = 0.3d0  
 c$$$      fs2sun_2(1) = 0.857d0
 c$$$      fs2sun_2(2) = 0.29d-2
 c$$$      fs213_2(1) = 0.097211d0 
@@ -148,6 +154,8 @@ c      Emax = 3.5d0
       zz(23) = fa(2)
       zz(24) = fb(1)
       zz(25) = fb(2)
+      zz(26) = fovnorm_geo(1)
+      zz(27) = fovnorm_geo(2)
 
       zz(7) = Eres/100d0
       zz(8) = mode
@@ -188,6 +196,8 @@ c      call gran_init(time())
      &     ,fa(2)
       write(19,'(a11,e12.5,a3,e9.2)') "fb = ",fb(1)," +-"
      &     ,fb(2)
+      write(19,'(a11,e12.5,a3,e9.2)') "fovnorm_geo = 
+     &     ",fovnorm_geo(1)," +-",fovnorm_geo(2)
       write(19,*) ""
       write(19,*) "Ev Range:",Emin," -",Emax," [MeV]"
       write(19,*) ""
@@ -213,6 +223,7 @@ c         do k = -1,-1
                open(27,file='dchi2_multi_nh.dat',status='replace')
                open(28,file='dchi2_prob_nh.dat',status='replace')
                open(29,file='dchi2_paramdist_nh.dat',status='replace')
+               open(30,file='dchi2min_L_nh.dat',status='replace')
                write(19,*) "<NH case>"
             elseif (k.eq.-1) then
                open(20,file='minorm_ih.dat',status='replace')
@@ -224,6 +235,7 @@ c         do k = -1,-1
                open(27,file='dchi2_multi_ih.dat',status='replace')
                open(28,file='dchi2_prob_nh.dat',status='replace')
                open(29,file='dchi2_paramdist_ih.dat',status='replace')
+               open(30,file='dchi2min_L_ih.dat',status='replace')
                write(19,*) "<IH case>"
             endif
             ndetermined = 0
@@ -246,12 +258,15 @@ c         do k = -1,-1
                call mnparm(3,'dm21_2',fdm21_2(1),fdm21_2(2),0d0,0d0,ierr)
                call mnparm(4,'dm31_2',fdm31_2(1),fdm31_2(2),0d0,0d0,ierr)
                call mnparm(5,'Norm',fovnorm(1),fovnorm(2),0d0,0d0,ierr)
-               call mnparm(6,'fscale',fscale(1),fscale(2),0d0,0d0,ierr)
+               call mnparm(6,'fovnorm_geo',fovnorm_geo(1),fovnorm_geo(2)
+     &              ,0d0,0d0,ierr)
                call mnparm(7,'fa',fa(1),fa(2),0d0,0d0,ierr)
                call mnparm(8,'fb',fb(1),fb(2),0d0,0d0,ierr)
+               call mnparm(9,'fscale',fscale(1),fscale(2),0d0,0d0,ierr)
                call mncomd(minfunc,'FIX 6',iflag,0)
                call mncomd(minfunc,'FIX 7',iflag,0)
                call mncomd(minfunc,'FIX 8',iflag,0)
+               call mncomd(minfunc,'FIX 9',iflag,0)
 
                arg(1) = 0d0
                call mnexcm(minfunc,'SET PRINTOUT',arg,1,ierr,0)
@@ -313,22 +328,25 @@ c$$$               endif
                if (ifixL.eq.1) write(25,*) dchisqmin,nbins
                if (ifixL.eq.1) write(26,'(e22.15,1x,e12.5)') sensitivity,dchisqmin
                if (nreactor.ge.1) then
-                  write(27,*) theta,zz(1),dchisqmin
+                  write(27,*) theta, zz(1),dchisqmin
                elseif (nreactor.le.-1) then
                   write(27,*) xx,yy,dchisqmin
                endif
-               write(21,'(e10.3,34e13.5,e10.3)') zz(1),dchisqmin,fedm
+               write(30,*) zz(1),dchisqmin
+               write(21,'(e10.3,38e13.5,e10.3)') zz(1),dchisqmin,fedm
      &              ,pval(1),perr(1),fs2sun_2(2),(pval(1)-fs2sun_2(1))/fs2sun_2(2)
      &              ,pval(2),perr(2),fs213_2(2),(pval(2)-fs213_2(1))/fs213_2(2)
      &              ,pval(3),perr(3),fdm21_2(2),(pval(3)-fdm21_2(1))/fdm21_2(2)
      &              ,pval(4),perr(4),fdm31_2(2),(pval(4)-fdm31_2(1))/fdm31_2(2)
      &              ,pval(5),perr(5),fovnorm(2),(pval(5)-fovnorm(1))/fovnorm(2)
-     &              ,pval(6),perr(6),fscale(2),(pval(6)-fscale(1))/fscale(2)
+     &              ,pval(9),perr(9),fscale(2),(pval(9)-fscale(1))/fscale(2)
      &              ,pval(7),perr(7),fa(2),(pval(7)-fa(1))/fa(2)
      &              ,pval(8),perr(8),fb(2),(pval(8)-fb(1))/fb(2)
+     &              ,pval(6),perr(6),fovnorm_geo(2)
+     &              ,(pval(6)-fovnorm_geo(1))/fovnorm_geo(2)
      &              ,final_bins
-               write(22,'(e10.3,8e13.5)') zz(1),pval(1),pval(2),pval(3)
-     &              ,pval(4),pval(5),pval(6),pval(7),pval(8)
+               write(22,'(e10.3,9e13.5)') zz(1),pval(1),pval(2),pval(3)
+     &              ,pval(4),pval(5),pval(6),pval(7),pval(8),pval(9)
 
                write(29,'(2e13.5)') pval(3),perr(3)
 
@@ -348,11 +366,13 @@ c               endif
                write(19,'(4x,a14,e12.5,a3,e9.2)') "Normalization = "
      &              ,pval(5)," +-",perr(5)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "fscale = "
-     &              ,pval(6)," +-",perr(6)
+     &              ,pval(9)," +-",perr(9)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "fa = "
      &              ,pval(7)," +-",perr(7)
                write(19,'(4x,a14,e12.5,a3,e9.2)') "fb = "
      &              ,pval(8)," +-",perr(8)
+               write(19,'(4x,a14,e12.5,a3,e9.2)') "fovnorm_geo = "
+     &              ,pval(6)," +-",perr(6)
                write(19,*) ""
                write(19,*) "event # =",nevent_dat
                call mncomd(minfunc,'SET OUTPUTFILE 19',iflag,0)
@@ -382,6 +402,7 @@ c               endif
          close(27)
          close(28)
          close(29)
+         close(30)
 
          if (ifixL.eq.1) then
             if (zz(2).eq.1) then
