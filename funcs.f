@@ -169,28 +169,28 @@ C     ARGUMENTS
       integer sign,mode,unc_mode,icheck
       real*8 a,aa,param(4),error(4),LoE
 C     LOCAL VARIABLES
-      real*8 s2sun_2,s23_2,s213_2,s12,c12,s13,c13
-      real*8 s12_2,s13_2,unc_s2sun_2,unc_s213_2
-      real*8 s2sun_2_eff,s213_2_eff
+      real*8 s212_2,s23_2,s213_2,s12,c12,s13,c13
+      real*8 s12_2,s13_2,unc_s212_2,unc_s213_2
+      real*8 s212_2_eff,s213_2_eff
       real*8 dm13_2,dm12_2,dm23_2,unc_dm12_2,unc_dm13_2
       real*8 dm12_2_eff,dm13_2_eff,dm23_2_eff
       real*8 ue1,ue2,ue3,ue1ue2,ue1ue3,ue2ue3
       real*8 dim_fact,c212,Del_21,Del_ee,phi
-      real*8 dmee_2,s212_2,cosphi,sinphi
+      real*8 dmee_2,cosphi,sinphi
 C     ----------
 C     BEGIN CODE
 C     ----------
-      s2sun_2 = param(1)
+      s212_2 = param(1)
       s213_2 = param(2)
       dm12_2 = param(3)
       dm13_2 = param(4)
-      unc_s2sun_2 = error(1)
+      unc_s212_2 = error(1)
       unc_s213_2 = error(2)
       unc_dm12_2 = error(3)
       unc_dm13_2 = error(4)
 
       dm23_2 = sign*dm13_2 -dm12_2
-      s2sun_2_eff = s2sun_2 +unc_mode*unc_s2sun_2
+      s212_2_eff = s212_2 +unc_mode*unc_s212_2
       s213_2_eff = s213_2 +unc_mode*unc_s213_2
       dm12_2_eff = dm12_2 
       dm13_2_eff = dm13_2 
@@ -199,8 +199,7 @@ C     ----------
       s13_2 = 0.5*s213_2_eff/( 1d0 +dsqrt(1d0 -s213_2_eff) )
       s13 = dsqrt(s13_2)
       c13 = dsqrt(1d0 -s13**2)
-c      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
-      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff) )/2d0
+      s12_2 = ( 1d0 -dsqrt(1d0 -s212_2_eff) )/2d0
       s12 = dsqrt(s12_2)
       c12 = dsqrt(1d0 -s12**2)
       ue1 = c12*c13
@@ -218,7 +217,7 @@ c         Prob_ee = 1d0 -4*c13**4*s12**2*c12**2*dsin(dm12_2*a*1270d0)**2
 c     &        -c12**2*s213_2*dsin(dm13_2*a*1270d0)**2
 c     &        -s12**2*s213_2*dsin(dm23_2*a*1270d0)**2
       elseif (mode.eq.1) then
-         s212_2 = s2sun_2
+         s212_2 = s212_2
          dmee_2 = dm13_2
          c212 = c12**2 -s12**2
          Del_21 = dm12_2*LoE/4d0*dim_fact
@@ -263,28 +262,28 @@ C     ARGUMENTS
       integer sign,mode,unc_mode,icheck
       real*8 a,aa,param(4),error(4),LoE
 C     LOCAL VARIABLES
-      real*8 s2sun_2,s23_2,s213_2,s12,c12,s13,c13
-      real*8 s12_2,s13_2,unc_s2sun_2,unc_s213_2
-      real*8 s2sun_2_eff,s213_2_eff
+      real*8 s212_2,s23_2,s213_2,s12,c12,s13,c13
+      real*8 s12_2,s13_2,unc_s212_2,unc_s213_2
+      real*8 s212_2_eff,s213_2_eff
       real*8 dm13_2,dm12_2,dm23_2,unc_dm12_2,unc_dm13_2
       real*8 dm12_2_eff,dm13_2_eff,dm23_2_eff
       real*8 ue1,ue2,ue3,ue1ue2,ue1ue3,ue2ue3
       real*8 dim_fact,c212,Del_21,Del_ee,phi
-      real*8 dmee_2,s212_2,cosphi,sinphi
+      real*8 dmee_2,cosphi,sinphi
 C     ----------
 C     BEGIN CODE
 C     ----------
-      s2sun_2 = param(1)
+      s212_2 = param(1)
       s213_2 = param(2)
       dm12_2 = param(3)
       dm13_2 = param(4)
-      unc_s2sun_2 = error(1)
+      unc_s212_2 = error(1)
       unc_s213_2 = error(2)
       unc_dm12_2 = error(3)
       unc_dm13_2 = error(4)
 
       dm23_2 = sign*dm13_2 -dm12_2
-      s2sun_2_eff = s2sun_2 +unc_mode*unc_s2sun_2
+      s212_2_eff = s212_2 +unc_mode*unc_s212_2
       s213_2_eff = s213_2 +unc_mode*unc_s213_2
       dm12_2_eff = dm12_2 
       dm13_2_eff = dm13_2 
@@ -293,8 +292,8 @@ C     ----------
       s13_2 = 0.5*s213_2_eff/( 1d0 +dsqrt(1d0 -s213_2_eff) )
       s13 = dsqrt(s13_2)
       c13 = dsqrt(1d0 -s13**2)
-c      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff/c13**4) )/2d0
-      s12_2 = ( 1d0 -dsqrt(1d0 -s2sun_2_eff) )/2d0
+c      s12_2 = ( 1d0 -dsqrt(1d0 -s212_2_eff/c13**4) )/2d0
+      s12_2 = ( 1d0 -dsqrt(1d0 -s212_2_eff) )/2d0
       s12 = dsqrt(s12_2)
       c12 = dsqrt(1d0 -s12**2)
       ue1 = c12*c13

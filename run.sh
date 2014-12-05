@@ -1,27 +1,31 @@
 #!/bin/bash
 if [[ "$1" == "-h" ]]; then
     echo ""
-    echo "Usage: run.sh [run_name] [run_mode] [Eres] [Eres_nl] [reactor mode] [reactor type] (plot_run_mode)"
+#    echo "Usage: run.sh [run_name] [run_mode] [Eres_a] [Eres_b] [reactor mode] [reactor type] (plot_run_mode)"
+    echo "Usage: run.sh [run_name] [Eres_a] [Eres_b]"
     echo ""
-    echo "run_mode: 0:All 1:Flux*Xsec 2:dN/dE 3:dchi2 4:Free Analysis 10:plot-only mode"
+    echo "run_name: name of a program run" 
+#    echo "run_mode: 0:All 1:Flux*Xsec 2:dN/dE 3:dchi2 4:Free Analysis 10:plot-only mode"
     echo "Eres: Energy resolution [%]"
-    echo "Eres_nl: Non-linear energy resolution [%]"
-    echo "reactor mode: 0:use the averaged position of reactor cores 1:use each position of reactor cores"
-    echo "reactor type: 0:only operating reactors 1:add planned reactors "
-    echo "plot_run_mode (only valid for run_mode=10): select run mode for plotting"
+    echo "Eres_b: Non-linear energy resolution [%]"
+#    echo "reactor mode: 0:use the averaged position of reactor cores 1:use each position of reactor cores"
+#    echo "reactor type: 0:only operating reactors 1:add planned reactors "
+#    echo "plot_run_mode (only valid for run_mode=10): select run mode for plotting"
     echo ""
     exit
 fi
 selfdir=$(cd $(dirname $0);pwd)
+
 ###
 ### Default argument values
 ###
-run=test
-run_mode=4
-Eres=3
-Eres_nl=1
-reactor_mode=0 # 0:use the averaged position of reactor cores 1:use each position of reactor cores
-reactor_type=0 # 0:only operating reactors 1:add planned reactors
+run=test # Name of this program runing (It will be used as the name of a directory (e.g. rslt_test), where running results are output)
+#run_mode=4 # 0:dchi^2 analysis 1:For dsqrt(E_nu) distributions 2:For dN/dE plots 3:For L/E distributions 4:For E_nu distributions 5:dN/dE distributions
+Eres_a=3 # [%] Energy resolution of a detector (statisticl a parameter (cf. 1210.8141)) 
+Eres_b=1 # [%] Energy resolution of a detector (non-statisticl b parameter (cf. 1210.8141)) 
+#reactor_mode=0 # 0:use the averaged position of reactor cores 1:use each position of reactor cores
+#reactor_type=0 # 0:only operating reactors 1:add planned reactors
+
 ###
 ### Argument input routine
 ###
@@ -33,7 +37,7 @@ if [ $# -eq 0 ]; then
     echo "input energy resolution [%]"
     read Eres
     echo "input non-linear energy resolution [%]"
-    read Eres_nl
+    read Eres_b
     echo "reactor_mode: 0:use the averaged position of reactor cores 1:use each position of reactor cores"
     read reactor_mode
     echo "reactor_type: 0:only operating reactors 1:add planned reactors "
@@ -46,10 +50,10 @@ else
 	run_mode=$2
     fi
     if [ $# -ge 3 ];then
-	Eres=$3
+	Eres_a=$3 
     fi
     if [ $# -ge 4 ];then
-	Eres_nl=$4
+	Eres_b=$4
     fi
     if [ $# -ge 5 ];then
 	reactor_mode=$5
@@ -64,22 +68,38 @@ fi
 ###
 ### parameters
 ###    
-#P=20
-P=35.8 # JUNO
-#P=16.4 # YongGwang http://dx.doi.org/10.1155/2014/320287
-#V=18 # RENO-50 http://dx.doi.org/10.1155/2014/320287
-#V=5
-V=20 # JUNO
-#V=0.16 # DayaBay Total
-#V=0.0165 # RENO
-R=0.12
-#R=0.11
-Y=5
-Lmin=10
-Lmax=100
-ndiv=20
-binsize=0.0025 #binsize = binsize*sqrt{E_vis} (MeV) 0.0025 default
-ifixL=0
+P=16.4 # [GW] Total thermal power of a nuclear plant
+# P=16.4 for YongGwang http://dx.doi.org/10.1155/2014/320287
+# P=35.8 for JUNO
+
+V=18 # [kton] Size of a detector
+# V=18 for RENO-50 http://dx.doi.org/10.1155/2014/320287
+# V=20 for JUNO
+# V=0.16 for DayaBay Total
+# V=0.0165 for RENO
+
+R=0.12 # Proton weight-ratio in a detector scintillator
+Y=5 # [years] running time of an experiment
+
+Lmin=10 # [km] minimum baseline length (L) for the baseline length scan
+Lmax=100 # [km] maximum baseline length (L) for the baseline length scan
+ndiv=20 # The number of division for the baseline length scan
+# Note: Lmin, Lmax, ndiv are used for preparing Delta_chi^2 vs baseline length table
+
+binsize=0.0025 # Bin size for chi^2_min minimization is set by binsize*sqrt{E_vis} (MeV). binsize value of 0.0025 is used in 1210.8141.
+
+mode=0 
+# 0:Perform dchi^2 minimization 
+# 1:For sqrt{E_vis} distributions 
+# 2:For Energy distribution (dN/dE_nu) 
+# 3:For L/E_nu distributions 
+# 4:For E_nu distributions 
+# 5:For dN/dE distribution 
+# Note: mode=1-5 are used for generating distributions with different types of x-axis.
+
+ifixL=0 # 0:Evaluate dchi^2_min for one baseline length set by Lmin 1:Perform baseline length scan for dchi^2_min from Lmin to Lmax with (ndiv +1) scanning points. 
+# Note: ifixL is only valid for mode=0.
+
 ifluc=0
 ixsec=1 #IBD xsec treatment: 0:include Nulear recoil effect (approx) 1:Neglect the recoil effect 
 iPee=1 # survival probability: 0:dm31_2-dm32_2 scheme 1:dmee_2 scheme 
@@ -87,13 +107,15 @@ theta=0
 nreactor=0 # The number of reactor cores at Yongwang or The number of reactor sites for negative value 
 xx=130 # default tokei for 1 point servey
 yy=34  # default hokui for 1 point servey
+
 ###
 ### plot only option
 ###
 if [ ${run_mode} -eq 10 ]; then
-    ./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${plot_run_mode}
+    ./plots.sh ${run} ${Eres_a} ${Eres_b} 10 100 ${plot_run_mode}
     exit
 fi
+
 ###
 ### start program
 ###
@@ -111,7 +133,6 @@ run_dir=rslt_${run}
 defout=${run_dir}/summary.txt
 
 if [ -e ${run_dir} ]; then
-#    rm -rf ${run_dir}/*
     echo "run directory exists. The files will be overwritten."
 else
     mkdir ${run_dir}
@@ -127,12 +148,9 @@ echo "Free Proton Weight Fraction:" $R >> ${defout}
 echo "Exposure time:" $Y "year" >> ${defout}
 
 cd DeltaChi2
-#make >/dev/null 2>&1
 make
 cd ..
-#make dchi2 >/dev/null 2>&1
 make dchi2
-#make get_cl >/dev/null 2>&1
 make get_cl
 
 ### plotting Flux*Xsec
@@ -181,9 +199,9 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
     while [ $i -lt 110 ]; do
 	Lmin=$i
 	source ./run_dchi2.sh
-#	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${Eres_nl} ${mode} 0 0
-	mv evdinh.dat events_nh_${i}_${Eres}_${Eres_nl}.dat
-	mv evdiih.dat events_ih_${i}_${Eres}_${Eres_nl}.dat
+#	./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres_a} ${Eres_b} ${mode} 0 0
+	mv evdinh.dat events_nh_${i}_${Eres_a}_${Eres_b}.dat
+	mv evdiih.dat events_ih_${i}_${Eres_a}_${Eres_b}.dat
 	i=`expr $i + 10`
     done
 #######################################################################
@@ -195,15 +213,15 @@ if [ ${run_mode} -eq 2 ] || [ ${run_mode} -eq 0 ]; then  #plotting dN/dE
 	i=10
 	while [ $i -lt 110 ]; do
 	    Lmin=$i
-	    Eres=3
+	    Eres_a=3
 	    source ./run_dchi2.sh
-#	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
+#	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres_a} ${mode} 0 0
 	    mv edh6nh.dat events_3_nh_${i}.dat
 	    mv edh6ih.dat events_3_ih_${i}.dat
 	
-	    Eres=1.5
+	    Eres_a=1.5
 	    source ./run_dchi2.sh
-#	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres} ${mode} 0 0
+#	    ./dchi2 $i $Lmax $ndiv $P $V $R $Y ${Eres_a} ${mode} 0 0
 	    mv edh6nh.dat events_1.5_nh_${i}.dat
 	    mv edh6ih.dat events_1.5_ih_${i}.dat
 	    i=`expr $i + 10`
@@ -227,50 +245,50 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then
     binsize=0.0025d0
 
     if [ ${switch1} -eq 1 ]; then 
-	Eres=3
-	Eres_nl=1
+	Eres_a=3
+	Eres_b=1
 #	binsize=0.06
 	source dchi2_fitting_Eresnl.sh
-# 	Eres=6
-# 	Eres_nl=0
+# 	Eres_a=6
+# 	Eres_b=0
 # #	binsize=0.06
 # 	source dchi2_fitting_Eresnl.sh
-# 	Eres=5
-# 	Eres_nl=0
+# 	Eres_a=5
+# 	Eres_b=0
 # #	binsize=0.05
 # 	source dchi2_fitting_Eresnl.sh
-# 	Eres=4
-# 	Eres_nl=0
+# 	Eres_a=4
+# 	Eres_b=0
 # #	binsize=0.04
 # 	source dchi2_fitting_Eresnl.sh
-# 	Eres=3
-# 	Eres_nl=0
+# 	Eres_a=3
+# 	Eres_b=0
 # #	binsize=0.03
 # 	source dchi2_fitting_Eresnl.sh
-# 	Eres=2
-# 	Eres_nl=0
+# 	Eres_a=2
+# 	Eres_b=0
 # #	binsize=0.03
 # 	source dchi2_fitting_Eresnl.sh
     fi
 
     if [ ${switch2} -eq 1 ]; then 
-	Eres=2
+	Eres_a=2
 #	binsize=0.03
-	Eres_nl=0.5
+	Eres_b=0.5
 	source dchi2_fitting_Eresnl.sh
-	Eres_nl=0.75
+	Eres_b=0.75
 	source dchi2_fitting_Eresnl.sh
-	Eres_nl=1
+	Eres_b=1
 	source dchi2_fitting_Eresnl.sh
     fi
 
     if [ ${switch3} -eq 1 ]; then 
-	Eres=3
-	Eres_nl=0.5
+	Eres_a=3
+	Eres_b=0.5
 	source dchi2_fitting_Eresnl.sh
-	Eres_nl=0.75
+	Eres_b=0.75
 	source dchi2_fitting_Eresnl.sh
-	Eres_nl=1
+	Eres_b=1
 	source dchi2_fitting_Eresnl.sh
     fi
 
@@ -278,24 +296,24 @@ if [ ${run_mode} -eq 3 ] || [ ${run_mode} -eq 0 ]; then
 #  Best Fit distributions and Data
 	mode=2
 	Lmaxp10=`expr ${Lmax} + 10`
-	Eres=0
-	Eres_nl=0
+	Eres_a=0
+	Eres_b=0
 	source dchi2_bestfit_Eresnl.sh
-	Eres=6
-	Eres_nl=0
+	Eres_a=6
+	Eres_b=0
 	source dchi2_bestfit_Eresnl.sh
     fi
 
     if [ ${switch5} -eq 1 ]; then 
 	mode=0
-	Eres=3
-	Eres_nl=0.5
+	Eres_a=3
+	Eres_b=0.5
 	source dchi2_fitting_Eresnl.sh
-	Eres=3
-	Eres_nl=1
+	Eres_a=3
+	Eres_b=1
 	source dchi2_fitting_Eresnl.sh
-	Eres=6
-	Eres_nl=1
+	Eres_a=6
+	Eres_b=1
 	source dchi2_fitting_Eresnl.sh
     fi
 ###############################################
@@ -320,8 +338,8 @@ if [ ${run_mode} -eq 4 ]; then
 	ndiv=10
 	Lmin=50
 	Lmax=${Lmin}
-	Eres=2
-	Eres_nl=1
+	Eres_a=2
+	Eres_b=1
 	binsize=0.0025
 	source dchi2_fitting_Eresnl.sh
     fi
@@ -332,30 +350,30 @@ if [ ${run_mode} -eq 4 ]; then
 	ndiv=1
 	maxL_nh=50
 	maxL_ih=${maxL_nh}
-	Eres=3
-	Eres_nl=0.75
+	Eres_a=3
+	Eres_b=0.75
 	binsize=0.005
-	output=dchi2_fluc_nh_${Eres}_${Eres_nl}.dat
+	output=dchi2_fluc_nh_${Eres_a}_${Eres_b}.dat
 	touch ${output}
 	source ${selfdir}/dchi2_fitting_Eresnl.sh
-	cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
+	cat dchi2_dist_nh_${Eres_a}_${Eres_b}.dat >> ${output}
     fi
     
     if [ 0 -eq 1 ];then # binsize study
 	maxL_nh=50
 	maxL_ih=${maxL_nh}
-	Eres=3
-	Eres_nl=0.75
+	Eres_a=3
+	Eres_b=0.75
 	binsize=2
-	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	output=dchi2_binsize_nh_${Eres_a}_${Eres_b}.dat
 	touch ${output}
 	source dchi2_dist_onepoint.sh
-	cat dchi2_dist_nh_${Eres}_${Eres_nl}.dat >> ${output}
+	cat dchi2_dist_nh_${Eres_a}_${Eres_b}.dat >> ${output}
     fi
     
     if [ 0 -eq 1 ];then # binsize study
-#    touch dchi2_cl_nh_${Eres}_${Eres_nl}.dat
-#    touch dchi2_cl_ih_${Eres}_${Eres_nl}.dat
+#    touch dchi2_cl_nh_${Eres_a}_${Eres_b}.dat
+#    touch dchi2_cl_ih_${Eres_a}_${Eres_b}.dat
 	maxL_nh=50
 	maxL_ih=50
     # Y=0.3125
@@ -368,33 +386,33 @@ if [ ${run_mode} -eq 4 ]; then
     # source dchi2_dist_error_only.sh
 #    Y=5
 #    source dchi2_dist_error_only.sh
-	Eres=6
-	Eres_nl=0
-	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	Eres_a=6
+	Eres_b=0
+	output=dchi2_binsize_nh_${Eres_a}_${Eres_b}.dat
 	touch ${output}
 	source binsize_points.sh
 	
-	Eres=2
-	Eres_nl=0
-	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	Eres_a=2
+	Eres_b=0
+	output=dchi2_binsize_nh_${Eres_a}_${Eres_b}.dat
 	touch ${output}
 	source binsize_points.sh
 	
-	Eres=3
-	Eres_nl=0
-	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	Eres_a=3
+	Eres_b=0
+	output=dchi2_binsize_nh_${Eres_a}_${Eres_b}.dat
 	touch ${output}
 	source binsize_points.sh
 	
-	Eres=4
-	Eres_nl=0
-	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	Eres_a=4
+	Eres_b=0
+	output=dchi2_binsize_nh_${Eres_a}_${Eres_b}.dat
 	touch ${output}
 	source binsize_points.sh
 	
-	Eres=5
-	Eres_nl=0
-	output=dchi2_binsize_nh_${Eres}_${Eres_nl}.dat
+	Eres_a=5
+	Eres_b=0
+	output=dchi2_binsize_nh_${Eres_a}_${Eres_b}.dat
 	touch ${output}
 	source binsize_points.sh
 	
@@ -431,8 +449,8 @@ if [ ${run_mode} -eq 6 ]; then  # multi-reactor analysis in the polar cordinate 
     maxL_nh=50
     maxL_ih=${maxL_nh}
     binsize=0.005
-    Eres=2
-    Eres_nl=0.5
+    Eres_a=2
+    Eres_b=0.5
     nreactor=6
     source dchi2_multi_parallel.sh  # (under construction due to the new ixsec flag)
 fi
@@ -447,8 +465,8 @@ if [ ${run_mode} -eq 7 ]; then  # multi-reactor analysis for Korean reactors (pa
     maxL_ih=${maxL_nh}
     binsize=0.0025
 #    binsize=0.01
-    Eres=3
-    Eres_nl=0.5
+    Eres_a=3
+    Eres_b=0.5
     nreactor=-4 # >0:The number of reactor cores -1:YongGwang -2:+Kori -3:+Wolsong -4:+Ulchin
     reactor_mode=1 # 0:use the averaged position of reactor cores 1:use each position of reactor cores
     reactor_type=0 # 0:only operating reactors 1:add planned reactors 
@@ -466,7 +484,7 @@ fi
 mv *.dat data/.
 cp -rf data ${run_dir}/.
 
-#./plots.sh ${run} ${Eres} ${Eres_nl} 10 100 ${run_mode}
+#./plots.sh ${run} ${Eres_a} ${Eres_b} 10 100 ${run_mode}
 
 
 ### end program ###

@@ -43,13 +43,13 @@ c      fb = z(7)
       iPee = int(z(24))
 
       Lfact = 4*pi*(L*1d5)**2
-      if (mode.lt.10) then
-         E = x    ! x = E_{\nu}
-      elseif (mode.lt.20) then
-         E = L/x   ! x = L/E{\nu}
-      elseif (mode.lt.30) then
+      if (mode.lt.10) then ! x = E_{\nu}
+         E = x    
+      elseif (mode.lt.20) then ! x = L/E{\nu}
+         E = L/x   
+      elseif (mode.lt.30) then ! x = sqrt{E_{vis}}
          Evis = ( 1d0 +fscale )*x**2
-         E = Evis +0.8d0  ! x = sqrt{E_{vis}}
+         E = Evis +0.8d0  
       endif
 CCC
 CCC IBD cross section
@@ -65,11 +65,13 @@ CCC
       Pee = prob_ee(L/E,z,error,sign,iPee,0)
       Pgeo = prob_geo(L/E,z,error,sign,iPee,0)
 c      Pee = 1d0
+
 CCC
 CCC survival probability (P_ee)
 CCC
       nflux = flux(E,P)
 c      nflux = geo_neu_flux(E)
+
 CCC
 CCC calculation of hfunc1D
 CCC

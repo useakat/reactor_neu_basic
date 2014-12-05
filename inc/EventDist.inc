@@ -3,7 +3,7 @@ C -*- fortran -*-
          hmode = 1              ! 0:continuous 1:simpson 2:center-value 
          evform_dat = 2   ! 1:integer 2:real*8
 c         include 'bining_value.inc'  ! bining by value
-         include 'inc/bining_dx.inc'
+         include 'inc/bining_dx.inc' ! Make bins for x = dsqrt{E_vis}, E_vis = E_nu -0.8 [MeV]
 
          z_dat(11) = 1
          call MakeHisto1D(nout,hfunc1D,z_dat,nevent,nbins,x
