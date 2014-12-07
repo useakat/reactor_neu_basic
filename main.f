@@ -22,7 +22,7 @@ c      character*10 cEres_a,cEres_b,cmode,cvalue,cfixL,cfluc,cbinsiz
       real*8 xx,yy,dchi_rej,dchi_acc,ovnorm_geo
       integer ndetermined,nmissed
       real*8 fs212_2(2),fs213_2(2),fdm21_2(2),fdm31_2(2),fovnorm(2)
-      real*8 fovnorm_geo(2)
+      real*8 fovnorm_geo(2),sensitivity
       common /parm0/ fs212_2,fs213_2,fdm21_2,fdm31_2,fovnorm,fovnorm_geo
       real*8 zz(50)
       common /zz/ zz
@@ -39,8 +39,8 @@ c      integer lench
 c      real*8 SigmaProb
 c      external minfunc,lench,time,SigmaProb
 c      external minfunc,lench,SigmaProb
-      real*8 minfunc
-      external minfunc
+c      real*8 minfunc
+c      external minfunc
 ccc
 ccc input arguments for main.f
 ccc
