@@ -1,14 +1,14 @@
 C     -*- fortran -*-
-      if (multi_flag.eq.0) then
+c      if (multi_flag.eq.0) then
          z(15) = 20
          z_dat(15) = z(15)      ! N vs. sqrt(E)
-      elseif (multi_flag.eq.1) then
-         z(15) = 25
-         z_dat(15) = z(15)      ! RENO50 multi-reactor: N vs. sqrt(E)
-      elseif (multi_flag.eq.2) then
-         z(15) = 26
-         z_dat(15) = z(15)      ! Korean multi-reactor: N vs. sqrt(E)
-      endif
+c      elseif (multi_flag.eq.1) then
+c         z(15) = 25
+c         z_dat(15) = z(15)      ! RENO50 multi-reactor: N vs. sqrt(E)
+c      elseif (multi_flag.eq.2) then
+c         z(15) = 26
+c         z_dat(15) = z(15)      ! Korean multi-reactor: N vs. sqrt(E)
+c      endif
       hmode = 1                 ! 0:continuous 1:simpson 2:center-value 
       evform_dat = 2
       evform_th = 2
@@ -21,7 +21,9 @@ c     call MakeHisto1D_stat(nout,hfunc1D,z_dat,nevent,nbins,x
      &        ,evform_dat,serror,snmax,hmode,event_dat,hevent_dat
      &        ,nevent_dat,ierr1) 
 c     call smearing(event_dat,nbins,rdx,Eres,event2_dat)         
-         call smearing_nl(event_dat,x,nbins,rdx,Eres,Eres_nl,event2_dat)         
+         Eres_a = z_dat(7)
+         Eres_b = z_dat(8)
+         call smearing_nl(event_dat,x,nbins,rdx,Eres_a,Eres_b,event2_dat)         
 c     call smearing_nl2(event_dat,x,nbins,EEres,EEres_nl,event2_dat)         
          do i = 1,nbins
             event2_dat(i) = event2_dat(i) +dsqrt(event2_dat(i))*gran()
@@ -34,13 +36,15 @@ c     call smearing_nl2(event_dat,x,nbins,EEres,EEres_nl,event2_dat)
      &     ,evform_th,serror,snmax,hmode,event_th,hevent_th
      &     ,nevent_th,ierr2)
 c     call smearing(event_th,nbins,rdx,Eres,event2_th)
-      call smearing_nl(event_th,x,nbins,rdx,Eres,Eres_nl,event2_th)         
+      Eres_a = z(7)
+      Eres_b = z(8)
+      call smearing_nl(event_th,x,nbins,rdx,Eres_a,Eres_b,event2_th)         
 c      call smearing_nl2(event_th,x,nbins,EEres,EEres_nl,event2_th)         
       
 c     dchisq = chi2_2(nout,event2_dat,event2_th,nbins,npar,z,z_dat
 c     &           ,error)  
       dchisq = chi2_2(nout,event2_dat,event2_th,x,nbins,npar,z
-     &     ,z_dat,error)  
+     &     ,parm0,error)  
       
 c     dchisq = chisq_wrong -chisq_true
 c     dchisq = chisq_wrong
